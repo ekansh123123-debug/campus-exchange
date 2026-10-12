@@ -1,27 +1,44 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "CampusExchange Express.js API and MongoDB persistence layer",
+  "main": "src/server.js",
   "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "build:check": "node --check src/server.js && node --check src/app.js",
+    "lint": "node scripts/lint-check.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "seed:categories": "node src/scripts/seed-categories.js",
+    "seed:demo": "node src/scripts/seed-demo-data.js",
+    "admin:create": "node src/scripts/create-admin.js",
+    "seed:admin": "node src/scripts/create-admin.js"
+  },
   "dependencies": {
     "@imagekit/nodejs": "^7.12.1",
     "bcryptjs": "^3.0.3",
-    "cookies-parser": "^1.2.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^18.0.7",
     "express": "^5.3.0",
+    "express-rate-limit": "^7.5.0",
+    "file-type": "^20.4.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.11.1",
-    "multer": "^2.4.0"
+    "multer": "^2.4.0",
+    "nodemailer": "^6.10.0",
+    "pino": "^9.6.0",
+    "pino-http": "^10.4.0",
+    "socket.io": "^4.8.1",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "jest": "^30.5.2",
-    "nodemon": "^3.1.14"
+    "mongodb-memory-server": "^10.1.4",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.0.0",
+    "vitest": "^3.0.8"
   }
 }
