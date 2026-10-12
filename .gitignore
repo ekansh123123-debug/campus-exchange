@@ -40,4 +40,5 @@ coverage/
 *.sln
 *.sw?
 .agent
+.agents
 skills

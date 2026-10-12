@@ -8,7 +8,7 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "build:check": "node --check src/server.js && node --check src/app.js",
-    "lint": "node scripts/lint-check.js",
+    "lint": "node src/scripts/lint-check.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "seed:categories": "node src/scripts/seed-categories.js",
