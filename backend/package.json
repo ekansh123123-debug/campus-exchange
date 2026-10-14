@@ -14,7 +14,8 @@
     "seed:categories": "node src/scripts/seed-categories.js",
     "seed:demo": "node src/scripts/seed-demo-data.js",
     "admin:create": "node src/scripts/create-admin.js",
-    "seed:admin": "node src/scripts/create-admin.js"
+    "seed:admin": "node src/scripts/create-admin.js",
+    "db:import": "node src/scripts/import-seeds.js"
   },
   "dependencies": {
     "@imagekit/nodejs": "^7.12.1",

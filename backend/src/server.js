@@ -6,7 +6,6 @@ import { env } from './config/env.js';
 import { logger } from './config/logger.js';
 import { startReservationExpiryScheduler } from './jobs/expire-reservations.job.js';
 import { ensureCategoriesSeeded } from './modules/categories/categories.service.js';
-import { seedDemoDataIfEmpty } from './scripts/seed-demo-data.js';
 import { attachSocketServer } from './sockets/index.js';
 
 let httpServer = null;
@@ -163,10 +162,6 @@ export async function startServer(options = {}) {
 
   await connectDatabase();
   await ensureCategoriesSeeded();
-
-  if (!env.isProd && !env.isTest) {
-    await seedDemoDataIfEmpty();
-  }
 
   const app = createApp();
   httpServer = http.createServer(app);

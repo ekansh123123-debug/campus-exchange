@@ -16,8 +16,13 @@ import { CodeBadge } from '../../components/CodeBadge.jsx';
 import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackStates.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function TransactionsPage() {
+  usePageTitle(
+    'Campus Handovers',
+    'Track reservations, campus handover confirmations, and peer ratings.'
+  );
   const { user } = useAuth();
   const { showToast } = useToast();
   const [roleFilter, setRoleFilter] = useState('');

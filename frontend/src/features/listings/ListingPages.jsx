@@ -28,6 +28,7 @@ import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackS
 import { ReportModal } from '../../components/ReportModal.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function ListingDetailPage() {
   const { listingCode } = useParams();
@@ -51,13 +52,19 @@ export function ListingDetailPage() {
     queryFn: () => apiRequest(`/listings/${listingCode}`),
   });
 
+  const listing = listingRes?.data?.listing;
+
+  usePageTitle(
+    listing?.title || 'Listing Detail',
+    listing?.description ? listing.description.slice(0, 160) : 'Inspect campus textbook or gear listing on CampusExchange.'
+  );
+
   const { data: myListingsRes } = useQuery({
     queryKey: ['listings', 'mine', 'for-exchange'],
     queryFn: () => apiRequest('/listings/mine', { params: { status: 'active' } }),
     enabled: isVerifiedStudent,
   });
 
-  const listing = listingRes?.data?.listing;
   const myActiveListings = extractList(myListingsRes).filter(
     (item) => String(item.status || '').toLowerCase() === 'active'
   );
@@ -522,6 +529,11 @@ export function CreateEditListingPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
 
+  usePageTitle(
+    editCode ? `Edit Listing (${editCode})` : 'New Campus Listing',
+    'Post or edit an engineering textbook, lab instrument, or campus item on CampusExchange.'
+  );
+
   const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
     queryFn: () => apiRequest('/categories'),
@@ -933,6 +945,10 @@ export function CreateEditListingPage() {
 }
 
 export function MyListingsPage() {
+  usePageTitle(
+    'My Listings',
+    'Manage your active, reserved, and sold campus listings on CampusExchange.'
+  );
   const { showToast } = useToast();
   const [statusFilter, setStatusFilter] = useState('');
 

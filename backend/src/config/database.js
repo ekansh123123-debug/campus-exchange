@@ -8,8 +8,8 @@ let transactionsSupported = true;
 async function startInMemoryReplicaSet() {
   const { MongoMemoryReplSet } = await import('mongodb-memory-server');
   memoryReplSet = await MongoMemoryReplSet.create({
-    replSet: { count: 1, storageEngine: 'wiredTiger' },
-    instanceOpts: [{ startupTimeout: 60000 }],
+    replSet: { count: 1, storageEngine: 'wiredTiger', ip: '127.0.0.1' },
+    instanceOpts: [{ ip: '127.0.0.1', port: 27019, startupTimeout: 60000 }],
   });
   const memUri = memoryReplSet.getUri('campus_exchange');
   await mongoose.connect(memUri);

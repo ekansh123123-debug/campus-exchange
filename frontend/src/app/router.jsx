@@ -36,6 +36,7 @@ import {
   AdminUsersPage,
   AdminReportsPage,
 } from '../features/admin/AdminPages.jsx';
+import { NotFoundPage } from '../features/misc/NotFoundPage.jsx';
 
 export function AppRouter() {
   return (
@@ -79,8 +80,8 @@ export function AppRouter() {
           <Route path="/admin/reports" element={<AdminReportsPage />} />
         </Route>
 
-        {/* Catch-all fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* Custom 404 Page */}
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

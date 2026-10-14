@@ -53,7 +53,9 @@ export function loadEnv(rawEnv = process.env) {
     isProd,
     isTest,
     port: parseNumber(rawEnv.PORT, 5000, 1, 65535),
-    clientOrigin: rawEnv.CLIENT_ORIGIN || 'http://localhost:5173,http://localhost:4173',
+    clientOrigin:
+      rawEnv.CLIENT_ORIGIN ||
+      'https://campus-exchange-eta.vercel.app,http://localhost:5173,http://localhost:4173',
     apiBaseUrl: rawEnv.API_BASE_URL || 'http://localhost:5000/api/v1',
     mongodbUri: rawEnv.MONGODB_URI || 'mongodb://127.0.0.1:27017/campus_exchange',
     useInMemoryDbIfUnavailable: parseBoolean(rawEnv.USE_IN_MEMORY_DB_IF_UNAVAILABLE, !isProd),
@@ -67,7 +69,7 @@ export function loadEnv(rawEnv = process.env) {
     jwtIssuer: rawEnv.JWT_ISSUER || 'campus-exchange-api',
     jwtAudience: rawEnv.JWT_AUDIENCE || 'campus-exchange-client',
     cookieSecure: parseBoolean(rawEnv.COOKIE_SECURE, isProd),
-    cookieSameSite: rawEnv.COOKIE_SAME_SITE || 'strict',
+    cookieSameSite: rawEnv.COOKIE_SAME_SITE || (isProd ? 'none' : 'strict'),
     refreshCookieName: rawEnv.REFRESH_COOKIE_NAME || 'ce_refresh',
     csrfCookieName: rawEnv.CSRF_COOKIE_NAME || 'ce_csrf',
     emailFrom: rawEnv.EMAIL_FROM || 'CampusExchange <no-reply@campus.edu>',

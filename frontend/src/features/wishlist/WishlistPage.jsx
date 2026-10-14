@@ -7,8 +7,13 @@ import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
 import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackStates.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function WishlistPage() {
+  usePageTitle(
+    'Saved Wishlist',
+    'View and manage your bookmarked campus items and textbooks.'
+  );
   const { showToast } = useToast();
 
   const {

@@ -15,8 +15,13 @@ import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
 import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackStates.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function MarketplacePage() {
+  usePageTitle(
+    'Campus Marketplace',
+    'Browse and discover verified engineering textbooks, scientific calculators, drafting instruments, and lab kits.'
+  );
   const { isVerifiedStudent } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 

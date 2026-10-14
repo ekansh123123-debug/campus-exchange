@@ -1,0 +1,62 @@
+[
+  {
+    "_id": { "$oid": "650000000000000000000001" },
+    "name": "Textbooks & Reference Books",
+    "slug": "textbooks",
+    "description": "Engineering textbooks, competitive exam guides, and reference manuals.",
+    "sortOrder": 1,
+    "active": true,
+    "createdAt": { "$date": "2026-01-01T00:00:00.000Z" },
+    "updatedAt": { "$date": "2026-01-01T00:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000002" },
+    "name": "Scientific Calculators",
+    "slug": "calculators",
+    "description": "Non-programmable and engineering calculators approved for university exams.",
+    "sortOrder": 2,
+    "active": true,
+    "createdAt": { "$date": "2026-01-01T00:00:00.000Z" },
+    "updatedAt": { "$date": "2026-01-01T00:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000003" },
+    "name": "Drawing & Drafting Instruments",
+    "slug": "drawing-instruments",
+    "description": "Mini drafters, roller scales, sheet holders, compasses, and engineering graphics kits.",
+    "sortOrder": 3,
+    "active": true,
+    "createdAt": { "$date": "2026-01-01T00:00:00.000Z" },
+    "updatedAt": { "$date": "2026-01-01T00:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000004" },
+    "name": "Lab Kits & Electronics",
+    "slug": "lab-kits",
+    "description": "Microcontroller boards, breadboards, multimeters, sensors, and workshop aprons/tools.",
+    "sortOrder": 4,
+    "active": true,
+    "createdAt": { "$date": "2026-01-01T00:00:00.000Z" },
+    "updatedAt": { "$date": "2026-01-01T00:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000005" },
+    "name": "Course Notes & Printed Material",
+    "slug": "course-notes",
+    "description": "Handwritten binders, lab observation records, and printed lecture compilations.",
+    "sortOrder": 5,
+    "active": true,
+    "createdAt": { "$date": "2026-01-01T00:00:00.000Z" },
+    "updatedAt": { "$date": "2026-01-01T00:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000006" },
+    "name": "Other Academic Supplies",
+    "slug": "academic-supplies",
+    "description": "Other college-approved study aids and academic equipment.",
+    "sortOrder": 6,
+    "active": true,
+    "createdAt": { "$date": "2026-01-01T00:00:00.000Z" },
+    "updatedAt": { "$date": "2026-01-01T00:00:00.000Z" }
+  }
+]

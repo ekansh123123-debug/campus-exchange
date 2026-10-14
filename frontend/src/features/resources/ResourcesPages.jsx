@@ -16,8 +16,13 @@ import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackS
 import { ReportModal } from '../../components/ReportModal.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function ResourcesPage() {
+  usePageTitle(
+    'PYQ & Study Resource Library',
+    'Access verified Previous Year Question Papers (PYQs), lecture notes, lab manuals, and syllabi.'
+  );
   const { isAuthenticated, isVerifiedStudent } = useAuth();
   const { showToast } = useToast();
 
@@ -467,6 +472,10 @@ export function ResourcesPage() {
 }
 
 export function UploadResourcePage() {
+  usePageTitle(
+    'Upload Academic Resource',
+    'Contribute verified question papers, lecture notes, or lab manuals to the campus archive.'
+  );
   const navigate = useNavigate();
   const { user } = useAuth();
   const { showToast } = useToast();

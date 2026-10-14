@@ -15,6 +15,7 @@ import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
 import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackStates.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 function AdminSubNav() {
   const navItems = [
@@ -52,6 +53,10 @@ function AdminSubNav() {
 }
 
 export function AdminDashboardPage() {
+  usePageTitle(
+    'Admin Governance',
+    'CampusExchange moderation overview, activity telemetry, and security audit log.'
+  );
   const { data: dashRes, isLoading, error, refetch } = useQuery({
     queryKey: ['admin', 'dashboard'],
     queryFn: () => apiRequest('/admin/dashboard'),
@@ -173,6 +178,10 @@ export function AdminDashboardPage() {
 }
 
 export function AdminListingsPage() {
+  usePageTitle(
+    'Listing Moderation',
+    'Review, approve, or reject student marketplace listings.'
+  );
   const { showToast } = useToast();
   const [status, setStatus] = useState('pending');
   const [reasonNote, setReasonNote] = useState('');
@@ -323,6 +332,10 @@ export function AdminListingsPage() {
 }
 
 export function AdminResourcesPage() {
+  usePageTitle(
+    'Resource Moderation',
+    'Review, verify, and moderate student PYQ and study material uploads.'
+  );
   const { showToast } = useToast();
   const [status, setStatus] = useState('pending');
   const [reasonNote, setReasonNote] = useState('');
@@ -482,6 +495,10 @@ export function AdminResourcesPage() {
 }
 
 export function AdminUsersPage() {
+  usePageTitle(
+    'Student Directory',
+    'Manage student accounts, academic department assignments, and security standings.'
+  );
   const { showToast } = useToast();
   const [accountStatus, setAccountStatus] = useState('');
   const [reasonNote, setReasonNote] = useState('');
@@ -634,6 +651,10 @@ export function AdminUsersPage() {
 }
 
 export function AdminReportsPage() {
+  usePageTitle(
+    'Policy Reports',
+    'Investigate student reports, item flaggings, and policy violations.'
+  );
   const { showToast } = useToast();
   const [status, setStatus] = useState('');
   const [resolutionNote, setResolutionNote] = useState('');

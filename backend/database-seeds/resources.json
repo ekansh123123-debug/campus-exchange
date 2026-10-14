@@ -1,0 +1,54 @@
+[
+  {
+    "_id": { "$oid": "650000000000000000000301" },
+    "resourceCode": "RES-P1Q2R3S4",
+    "uploaderId": { "$oid": "650000000000000000000102" },
+    "categoryId": { "$oid": "650000000000000000000005" },
+    "title": "End-Sem Exam PYQ Pack (2022–2025): Data Structures & Algorithms",
+    "description": "Complete question paper bundle including solution hints and mark distributions for mid-term and final examinations of CS201/CS301.",
+    "resourceType": "pyq",
+    "branch": "CSE",
+    "academicYear": "2",
+    "semester": "3",
+    "subject": "CS201 Data Structures and Algorithms",
+    "examYear": 2025,
+    "file": {
+      "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "publicId": "res_pyq_dsa_bundle",
+      "fileName": "CS201_DSA_2022_2025_PYQ_Pack.pdf",
+      "fileSizeBytes": 1420000,
+      "mimeType": "application/pdf"
+    },
+    "status": "active",
+    "downloadCount": 38,
+    "moderatedAt": { "$date": "2026-01-02T16:00:00.000Z" },
+    "createdAt": { "$date": "2026-01-02T15:00:00.000Z" },
+    "updatedAt": { "$date": "2026-01-02T16:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "650000000000000000000302" },
+    "resourceCode": "RES-Q2R3S4T5",
+    "uploaderId": { "$oid": "650000000000000000000103" },
+    "categoryId": { "$oid": "650000000000000000000004" },
+    "title": "Microprocessors & Interfacing (8086/8051) Lab Manual",
+    "description": "Official lab syllabus experiments with assembly instructions, MASM simulation logs, and viva voice questions.",
+    "resourceType": "lab_manual",
+    "branch": "ECE",
+    "academicYear": "3",
+    "semester": "5",
+    "subject": "EC302 Microprocessors and Microcontrollers",
+    "examYear": 2024,
+    "file": {
+      "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "publicId": "res_lab_manual_mpmc",
+      "fileName": "EC302_MPMC_Lab_Manual_Verified.pdf",
+      "fileSizeBytes": 2840000,
+      "mimeType": "application/pdf"
+    },
+    "status": "active",
+    "downloadCount": 19,
+    "moderatedAt": { "$date": "2026-01-03T17:00:00.000Z" },
+    "createdAt": { "$date": "2026-01-03T16:30:00.000Z" },
+    "updatedAt": { "$date": "2026-01-03T17:00:00.000Z" }
+  }
+]

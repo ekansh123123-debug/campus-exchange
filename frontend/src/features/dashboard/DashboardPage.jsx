@@ -16,8 +16,13 @@ import { extractList, extractMeta, formatPrice, formatDateTime } from '../../lib
 import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
 import { LoadingState } from '../../components/FeedbackStates.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function DashboardPage() {
+  usePageTitle(
+    'Student Hub',
+    'Your CampusExchange student dashboard, active listings, and handovers.'
+  );
   const { user, isVerifiedStudent } = useAuth();
   const userBranch = user?.branch || user?.department || 'CSE';
   const userEmail = user?.collegeEmail || user?.email || '';

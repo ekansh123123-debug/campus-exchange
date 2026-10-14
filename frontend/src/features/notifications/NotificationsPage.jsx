@@ -6,8 +6,13 @@ import { extractList, formatDateTime } from '../../lib/formatters.js';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
 import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackStates.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function NotificationsPage() {
+  usePageTitle(
+    'Campus Notifications',
+    'Stay updated on item reservations, handover statuses, and moderation outcomes.'
+  );
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 

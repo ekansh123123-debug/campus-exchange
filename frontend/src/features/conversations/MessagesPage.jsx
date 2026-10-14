@@ -9,8 +9,13 @@ import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackS
 import { ReportModal } from '../../components/ReportModal.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function MessagesPage() {
+  usePageTitle(
+    'Conversations',
+    'Coordinate campus handovers and item inspections with verified peers.'
+  );
   const { conversationCode } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();

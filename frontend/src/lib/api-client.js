@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '/api/v1').replace(/\/+$/, '');
 
 let accessToken = null;
 let csrfToken = null;
@@ -6,12 +6,32 @@ let refreshPromise = null;
 
 export function setAuthTokens({ token, csrf }) {
   if (token !== undefined) accessToken = token;
-  if (csrf !== undefined) csrfToken = csrf;
+  if (csrf !== undefined) {
+    csrfToken = csrf;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        if (csrf) {
+          window.localStorage.setItem('ce_csrf_token', csrf);
+        } else {
+          window.localStorage.removeItem('ce_csrf_token');
+        }
+      } catch {
+        // Ignore storage access errors
+      }
+    }
+  }
 }
 
 export function clearAuthTokens() {
   accessToken = null;
   csrfToken = null;
+  if (typeof window !== 'undefined' && window.localStorage) {
+    try {
+      window.localStorage.removeItem('ce_csrf_token');
+    } catch {
+      // Ignore storage access errors
+    }
+  }
 }
 
 export function getAccessToken() {
@@ -20,6 +40,17 @@ export function getAccessToken() {
 
 export function getCsrfToken() {
   if (csrfToken) return csrfToken;
+  if (typeof window !== 'undefined' && window.localStorage) {
+    try {
+      const stored = window.localStorage.getItem('ce_csrf_token');
+      if (stored) {
+        csrfToken = stored;
+        return stored;
+      }
+    } catch {
+      // Ignore storage access errors
+    }
+  }
   if (typeof document !== 'undefined') {
     const match =
       document.cookie.match(/(?:^|;\s*)ce_csrf=([^;]*)/) ||

@@ -8,8 +8,13 @@ import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function ProfilePage() {
+  usePageTitle(
+    'Student Profile',
+    'Manage your academic identity, department, and peer trust ratings.'
+  );
   const { user, setUser } = useAuth();
   const { showToast } = useToast();
 

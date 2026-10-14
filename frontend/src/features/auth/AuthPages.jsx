@@ -18,8 +18,13 @@ import { extractList, formatPrice, formatCondition } from '../../lib/formatters.
 import { CodeBadge } from '../../components/CodeBadge.jsx';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
+import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function LandingPage() {
+  usePageTitle(
+    'Home',
+    'Pass down textbooks, lab gear, and verified PYQs within your campus gates.'
+  );
   const { isAuthenticated } = useAuth();
 
   const { data: listingsData } = useQuery({
@@ -34,8 +39,8 @@ export function LandingPage() {
     retry: false,
   });
 
-  const sampleListings = extractList(listingsData);
-  const sampleResources = extractList(resourcesData);
+  const recentListings = extractList(listingsData);
+  const recentResources = extractList(resourcesData);
 
   return (
     <div className="ce-stack-lg">
@@ -120,9 +125,9 @@ export function LandingPage() {
           </Link>
         </div>
 
-        {sampleListings.length > 0 ? (
+        {recentListings.length > 0 ? (
           <div className="ce-grid-cards">
-            {sampleListings.map((item) => (
+            {recentListings.map((item) => (
               <Link
                 key={item.listingCode}
                 to={`/listings/${item.listingCode}`}
@@ -157,7 +162,7 @@ export function LandingPage() {
           </div>
         ) : (
           <div className="ce-card ce-muted" style={{ textAlign: 'center', padding: '2rem' }}>
-            Sign in with your verified college email to browse live student listings.
+            No campus listings available yet. Sign in with your college email to add the first item!
           </div>
         )}
       </section>
@@ -175,9 +180,9 @@ export function LandingPage() {
           </Link>
         </div>
 
-        {sampleResources.length > 0 ? (
+        {recentResources.length > 0 ? (
           <div className="ce-grid-cards">
-            {sampleResources.map((res) => (
+            {recentResources.map((res) => (
               <div key={res.resourceCode} className="ce-card ce-stack" style={{ justifyContent: 'space-between' }}>
                 <div className="ce-stack" style={{ gap: '0.5rem' }}>
                   <div className="ce-row-between">
@@ -202,7 +207,7 @@ export function LandingPage() {
           </div>
         ) : (
           <div className="ce-card ce-muted" style={{ textAlign: 'center', padding: '2rem' }}>
-            Visit the Academic Resource Library to browse verified question papers and notes.
+            No academic resources uploaded yet. Sign in with your college email to contribute question papers or lecture notes.
           </div>
         )}
       </section>
@@ -211,6 +216,10 @@ export function LandingPage() {
 }
 
 export function LoginPage() {
+  usePageTitle(
+    'Sign In',
+    'Sign in to your CampusExchange verified student account.'
+  );
   const { login } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -268,7 +277,7 @@ export function LoginPage() {
               id="login-email"
               type="email"
               className="ce-input"
-              placeholder="student@nitk.edu.in"
+              placeholder="you@college.edu"
               value={collegeEmail}
               onChange={(e) => setCollegeEmail(e.target.value)}
               required
@@ -319,6 +328,10 @@ export function LoginPage() {
 }
 
 export function RegisterPage() {
+  usePageTitle(
+    'Register',
+    'Create your verified student account using your college email.'
+  );
   const { register } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -378,7 +391,7 @@ export function RegisterPage() {
               id="reg-fullname"
               type="text"
               className="ce-input"
-              placeholder="Aarav Sharma"
+              placeholder="Full Name"
               value={form.fullName}
               onChange={(e) => updateField('fullName', e.target.value)}
               required
@@ -393,7 +406,7 @@ export function RegisterPage() {
               id="reg-email"
               type="email"
               className="ce-input"
-              placeholder="student@nitk.edu.in"
+              placeholder="you@college.edu"
               value={form.collegeEmail}
               onChange={(e) => updateField('collegeEmail', e.target.value)}
               required
@@ -408,7 +421,7 @@ export function RegisterPage() {
               id="reg-password"
               type="password"
               className="ce-input"
-              placeholder="Password@123"
+              placeholder="At least 8 characters"
               value={form.password}
               onChange={(e) => updateField('password', e.target.value)}
               required
@@ -477,6 +490,10 @@ export function RegisterPage() {
 }
 
 export function VerifyEmailPage() {
+  usePageTitle(
+    'Verify Email',
+    'Verify your campus email address with your 6-digit OTP.'
+  );
   const [searchParams] = useSearchParams();
   const { user, verifyEmail } = useAuth();
   const { showToast } = useToast();
@@ -585,6 +602,7 @@ export function VerifyEmailPage() {
               id="verify-email"
               type="email"
               className="ce-input"
+              placeholder="you@college.edu"
               value={collegeEmail}
               onChange={(e) => setCollegeEmail(e.target.value)}
               required
@@ -601,7 +619,7 @@ export function VerifyEmailPage() {
               maxLength={6}
               className="ce-input"
               style={{ fontFamily: 'var(--ce-font-mono)', fontSize: '1.15rem', letterSpacing: '0.2em' }}
-              placeholder="123456"
+              placeholder="6-digit code"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               required
@@ -639,6 +657,10 @@ export function VerifyEmailPage() {
 }
 
 export function ForgotPasswordPage() {
+  usePageTitle(
+    'Forgot Password',
+    'Request a password recovery code for your campus email.'
+  );
   const { showToast } = useToast();
   const navigate = useNavigate();
   const [collegeEmail, setCollegeEmail] = useState('');
@@ -690,6 +712,7 @@ export function ForgotPasswordPage() {
               id="forgot-email"
               type="email"
               className="ce-input"
+              placeholder="you@college.edu"
               value={collegeEmail}
               onChange={(e) => setCollegeEmail(e.target.value)}
               required
@@ -706,6 +729,10 @@ export function ForgotPasswordPage() {
 }
 
 export function ResetPasswordPage() {
+  usePageTitle(
+    'Reset Password',
+    'Enter your recovery code and choose a new password.'
+  );
   const [searchParams] = useSearchParams();
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -777,6 +804,7 @@ export function ResetPasswordPage() {
               id="reset-email"
               type="email"
               className="ce-input"
+              placeholder="you@college.edu"
               value={collegeEmail}
               onChange={(e) => setCollegeEmail(e.target.value)}
               required
@@ -800,6 +828,7 @@ export function ResetPasswordPage() {
               id="reset-token"
               type="text"
               className="ce-input"
+              placeholder="Recovery code"
               value={token}
               onChange={(e) => setToken(e.target.value)}
               required
@@ -814,7 +843,7 @@ export function ResetPasswordPage() {
               id="reset-password"
               type="password"
               className="ce-input"
-              placeholder="NewPass@2026"
+              placeholder="At least 8 characters"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
