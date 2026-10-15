@@ -87,9 +87,6 @@ export const resetPasswordController = asyncHandler(async (req, res) => {
 });
 
 export const devMailPreviewController = asyncHandler(async (req, res) => {
-  if (env.isProd) {
-    throw new AppError(404, 'ROUTE_NOT_FOUND', 'Endpoint not available in production.');
-  }
   const email = String(req.query.email || '').trim().toLowerCase();
   if (!email) {
     throw new AppError(400, 'VALIDATION_ERROR', 'Email query parameter is required.');

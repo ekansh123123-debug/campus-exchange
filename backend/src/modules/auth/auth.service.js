@@ -61,48 +61,57 @@ export async function registerStudent(payload, requestId = '') {
   const passwordHash = await bcrypt.hash(payload.password, 10);
   const userCode = await generateUniquePublicCode(User, 'userCode', PUBLIC_ID_PREFIXES.USER);
 
-  const user = await User.create({
-    userCode,
-    fullName: payload.fullName.trim(),
-    collegeEmail,
-    passwordHash,
-    role: ROLES.STUDENT,
-    emailVerifiedAt: null,
-    accountStatus: ACCOUNT_STATUS.ACTIVE,
-    branch: payload.branch || 'GENERAL',
-    academicYear: payload.academicYear || '1',
-  });
+  let user = null;
+  try {
+    user = await User.create({
+      userCode,
+      fullName: payload.fullName.trim(),
+      collegeEmail,
+      passwordHash,
+      role: ROLES.STUDENT,
+      emailVerifiedAt: null,
+      accountStatus: ACCOUNT_STATUS.ACTIVE,
+      branch: payload.branch || 'GENERAL',
+      academicYear: payload.academicYear || '1',
+    });
 
-  const otpCode = generateNumericOtp(6);
-  const now = Date.now();
-  await EmailVerification.create({
-    userId: user._id,
-    purpose: 'email_verification',
-    tokenHash: hashToken(otpCode),
-    expiresAt: new Date(now + env.otpExpiryMinutes * 60 * 1000),
-    attemptCount: 0,
-    resendAvailableAt: new Date(now + env.otpResendCooldownSeconds * 1000),
-  });
+    const otpCode = generateNumericOtp(6);
+    const now = Date.now();
+    await EmailVerification.create({
+      userId: user._id,
+      purpose: 'email_verification',
+      tokenHash: hashToken(otpCode),
+      expiresAt: new Date(now + env.otpExpiryMinutes * 60 * 1000),
+      attemptCount: 0,
+      resendAvailableAt: new Date(now + env.otpResendCooldownSeconds * 1000),
+    });
 
-  await sendVerificationEmail({
-    toEmail: user.collegeEmail,
-    fullName: user.fullName,
-    otpCode,
-  });
+    await sendVerificationEmail({
+      toEmail: user.collegeEmail,
+      fullName: user.fullName,
+      otpCode,
+    });
 
-  await recordAuditEvent({
-    actorId: user._id,
-    actorRole: ROLES.STUDENT,
-    action: 'user.registered',
-    targetType: 'user',
-    targetId: user.userCode,
-    requestId,
-  });
+    await recordAuditEvent({
+      actorId: user._id,
+      actorRole: ROLES.STUDENT,
+      action: 'user.registered',
+      targetType: 'user',
+      targetId: user.userCode,
+      requestId,
+    });
 
-  return {
-    user: toSafeCurrentUser(user),
-    verificationRequired: true,
-  };
+    return {
+      user: toSafeCurrentUser(user),
+      verificationRequired: true,
+    };
+  } catch (err) {
+    if (user && !user.emailVerifiedAt) {
+      await User.deleteOne({ _id: user._id }).catch(() => {});
+      await EmailVerification.deleteMany({ userId: user._id }).catch(() => {});
+    }
+    throw err;
+  }
 }
 
 export async function verifyStudentEmail({ collegeEmail, otp }, requestId = '') {

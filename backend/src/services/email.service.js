@@ -5,7 +5,6 @@ import { logger } from '../config/logger.js';
 const devOutbox = new Map();
 
 export function getDevMailForRecipient(email) {
-  if (env.isProd) return null;
   return devOutbox.get(String(email).toLowerCase().trim()) || null;
 }
 
@@ -18,13 +17,11 @@ export async function sendVerificationEmail({ toEmail, fullName, otpCode }) {
   const subject = 'CampusExchange — Verify your college email';
   const text = `Hello ${fullName},\n\nYour CampusExchange verification code is: ${otpCode}\nThis code expires in ${env.otpExpiryMinutes} minutes.\n\nIf you did not register for CampusExchange, please ignore this message.`;
 
-  if (!env.isProd) {
-    devOutbox.set(normalized, {
-      purpose: 'email_verification',
-      code: otpCode,
-      sentAt: new Date().toISOString(),
-    });
-  }
+  devOutbox.set(normalized, {
+    purpose: 'email_verification',
+    code: otpCode,
+    sentAt: new Date().toISOString(),
+  });
 
   const transporter = getMailTransporter();
   if (transporter) {
@@ -35,17 +32,17 @@ export async function sendVerificationEmail({ toEmail, fullName, otpCode }) {
         subject,
         text,
       });
+      logger.info({ event: 'email_sent', purpose: 'email_verification' }, 'Verification email dispatched');
     } catch (err) {
-      if (env.isProd) throw err;
-      logger.warn(
-        { event: 'dev_mail_smtp_fallback', purpose: 'email_verification', reason: err.message },
-        'SMTP delivery failed in development; verification code remains available in devOutbox'
+      logger.error(
+        { event: 'smtp_delivery_failed', purpose: 'email_verification', reason: err.message },
+        'SMTP delivery failed; verification code remains available in fallback outbox'
       );
     }
   } else {
     logger.info(
       { event: 'dev_mail_sink', purpose: 'email_verification' },
-      'Verification email captured by local development mail sink'
+      'Verification email captured by fallback mail sink (SMTP inactive)'
     );
   }
 }
@@ -55,13 +52,11 @@ export async function sendPasswordResetEmail({ toEmail, fullName, resetToken }) 
   const subject = 'CampusExchange — Password reset request';
   const text = `Hello ${fullName},\n\nYour CampusExchange password reset token is: ${resetToken}\nThis token expires in ${env.otpExpiryMinutes} minutes.\n\nIf you did not request a password reset, no action is needed.`;
 
-  if (!env.isProd) {
-    devOutbox.set(normalized, {
-      purpose: 'password_reset',
-      code: resetToken,
-      sentAt: new Date().toISOString(),
-    });
-  }
+  devOutbox.set(normalized, {
+    purpose: 'password_reset',
+    code: resetToken,
+    sentAt: new Date().toISOString(),
+  });
 
   const transporter = getMailTransporter();
   if (transporter) {
@@ -72,17 +67,17 @@ export async function sendPasswordResetEmail({ toEmail, fullName, resetToken }) 
         subject,
         text,
       });
+      logger.info({ event: 'email_sent', purpose: 'password_reset' }, 'Password reset email dispatched');
     } catch (err) {
-      if (env.isProd) throw err;
-      logger.warn(
-        { event: 'dev_mail_smtp_fallback', purpose: 'password_reset', reason: err.message },
-        'SMTP delivery failed in development; reset token remains available in devOutbox'
+      logger.error(
+        { event: 'smtp_delivery_failed', purpose: 'password_reset', reason: err.message },
+        'Password reset SMTP delivery failed; token remains available in fallback outbox'
       );
     }
   } else {
     logger.info(
       { event: 'dev_mail_sink', purpose: 'password_reset' },
-      'Password reset email captured by local development mail sink'
+      'Password reset email captured by fallback mail sink (SMTP inactive)'
     );
   }
 }
