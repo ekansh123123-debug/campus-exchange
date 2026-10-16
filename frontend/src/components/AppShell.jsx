@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../features/auth/AuthContext.jsx';
 import { apiRequest } from '../lib/api-client.js';
+import { TopLoadingBar } from './TopLoadingBar.jsx';
 
 export function AppShell() {
   const { user, isAuthenticated, isVerifiedStudent, isAdmin, logout } = useAuth();
@@ -57,6 +58,7 @@ export function AppShell() {
 
   return (
     <div className="ce-shell">
+      <TopLoadingBar />
       <header className="ce-navbar">
         <div className="ce-container ce-navbar-inner">
           <div className="ce-row" style={{ gap: '1.25rem' }}>

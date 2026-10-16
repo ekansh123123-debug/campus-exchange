@@ -4,6 +4,36 @@ let accessToken = null;
 let csrfToken = null;
 let refreshPromise = null;
 
+let activeRequestsCount = 0;
+const requestListeners = new Set();
+
+function notifyRequestListeners() {
+  const count = activeRequestsCount;
+  requestListeners.forEach((listener) => {
+    try {
+      listener(count);
+    } catch {
+      // Ignore listener error
+    }
+  });
+}
+
+export function subscribeToActiveRequests(listener) {
+  requestListeners.add(listener);
+  try {
+    listener(activeRequestsCount);
+  } catch {
+    // Ignore callback error
+  }
+  return () => {
+    requestListeners.delete(listener);
+  };
+}
+
+export function getActiveRequestCount() {
+  return activeRequestsCount;
+}
+
 export function setAuthTokens({ token, csrf }) {
   if (token !== undefined) accessToken = token;
   if (csrf !== undefined) {
@@ -111,91 +141,100 @@ async function performRefresh() {
 }
 
 export async function apiRequest(path, options = {}) {
-  const {
-    method = 'GET',
-    body,
-    params,
-    headers: customHeaders = {},
-    skipRefresh = false,
-  } = options;
+  activeRequestsCount++;
+  notifyRequestListeners();
+  try {
+    const {
+      method = 'GET',
+      body,
+      params,
+      headers: customHeaders = {},
+      skipRefresh = false,
+    } = options;
 
-  let url = path.startsWith('http') ? path : `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
-  if (params && typeof params === 'object') {
-    const searchParams = new URLSearchParams();
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        searchParams.set(key, String(value));
+    let url = path.startsWith('http') ? path : `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+    if (params && typeof params === 'object') {
+      const searchParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          searchParams.set(key, String(value));
+        }
+      });
+      const queryString = searchParams.toString();
+      if (queryString) {
+        url += `${url.includes('?') ? '&' : '?'}${queryString}`;
       }
-    });
-    const queryString = searchParams.toString();
-    if (queryString) {
-      url += `${url.includes('?') ? '&' : '?'}${queryString}`;
     }
-  }
 
-  const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
-  const headers = { ...customHeaders };
+    const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+    const headers = { ...customHeaders };
 
-  if (!isFormData && body !== undefined && !headers['Content-Type']) {
-    headers['Content-Type'] = 'application/json';
-  }
+    if (!isFormData && body !== undefined && !headers['Content-Type']) {
+      headers['Content-Type'] = 'application/json';
+    }
 
-  if (accessToken) {
-    headers.Authorization = `Bearer ${accessToken}`;
-  }
+    if (accessToken) {
+      headers.Authorization = `Bearer ${accessToken}`;
+    }
 
-  const activeCsrf = getCsrfToken();
-  if (activeCsrf) {
-    headers['x-csrf-token'] = activeCsrf;
-  }
+    const activeCsrf = getCsrfToken();
+    if (activeCsrf) {
+      headers['x-csrf-token'] = activeCsrf;
+    }
 
-  const fetchConfig = {
-    method,
-    credentials: 'include',
-    headers,
-  };
+    const fetchConfig = {
+      method,
+      credentials: 'include',
+      headers,
+    };
 
-  if (body !== undefined) {
-    fetchConfig.body = isFormData ? body : JSON.stringify(body);
-  }
+    if (body !== undefined) {
+      fetchConfig.body = isFormData ? body : JSON.stringify(body);
+    }
 
-  let response = await fetch(url, fetchConfig);
+    let response = await fetch(url, fetchConfig);
 
-  if (
-    response.status === 401 &&
-    !skipRefresh &&
-    !path.includes('/auth/login') &&
-    !path.includes('/auth/register') &&
-    !path.includes('/auth/refresh')
-  ) {
-    const refreshed = await performRefresh();
-    if (refreshed?.accessToken) {
-      headers.Authorization = `Bearer ${refreshed.accessToken}`;
-      if (refreshed.csrfToken) {
-        headers['x-csrf-token'] = refreshed.csrfToken;
+    if (
+      response.status === 401 &&
+      !skipRefresh &&
+      !path.includes('/auth/login') &&
+      !path.includes('/auth/register') &&
+      !path.includes('/auth/refresh')
+    ) {
+      const refreshed = await performRefresh();
+      if (refreshed?.accessToken) {
+        headers.Authorization = `Bearer ${refreshed.accessToken}`;
+        if (refreshed.csrfToken) {
+          headers['x-csrf-token'] = refreshed.csrfToken;
+        }
+        response = await fetch(url, { ...fetchConfig, headers });
       }
-      response = await fetch(url, { ...fetchConfig, headers });
     }
-  }
 
-  let payload;
-  const contentType = response.headers.get('content-type') || '';
-  if (contentType.includes('application/json')) {
-    payload = await response.json();
-  } else {
-    const text = await response.text();
-    payload = { success: response.ok, message: text };
-  }
+    let payload;
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      payload = await response.json();
+    } else {
+      const text = await response.text();
+      payload = { success: response.ok, message: text };
+    }
 
-  if (!response.ok || payload?.success === false) {
-    const errInfo = payload?.error || {};
-    throw new ApiClientError(errInfo.message || payload?.message || 'Request failed', {
-      status: response.status,
-      code: errInfo.code || 'API_ERROR',
-      details: errInfo.details || [],
-      requestId: payload?.requestId || null,
-    });
-  }
+    if (!response.ok || payload?.success === false) {
+      const errInfo = payload?.error || {};
+      throw new ApiClientError(errInfo.message || payload?.message || 'Request failed', {
+        status: response.status,
+        code: errInfo.code || 'API_ERROR',
+        details: errInfo.details || [],
+        requestId: payload?.requestId || null,
+      });
+    }
 
-  return payload;
+    return payload;
+  } finally {
+    activeRequestsCount = Math.max(0, activeRequestsCount - 1);
+    notifyRequestListeners();
+  }
 }
+
+export { API_BASE_URL };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Download, Upload, BookOpen, Flag, FileText } from 'lucide-react';
-import { apiRequest, getAccessToken } from '../../lib/api-client.js';
+import { apiRequest, getAccessToken, API_BASE_URL } from '../../lib/api-client.js';
 import {
   BRANCHES,
   ACADEMIC_YEARS,
@@ -75,7 +75,7 @@ export function ResourcesPage() {
       const headers = {};
       if (token) headers.Authorization = `Bearer ${token}`;
 
-      const response = await fetch(`/api/v1/resources/${resource.resourceCode}/download`, {
+      const response = await fetch(`${API_BASE_URL}/resources/${resource.resourceCode}/download`, {
         method: 'GET',
         credentials: 'include',
         headers,

@@ -8,7 +8,6 @@ import {
   ArrowRight,
   KeyRound,
   MailCheck,
-  Sparkles,
   CheckCircle2,
 } from 'lucide-react';
 import { useAuth } from './AuthContext.jsx';
@@ -547,37 +546,6 @@ export function VerifyEmailPage() {
     }
   };
 
-  const handleFetchDevOtp = async () => {
-    if (!collegeEmail.trim()) {
-      setError('Enter your college email address first.');
-      return;
-    }
-    try {
-      const res = await apiRequest('/auth/dev-mail-preview', {
-        params: { email: collegeEmail.trim() },
-      });
-      const code = res?.data?.preview?.code || res?.data?.otp;
-      if (code) {
-        setOtp(code);
-        showToast({
-          tone: 'info',
-          title: 'Local Dev Outbox OTP Autofilled',
-          description: `Code: ${code}`,
-        });
-      } else {
-        showToast({
-          tone: 'warning',
-          title: 'No OTP found in dev outbox for this email',
-        });
-      }
-    } catch {
-      showToast({
-        tone: 'warning',
-        title: 'Dev outbox preview unavailable in production mode',
-      });
-    }
-  };
-
   return (
     <div style={{ maxWidth: '460px', margin: '2rem auto' }}>
       <div className="ce-card ce-stack">
@@ -639,16 +607,6 @@ export function VerifyEmailPage() {
             disabled={resending}
           >
             {resending ? 'Sending...' : 'Resend OTP'}
-          </button>
-
-          <button
-            type="button"
-            className="ce-btn ce-btn-secondary ce-btn-sm"
-            onClick={handleFetchDevOtp}
-            title="For local development without SMTP server"
-          >
-            <Sparkles size={14} />
-            <span>Autofill Dev Outbox OTP</span>
           </button>
         </div>
       </div>
