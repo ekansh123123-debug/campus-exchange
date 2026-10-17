@@ -35,7 +35,9 @@ export function loadEnv(rawEnv = process.env) {
     }
   }
 
-  const rawDomains = rawEnv.COLLEGE_EMAIL_DOMAINS || 'nitk.edu.in,campus.edu,example.edu';
+  const rawDomains = isTest
+    ? 'nitk.edu.in,campus.edu,example.edu'
+    : rawEnv.COLLEGE_EMAIL_DOMAINS || 'nitk.edu.in,campus.edu,example.edu';
   const collegeEmailDomains = rawDomains
     .split(',')
     .map((d) => d.trim().toLowerCase())
