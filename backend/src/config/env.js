@@ -48,41 +48,61 @@ export function loadEnv(rawEnv = process.env) {
   const maxImageSizeMb = parseNumber(rawEnv.MAX_IMAGE_SIZE_MB, 5, 1, 25);
   const maxResourceSizeMb = parseNumber(rawEnv.MAX_RESOURCE_SIZE_MB, 20, 1, 100);
 
-  return Object.freeze({
-    nodeEnv,
-    isProd,
-    isTest,
-    port: parseNumber(rawEnv.PORT, 5000, 1, 65535),
-    clientOrigin:
-      rawEnv.CLIENT_ORIGIN ||
-      'https://campus-exchange-eta.vercel.app,http://localhost:5173,http://localhost:4173',
-    apiBaseUrl: rawEnv.API_BASE_URL || 'http://localhost:5000/api/v1',
-    mongodbUri: rawEnv.MONGODB_URI || 'mongodb://127.0.0.1:27017/campus_exchange',
-    useInMemoryDbIfUnavailable: parseBoolean(rawEnv.USE_IN_MEMORY_DB_IF_UNAVAILABLE, !isProd),
-    collegeEmailDomains,
-    jwtAccessSecret:
-      rawEnv.JWT_ACCESS_SECRET || 'dev-campus-exchange-access-secret-key-min-32-chars',
-    jwtRefreshSecret:
-      rawEnv.JWT_REFRESH_SECRET || 'dev-campus-exchange-refresh-secret-key-min-32-chars',
-    jwtAccessTtl: rawEnv.JWT_ACCESS_TTL || '15m',
-    jwtRefreshTtlDays: parseNumber(rawEnv.JWT_REFRESH_TTL_DAYS, 14, 1, 90),
-    jwtIssuer: rawEnv.JWT_ISSUER || 'campus-exchange-api',
-    jwtAudience: rawEnv.JWT_AUDIENCE || 'campus-exchange-client',
-    cookieSecure: parseBoolean(rawEnv.COOKIE_SECURE, isProd),
-    cookieSameSite: rawEnv.COOKIE_SAME_SITE || (isProd ? 'none' : 'strict'),
-    refreshCookieName: rawEnv.REFRESH_COOKIE_NAME || 'ce_refresh',
-    csrfCookieName: rawEnv.CSRF_COOKIE_NAME || 'ce_csrf',
-    emailFrom: rawEnv.EMAIL_FROM || 'CampusExchange <no-reply@campus.edu>',
-    smtpHost: rawEnv.SMTP_HOST || '',
-    smtpPort: parseNumber(rawEnv.SMTP_PORT, 587, 1, 65535),
-    smtpSecure: parseBoolean(rawEnv.SMTP_SECURE, false),
-    smtpUser: rawEnv.SMTP_USER || '',
-    smtpPass: rawEnv.SMTP_PASS || '',
-    imagekitPublicKey: rawEnv.IMAGEKIT_PUBLIC_KEY || '',
-    imagekitPrivateKey: rawEnv.IMAGEKIT_PRIVATE_KEY || '',
-    imagekitUrlEndpoint: rawEnv.IMAGEKIT_URL_ENDPOINT || '',
-    imagekitResourceFolder: rawEnv.IMAGEKIT_RESOURCE_FOLDER || '/campus-exchange/resources',
-    imagekitListingFolder: rawEnv.IMAGEKIT_LISTING_FOLDER || '/campus-exchange/listings',
+    const rawSmtpPass = String(rawEnv.SMTP_PASS || '').trim();
+    // Strip spaces if user copied a 16-character Google App Password (e.g. "abcd efgh ijkl mnop")
+    const smtpPass =
+      rawSmtpPass.includes(' ') && rawSmtpPass.replace(/\s+/g, '').length === 16
+        ? rawSmtpPass.replace(/\s+/g, '')
+        : rawSmtpPass;
+
+    const smtpUser = String(rawEnv.SMTP_USER || '').trim();
+    const smtpService = String(rawEnv.SMTP_SERVICE || '').trim().toLowerCase();
+    let smtpHost = String(rawEnv.SMTP_HOST || '').trim();
+
+    if (!smtpHost && (smtpService === 'gmail' || smtpUser.toLowerCase().endsWith('@gmail.com'))) {
+      smtpHost = 'smtp.gmail.com';
+    }
+
+    const emailFrom =
+      rawEnv.EMAIL_FROM ||
+      (smtpUser ? `CampusExchange <${smtpUser}>` : 'CampusExchange <no-reply@campus.edu>');
+
+    return Object.freeze({
+      nodeEnv,
+      isProd,
+      isTest,
+      port: parseNumber(rawEnv.PORT, 5000, 1, 65535),
+      clientOrigin:
+        rawEnv.CLIENT_ORIGIN ||
+        'https://campus-exchange-eta.vercel.app,http://localhost:5173,http://localhost:4173',
+      apiBaseUrl: rawEnv.API_BASE_URL || 'http://localhost:5000/api/v1',
+      mongodbUri: rawEnv.MONGODB_URI || 'mongodb://127.0.0.1:27017/campus_exchange',
+      useInMemoryDbIfUnavailable: parseBoolean(rawEnv.USE_IN_MEMORY_DB_IF_UNAVAILABLE, !isProd),
+      collegeEmailDomains,
+      jwtAccessSecret:
+        rawEnv.JWT_ACCESS_SECRET || 'dev-campus-exchange-access-secret-key-min-32-chars',
+      jwtRefreshSecret:
+        rawEnv.JWT_REFRESH_SECRET || 'dev-campus-exchange-refresh-secret-key-min-32-chars',
+      jwtAccessTtl: rawEnv.JWT_ACCESS_TTL || '15m',
+      jwtRefreshTtlDays: parseNumber(rawEnv.JWT_REFRESH_TTL_DAYS, 14, 1, 90),
+      jwtIssuer: rawEnv.JWT_ISSUER || 'campus-exchange-api',
+      jwtAudience: rawEnv.JWT_AUDIENCE || 'campus-exchange-client',
+      cookieSecure: parseBoolean(rawEnv.COOKIE_SECURE, isProd),
+      cookieSameSite: rawEnv.COOKIE_SAME_SITE || (isProd ? 'none' : 'strict'),
+      refreshCookieName: rawEnv.REFRESH_COOKIE_NAME || 'ce_refresh',
+      csrfCookieName: rawEnv.CSRF_COOKIE_NAME || 'ce_csrf',
+      emailFrom,
+      smtpService,
+      smtpHost,
+      smtpPort: parseNumber(rawEnv.SMTP_PORT, 587, 1, 65535),
+      smtpSecure: parseBoolean(rawEnv.SMTP_SECURE, false),
+      smtpUser,
+      smtpPass,
+      imagekitPublicKey: rawEnv.IMAGEKIT_PUBLIC_KEY || '',
+      imagekitPrivateKey: rawEnv.IMAGEKIT_PRIVATE_KEY || '',
+      imagekitUrlEndpoint: rawEnv.IMAGEKIT_URL_ENDPOINT || '',
+      imagekitResourceFolder: rawEnv.IMAGEKIT_RESOURCE_FOLDER || '/campus-exchange/resources',
+      imagekitListingFolder: rawEnv.IMAGEKIT_LISTING_FOLDER || '/campus-exchange/listings',
     maxListingImages: parseNumber(rawEnv.MAX_LISTING_IMAGES, 6, 1, 12),
     maxImageSizeMb,
     maxImageSizeBytes: maxImageSizeMb * 1024 * 1024,

@@ -4,6 +4,7 @@ import { env } from './env.js';
 let mailTransporter = null;
 
 export function isSmtpConfigured() {
+  if (env.smtpService === 'gmail') return Boolean(env.smtpUser && env.smtpPass);
   if (!env.smtpHost) return false;
   const host = String(env.smtpHost).trim().toLowerCase();
   if (
@@ -15,27 +16,45 @@ export function isSmtpConfigured() {
   ) {
     return false;
   }
-  return true;
+  return Boolean(env.smtpUser && env.smtpPass);
 }
 
 export function getMailTransporter() {
   if (env.isTest) return null;
   if (mailTransporter) return mailTransporter;
   if (isSmtpConfigured()) {
-    mailTransporter = nodemailer.createTransport({
-      host: env.smtpHost,
-      port: env.smtpPort,
-      secure: env.smtpSecure,
-      connectionTimeout: 5000,
-      greetingTimeout: 5000,
-      socketTimeout: 8000,
-      auth: env.smtpUser
-        ? {
+    const isGmail =
+      env.smtpService === 'gmail' ||
+      env.smtpHost.toLowerCase() === 'smtp.gmail.com' ||
+      env.smtpUser.toLowerCase().endsWith('@gmail.com');
+
+    const transportConfig = isGmail
+      ? {
+          service: 'gmail',
+          connectionTimeout: 10000,
+          greetingTimeout: 10000,
+          socketTimeout: 15000,
+          auth: {
             user: env.smtpUser,
             pass: env.smtpPass,
-          }
-        : undefined,
-    });
+          },
+        }
+      : {
+          host: env.smtpHost,
+          port: env.smtpPort,
+          secure: env.smtpSecure || env.smtpPort === 465,
+          connectionTimeout: 10000,
+          greetingTimeout: 10000,
+          socketTimeout: 15000,
+          auth: env.smtpUser
+            ? {
+                user: env.smtpUser,
+                pass: env.smtpPass,
+              }
+            : undefined,
+        };
+
+    mailTransporter = nodemailer.createTransport(transportConfig);
   }
   return mailTransporter;
 }
