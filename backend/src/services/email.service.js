@@ -41,29 +41,13 @@ export async function sendVerificationEmail({ toEmail, fullName, otpCode }) {
     sentAt: new Date().toISOString(),
   });
 
-  const transporter = getMailTransporter();
-  if (transporter) {
-    try {
-      await transporter.sendMail({
-        from: env.emailFrom,
-        to: normalized,
-        subject,
-        text,
-        html,
-      });
-      logger.info({ event: 'email_sent', purpose: 'email_verification', recipient: normalized }, 'Verification email dispatched');
-    } catch (err) {
-      logger.error(
-        { event: 'smtp_delivery_failed', purpose: 'email_verification', reason: err.message },
-        'SMTP delivery failed; verification code remains available in fallback outbox'
-      );
-    }
-  } else {
-    logger.info(
-      { event: 'dev_mail_sink', purpose: 'email_verification' },
-      'Verification email captured by fallback mail sink (SMTP inactive)'
-    );
-  }
+  await dispatchEmail({
+    toEmail: normalized,
+    subject,
+    text,
+    html,
+    purpose: 'email_verification',
+  });
 }
 
 export async function sendPasswordResetEmail({ toEmail, fullName, resetToken }) {
@@ -95,27 +79,80 @@ export async function sendPasswordResetEmail({ toEmail, fullName, resetToken }) 
     sentAt: new Date().toISOString(),
   });
 
+  await dispatchEmail({
+    toEmail: normalized,
+    subject,
+    text,
+    html,
+    purpose: 'password_reset',
+  });
+}
+
+async function dispatchEmail({ toEmail, subject, text, html, purpose }) {
+  if (env.isTest) return;
+
+  // 1. Resend HTTPS API (Port 443 — bypasses Render Free tier outbound SMTP port blocks)
+  if (env.resendApiKey) {
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${env.resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: env.emailFrom || 'CampusExchange <onboarding@resend.dev>',
+          to: [toEmail],
+          subject,
+          text,
+          html,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Resend API returned HTTP ${res.status}`);
+      }
+
+      logger.info(
+        { event: 'email_sent', provider: 'resend_api', purpose, recipient: toEmail, emailId: data.id },
+        'Email successfully dispatched via Resend HTTPS API'
+      );
+      return;
+    } catch (err) {
+      logger.error(
+        { event: 'resend_delivery_failed', purpose, reason: err.message },
+        'Resend API delivery failed; attempting SMTP transport fallback'
+      );
+    }
+  }
+
+  // 2. Nodemailer SMTP (Gmail / Custom SMTP)
   const transporter = getMailTransporter();
   if (transporter) {
     try {
       await transporter.sendMail({
         from: env.emailFrom,
-        to: normalized,
+        to: toEmail,
         subject,
         text,
         html,
       });
-      logger.info({ event: 'email_sent', purpose: 'password_reset', recipient: normalized }, 'Password reset email dispatched');
+      logger.info(
+        { event: 'email_sent', provider: 'smtp', purpose, recipient: toEmail },
+        'Email successfully dispatched via SMTP'
+      );
+      return;
     } catch (err) {
       logger.error(
-        { event: 'smtp_delivery_failed', purpose: 'password_reset', reason: err.message },
-        'Password reset SMTP delivery failed; token remains available in fallback outbox'
+        { event: 'smtp_delivery_failed', purpose, reason: err.message },
+        'SMTP delivery failed. Note: Render Free tier blocks outbound TCP on ports 25, 465, and 587. Check /api/v1/auth/dev-mail-preview or configure RESEND_API_KEY for HTTPS delivery.'
       );
     }
   } else {
     logger.info(
-      { event: 'dev_mail_sink', purpose: 'password_reset' },
-      'Password reset email captured by fallback mail sink (SMTP inactive)'
+      { event: 'dev_mail_sink', purpose },
+      'Email captured by fallback in-memory mail sink (SMTP inactive). Available via /api/v1/auth/dev-mail-preview'
     );
   }
 }

@@ -25,8 +25,8 @@ export function getMailTransporter() {
   if (isSmtpConfigured()) {
     const isGmail =
       env.smtpService === 'gmail' ||
-      env.smtpHost.toLowerCase() === 'smtp.gmail.com' ||
-      env.smtpUser.toLowerCase().endsWith('@gmail.com');
+      (env.smtpHost && env.smtpHost.toLowerCase() === 'smtp.gmail.com') ||
+      (env.smtpUser && env.smtpUser.toLowerCase().endsWith('@gmail.com'));
 
     const transportConfig = isGmail
       ? {

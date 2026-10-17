@@ -48,13 +48,6 @@ export function loadEnv(rawEnv = process.env) {
   const maxImageSizeMb = parseNumber(rawEnv.MAX_IMAGE_SIZE_MB, 5, 1, 25);
   const maxResourceSizeMb = parseNumber(rawEnv.MAX_RESOURCE_SIZE_MB, 20, 1, 100);
 
-    const rawSmtpPass = String(rawEnv.SMTP_PASS || '').trim();
-    // Strip spaces if user copied a 16-character Google App Password (e.g. "abcd efgh ijkl mnop")
-    const smtpPass =
-      rawSmtpPass.includes(' ') && rawSmtpPass.replace(/\s+/g, '').length === 16
-        ? rawSmtpPass.replace(/\s+/g, '')
-        : rawSmtpPass;
-
     const smtpUser = String(rawEnv.SMTP_USER || '').trim();
     const smtpService = String(rawEnv.SMTP_SERVICE || '').trim().toLowerCase();
     let smtpHost = String(rawEnv.SMTP_HOST || '').trim();
@@ -62,6 +55,15 @@ export function loadEnv(rawEnv = process.env) {
     if (!smtpHost && (smtpService === 'gmail' || smtpUser.toLowerCase().endsWith('@gmail.com'))) {
       smtpHost = 'smtp.gmail.com';
     }
+
+    const isGmail = smtpService === 'gmail' || smtpHost === 'smtp.gmail.com' || smtpUser.toLowerCase().endsWith('@gmail.com');
+
+    const rawSmtpPass = String(rawEnv.SMTP_PASS || '').trim();
+    // Strip surrounding quotes and whitespace if user copied Google App Password
+    const unquotedPass = rawSmtpPass.replace(/^["']|["']$/g, '').trim();
+    const smtpPass = isGmail ? unquotedPass.replace(/\s+/g, '') : unquotedPass;
+
+    const resendApiKey = String(rawEnv.RESEND_API_KEY || '').trim();
 
     const emailFrom =
       rawEnv.EMAIL_FROM ||
@@ -98,6 +100,7 @@ export function loadEnv(rawEnv = process.env) {
       smtpSecure: parseBoolean(rawEnv.SMTP_SECURE, false),
       smtpUser,
       smtpPass,
+      resendApiKey,
       imagekitPublicKey: rawEnv.IMAGEKIT_PUBLIC_KEY || '',
       imagekitPrivateKey: rawEnv.IMAGEKIT_PRIVATE_KEY || '',
       imagekitUrlEndpoint: rawEnv.IMAGEKIT_URL_ENDPOINT || '',
