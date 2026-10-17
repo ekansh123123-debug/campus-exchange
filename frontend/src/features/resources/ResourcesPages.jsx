@@ -12,7 +12,7 @@ import {
 import { extractList, extractMeta, formatBytes, formatDate } from '../../lib/formatters.js';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
-import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackStates.jsx';
+import { LoadingState, EmptyState, ErrorState, LoadingSpinner } from '../../components/FeedbackStates.jsx';
 import { ReportModal } from '../../components/ReportModal.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
@@ -40,6 +40,7 @@ export function ResourcesPage() {
   const {
     data: res,
     isLoading,
+    isFetching,
     error,
     refetch,
   } = useQuery({
@@ -272,22 +273,30 @@ export function ResourcesPage() {
               />
             </div>
 
-            <button
-              type="button"
-              className="ce-btn ce-btn-ghost ce-btn-sm"
-              onClick={() => {
-                setQ('');
-                setBranch('');
-                setAcademicYear('');
-                setSemester('');
-                setSubject('');
-                setResourceType('');
-                setExamYear('');
-                setPage(1);
-              }}
-            >
-              Reset Filters
-            </button>
+            <div className="ce-row" style={{ gap: '0.65rem', alignItems: 'center' }}>
+              {isFetching && !isLoading && (
+                <span className="ce-loading-pill" role="status" aria-label="Updating resources feed">
+                  <LoadingSpinner size="xs" />
+                  <span>Updating feed...</span>
+                </span>
+              )}
+              <button
+                type="button"
+                className="ce-btn ce-btn-ghost ce-btn-sm"
+                onClick={() => {
+                  setQ('');
+                  setBranch('');
+                  setAcademicYear('');
+                  setSemester('');
+                  setSubject('');
+                  setResourceType('');
+                  setExamYear('');
+                  setPage(1);
+                }}
+              >
+                Reset Filters
+              </button>
+            </div>
           </div>
         </div>
       )}

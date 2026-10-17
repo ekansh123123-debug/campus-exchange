@@ -13,7 +13,7 @@ import {
 import { extractList, extractMeta, formatPrice, formatCondition } from '../../lib/formatters.js';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
-import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackStates.jsx';
+import { LoadingState, EmptyState, ErrorState, LoadingSpinner } from '../../components/FeedbackStates.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
 import { usePageTitle } from '../../lib/usePageTitle.js';
 
@@ -60,6 +60,7 @@ export function MarketplacePage() {
   const {
     data: listingsData,
     isLoading,
+    isFetching,
     error,
     refetch,
   } = useQuery({
@@ -329,7 +330,13 @@ export function MarketplacePage() {
             </select>
           </div>
 
-          <div className="ce-row" style={{ gap: '0.75rem' }}>
+          <div className="ce-row" style={{ gap: '0.75rem', alignItems: 'center' }}>
+            {isFetching && !isLoading && (
+              <span className="ce-loading-pill" role="status" aria-label="Updating feed">
+                <LoadingSpinner size="xs" />
+                <span>Updating feed...</span>
+              </span>
+            )}
             <span className="ce-muted" style={{ fontSize: '0.84rem' }}>
               {pagination.totalItems} {pagination.totalItems === 1 ? 'listing' : 'listings'}
             </span>

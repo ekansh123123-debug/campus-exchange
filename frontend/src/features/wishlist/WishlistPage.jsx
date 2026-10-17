@@ -48,7 +48,7 @@ export function WishlistPage() {
       </div>
 
       {isLoading ? (
-        <LoadingState rows={3} />
+        <LoadingState label="Loading saved wishlist items..." rows={3} />
       ) : error ? (
         <ErrorState error={error} onRetry={refetch} />
       ) : items.length === 0 ? (

@@ -5,7 +5,7 @@ import { Send, MessageSquare, Flag } from 'lucide-react';
 import { apiRequest } from '../../lib/api-client.js';
 import { extractList, formatDateTime } from '../../lib/formatters.js';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
-import { LoadingState, EmptyState, ErrorState } from '../../components/FeedbackStates.jsx';
+import { LoadingState, EmptyState, ErrorState, LoadingSpinner } from '../../components/FeedbackStates.jsx';
 import { ReportModal } from '../../components/ReportModal.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
@@ -220,7 +220,14 @@ export function MessagesPage() {
                   }}
                 >
                   {loadingMessages ? (
-                    <div className="ce-muted">Loading messages...</div>
+                    <div className="ce-loading-messages-box">
+                      <LoadingSpinner
+                        size="md"
+                        orientation="vertical"
+                        label="Loading conversation messages..."
+                        showColdStartHint
+                      />
+                    </div>
                   ) : messages.length === 0 ? (
                     <div className="ce-muted" style={{ textAlign: 'center', padding: '2rem' }}>
                       Send a message to coordinate campus gate pickup.
@@ -302,7 +309,7 @@ export function MessagesPage() {
                       className="ce-btn ce-btn-primary"
                       disabled={sending || !body.trim()}
                     >
-                      <Send size={15} />
+                      {sending ? <LoadingSpinner size="xs" color="#ffffff" /> : <Send size={15} />}
                       <span>{sending ? 'Sending...' : 'Send'}</span>
                     </button>
                   </div>

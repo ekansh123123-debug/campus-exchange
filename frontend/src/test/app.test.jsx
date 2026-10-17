@@ -9,6 +9,7 @@ import { CodeBadge } from '../components/CodeBadge.jsx';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '../lib/query-client.js';
 import { TopLoadingBar } from '../components/TopLoadingBar.jsx';
+import { LoadingState, LoadingSpinner } from '../components/FeedbackStates.jsx';
 import { subscribeToActiveRequests, getActiveRequestCount, apiRequest } from '../lib/api-client.js';
 
 describe('CampusExchange Frontend Suite', () => {
@@ -380,6 +381,41 @@ describe('CampusExchange Frontend Suite', () => {
     unmount();
     vi.useRealTimers();
   });
+
+  it('renders LoadingSpinner with circular SVG, role status, and optional cold-start hint', () => {
+    vi.useFakeTimers();
+
+    const { unmount } = render(
+      <LoadingSpinner size="md" label="Loading test data..." showColdStartHint coldStartDelay={1000} />
+    );
+
+    expect(screen.getByRole('status')).toBeInTheDocument();
+    expect(screen.getByText('Loading test data...')).toBeInTheDocument();
+    expect(screen.queryByText(/Waking up Render backend/i)).not.toBeInTheDocument();
+
+    // Advance timers past cold-start delay
+    act(() => {
+      vi.advanceTimersByTime(1100);
+    });
+
+    expect(screen.getByText(/Waking up Render backend/i)).toBeInTheDocument();
+
+    unmount();
+    vi.useRealTimers();
+  });
+
+  it('renders LoadingState with embedded LoadingSpinner and card skeletons', () => {
+    const { unmount } = render(<LoadingState label="Searching campus marketplace..." rows={3} />);
+
+    expect(screen.getByText('Searching campus marketplace...')).toBeInTheDocument();
+    const spinner = document.querySelector('.ce-spinner');
+    expect(spinner).toBeInTheDocument();
+    const skeletons = document.querySelectorAll('.ce-skeleton');
+    expect(skeletons.length).toBe(9); // 3 rows * 3 skeletons per card
+
+    unmount();
+  });
 });
+
 
 

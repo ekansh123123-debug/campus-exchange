@@ -1233,3 +1233,70 @@ textarea {
   }
 }
 
+/* Circular Loading Spinner & Active Feed Pill */
+.ce-spinner {
+  display: inline-block;
+  animation: ce-spin 0.85s linear infinite;
+  transform-origin: center center;
+}
+
+@keyframes ce-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ce-loading-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--ce-radius-pill, 9999px);
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: var(--ce-surface-muted, #f5f5f4);
+  color: var(--ce-primary, #cc785c);
+  border: 1px solid var(--ce-border, rgba(0, 0, 0, 0.08));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  animation: ce-fade-in 200ms ease-out;
+}
+
+.ce-loading-messages-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1rem;
+  min-height: 200px;
+  width: 100%;
+}
+
+@keyframes ce-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ce-spinner {
+    animation: ce-spinner-pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes ce-spinner-pulse {
+    0%, 100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}
+
+

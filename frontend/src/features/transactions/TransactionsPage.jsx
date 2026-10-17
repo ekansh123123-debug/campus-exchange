@@ -148,7 +148,7 @@ export function TransactionsPage() {
       </div>
 
       {isLoading ? (
-        <LoadingState rows={3} />
+        <LoadingState label="Loading campus handovers & reservations..." rows={3} />
       ) : error ? (
         <ErrorState error={error} onRetry={refetch} />
       ) : transactions.length === 0 ? (

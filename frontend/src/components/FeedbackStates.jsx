@@ -1,10 +1,33 @@
 import { AlertTriangle, Inbox } from 'lucide-react';
+import { LoadingSpinner } from './LoadingSpinner.jsx';
 
-export function LoadingState({ label = 'Loading campus data...', rows = 3 }) {
+export { LoadingSpinner };
+
+export function LoadingState({
+  label = 'Loading campus data...',
+  rows = 3,
+  showColdStartHint = true,
+  className = '',
+}) {
   return (
-    <div className="ce-stack" role="status" aria-live="polite">
-      <div className="ce-muted" style={{ fontSize: '0.875rem' }}>
-        {label}
+    <div className={`ce-stack ${className}`} role="status" aria-live="polite">
+      <div
+        className="ce-loading-state-header"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.65rem',
+          padding: '0.45rem 0.25rem',
+        }}
+      >
+        <LoadingSpinner
+          size="sm"
+          color="var(--ce-primary, #cc785c)"
+          showColdStartHint={showColdStartHint}
+        />
+        <div className="ce-muted" style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+          {label}
+        </div>
       </div>
       <div className="ce-grid-cards">
         {Array.from({ length: rows }).map((_, idx) => (

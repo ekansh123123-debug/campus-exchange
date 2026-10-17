@@ -1021,7 +1021,7 @@ export function MyListingsPage() {
       </div>
 
       {isLoading ? (
-        <LoadingState rows={3} />
+        <LoadingState label="Loading your campus listings..." rows={3} />
       ) : error ? (
         <ErrorState error={error} onRetry={refetch} />
       ) : items.length === 0 ? (

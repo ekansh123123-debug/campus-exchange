@@ -176,7 +176,7 @@ export function DashboardPage() {
           </div>
 
           {loadingTx ? (
-            <LoadingState rows={2} />
+            <LoadingState label="Loading recent reservations & handovers..." rows={2} />
           ) : transactions.length === 0 ? (
             <p className="ce-muted" style={{ fontSize: '0.9rem' }}>
               No reservations or exchange requests yet. Browse the marketplace to reserve items.
@@ -224,7 +224,7 @@ export function DashboardPage() {
           </div>
 
           {loadingListings ? (
-            <LoadingState rows={2} />
+            <LoadingState label={`Loading recommended items for ${userBranch}...`} rows={2} />
           ) : deptListings.length === 0 ? (
             <p className="ce-muted" style={{ fontSize: '0.9rem' }}>
               No listings found specifically for {userBranch} yet.
