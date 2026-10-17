@@ -127,7 +127,47 @@ async function dispatchEmail({ toEmail, subject, text, html, purpose }) {
     }
   }
 
-  // 2. Nodemailer SMTP (Gmail / Custom SMTP)
+  // 2. Brevo HTTPS API (Port 443 — bypasses Render Free tier outbound SMTP port blocks)
+  if (env.brevoApiKey) {
+    try {
+      const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': env.brevoApiKey,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          sender: {
+            email: env.smtpUser || 'no-reply@campus.edu',
+            name: 'CampusExchange',
+          },
+          to: [{ email: toEmail }],
+          subject,
+          htmlContent: html,
+          textContent: text,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Brevo API returned HTTP ${res.status}`);
+      }
+
+      logger.info(
+        { event: 'email_sent', provider: 'brevo_api', purpose, recipient: toEmail, messageId: data.messageId },
+        'Email successfully dispatched via Brevo HTTPS API'
+      );
+      return;
+    } catch (err) {
+      logger.error(
+        { event: 'brevo_delivery_failed', purpose, reason: err.message },
+        'Brevo API delivery failed; attempting SMTP transport fallback'
+      );
+    }
+  }
+
+  // 3. Nodemailer SMTP (Gmail / Custom SMTP)
   const transporter = getMailTransporter();
   if (transporter) {
     try {

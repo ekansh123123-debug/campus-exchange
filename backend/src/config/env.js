@@ -64,6 +64,7 @@ export function loadEnv(rawEnv = process.env) {
     const smtpPass = isGmail ? unquotedPass.replace(/\s+/g, '') : unquotedPass;
 
     const resendApiKey = String(rawEnv.RESEND_API_KEY || '').trim();
+    const brevoApiKey = String(rawEnv.BREVO_API_KEY || '').trim();
 
     const emailFrom =
       rawEnv.EMAIL_FROM ||
@@ -101,6 +102,7 @@ export function loadEnv(rawEnv = process.env) {
       smtpUser,
       smtpPass,
       resendApiKey,
+      brevoApiKey,
       imagekitPublicKey: rawEnv.IMAGEKIT_PUBLIC_KEY || '',
       imagekitPrivateKey: rawEnv.IMAGEKIT_PRIVATE_KEY || '',
       imagekitUrlEndpoint: rawEnv.IMAGEKIT_URL_ENDPOINT || '',

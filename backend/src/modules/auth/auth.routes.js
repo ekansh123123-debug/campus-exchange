@@ -8,6 +8,7 @@ import {
 import { validateRequest } from '../../middleware/validate-request.js';
 import {
   devMailPreviewController,
+  mailDiagnosticController,
   forgotPasswordController,
   loginController,
   logoutController,
@@ -78,5 +79,6 @@ router.post(
 );
 
 router.get('/dev-mail-preview', devMailPreviewController);
+router.get('/mail-diagnostic', mailDiagnosticController);
 
 export default router;

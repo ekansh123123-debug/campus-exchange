@@ -94,3 +94,81 @@ export const devMailPreviewController = asyncHandler(async (req, res) => {
   const preview = getDevMailForRecipient(email);
   return sendSuccess(res, { preview }, 200);
 });
+
+export const mailDiagnosticController = asyncHandler(async (req, res) => {
+  const { isSmtpConfigured, getMailTransporter } = await import('../../config/mail.js');
+  const transporter = getMailTransporter();
+
+  const diagnostic = {
+    smtpConfigured: isSmtpConfigured(),
+    resendConfigured: Boolean(env.resendApiKey),
+    brevoConfigured: Boolean(env.brevoApiKey),
+    smtpHost: env.smtpHost || null,
+    smtpPort: env.smtpPort,
+    smtpUser: env.smtpUser
+      ? `${env.smtpUser.slice(0, 3)}***@${env.smtpUser.split('@')[1] || ''}`
+      : null,
+    hasPassword: Boolean(env.smtpPass),
+    passwordLength: env.smtpPass ? env.smtpPass.length : 0,
+    emailFrom: env.emailFrom,
+    renderFirewallNotice:
+      'Render Free tier blocks outbound TCP connections on ports 25, 465, and 587. If connection times out with ETIMEDOUT, Render firewall dropped the connection.',
+  };
+
+  if (env.resendApiKey) {
+    return sendSuccess(res, {
+      ...diagnostic,
+      status: 'RESEND_ACTIVE',
+      message: 'Resend API is configured over HTTPS Port 443 (supported by Render Free tier).',
+    });
+  }
+
+  if (env.brevoApiKey) {
+    return sendSuccess(res, {
+      ...diagnostic,
+      status: 'BREVO_ACTIVE',
+      message: 'Brevo API is configured over HTTPS Port 443 (supported by Render Free tier).',
+    });
+  }
+
+  if (!transporter) {
+    return sendSuccess(res, {
+      ...diagnostic,
+      status: 'NOT_CONFIGURED',
+      message: 'Neither SMTP nor HTTPS API credentials were provided.',
+    });
+  }
+
+  try {
+    await Promise.race([
+      transporter.verify(),
+      new Promise((_, reject) =>
+        setTimeout(
+          () =>
+            reject(
+              new Error(
+                'Connection timed out after 5000ms. Outbound SMTP connection blocked by Render Free tier firewall.'
+              )
+            ),
+          5000
+        )
+      ),
+    ]);
+    return sendSuccess(res, {
+      ...diagnostic,
+      status: 'SMTP_CONNECTED',
+      message: 'Successfully connected and authenticated with SMTP server!',
+    });
+  } catch (err) {
+    return sendSuccess(res, {
+      ...diagnostic,
+      status: 'CONNECTION_FAILED',
+      errorMessage: err.message,
+      errorCode: err.code || null,
+      recommendation:
+        err.message.includes('timed out') || err.code === 'ETIMEDOUT'
+          ? 'Render Free tier blocks outbound SMTP ports 465/587. Configure RESEND_API_KEY or BREVO_API_KEY (HTTPS port 443) or upgrade Render plan.'
+          : 'Check if Google App Password is correct and 2-Step Verification is active.',
+    });
+  }
+});
