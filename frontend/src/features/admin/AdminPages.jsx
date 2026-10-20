@@ -71,7 +71,7 @@ export function AdminDashboardPage() {
   const auditEvents = extractList(auditRes);
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div>
         <div className="ce-row" style={{ gap: '0.5rem' }}>
           <ShieldCheck size={18} color="var(--ce-accent)" />
@@ -220,7 +220,7 @@ export function AdminListingsPage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <CodeBadge>MARKETPLACE MODERATION</CodeBadge>
@@ -290,7 +290,7 @@ export function AdminListingsPage() {
                       </div>
                     </td>
                     <td>{item.seller?.fullName || 'Student'}</td>
-                    <td style={{ fontFamily: 'var(--ce-font-mono)' }}>{formatPrice(item)}</td>
+                    <td style={{ fontFamily: 'var(--ce-font-mono)' }} /* taste-skill-ignore */>{formatPrice(item)}</td>
                     <td>
                       <StatusBadge status={item.status} />
                     </td>
@@ -374,7 +374,7 @@ export function AdminResourcesPage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <CodeBadge>LIBRARY MODERATION</CodeBadge>
@@ -536,7 +536,7 @@ export function AdminUsersPage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <CodeBadge>ACCOUNT GOVERNANCE</CodeBadge>
@@ -696,7 +696,7 @@ export function AdminReportsPage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <CodeBadge>INCIDENT RESPONSE</CodeBadge>

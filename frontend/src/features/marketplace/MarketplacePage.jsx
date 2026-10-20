@@ -124,7 +124,7 @@ export function MarketplacePage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <CodeBadge>CAMPUS MARKETPLACE</CodeBadge>
@@ -142,6 +142,33 @@ export function MarketplacePage() {
             <span>Create Listing</span>
           </Link>
         )}
+      </div>
+
+      {/* Interactive Quick Branch Filter Chips */}
+      <div className="ce-row" style={{ gap: '0.45rem', flexWrap: 'wrap' }}>
+        <button
+          type="button"
+          className={`ce-branch-chip ${!branch ? 'active' : ''}`}
+          onClick={() => {
+            setBranch('');
+            setPage(1);
+          }}
+        >
+          All Branches
+        </button>
+        {BRANCHES.map((b) => (
+          <button
+            key={b}
+            type="button"
+            className={`ce-branch-chip ${branch === b ? 'active' : ''}`}
+            onClick={() => {
+              setBranch(branch === b ? '' : b);
+              setPage(1);
+            }}
+          >
+            {b}
+          </button>
+        ))}
       </div>
 
       <div className="ce-card ce-stack">

@@ -1,0 +1,1858 @@
+{
+ "url": "index.html",
+ "at": "2026-10-20T14:52:43.404Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 3,
+   "filled": [
+    0.73,
+    0.59,
+    0.76
+   ],
+   "motion": {
+    "elements": 47,
+    "css": 45,
+    "transitions": 0,
+    "scripted": 2,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 2333,
+     "screens": 2.6,
+     "words": 407,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 13,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "words": 8,
+     "chars": 48,
+     "lines": 2,
+     "size": 31,
+     "vw": 2.2,
+     "font": "Geist",
+     "weight": 700,
+     "tracking": -0.02,
+     "leading": 1.2,
+     "top": 190,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "words": 8,
+     "lines": 2,
+     "size": 31.2,
+     "font": "Geist"
+    },
+    "headings": [
+     {
+      "text": "Pass down textbooks, lab gear, and verified PYQs",
+      "words": 8,
+      "chars": 48,
+      "lines": 2,
+      "size": 31.2,
+      "vw": 2.2,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.48,
+      "top": 190,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "₹4,420",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.23,
+      "top": 1009,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "30 Papers",
+      "words": 2,
+      "chars": 9,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.23,
+      "top": 1009,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "13 Students",
+      "words": 2,
+      "chars": 11,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.23,
+      "top": 1009,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 4,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Geist",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      13,
+      14,
+      15,
+      16,
+      17,
+      20,
+      22,
+      26,
+      28,
+      31
+     ],
+     "sizeCount": 10,
+     "notLoaded": [],
+     "body": {
+      "font": "Geist",
+      "size": 14.1,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.6
+     },
+     "measureChars": 85,
+     "max": {
+      "size": 31.2,
+      "vw": 2.2,
+      "font": "Geist",
+      "text": "Pass down textbooks, lab gear, and verif"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.06,
+     "centerShare": 0.1,
+     "smallText": 10
+    },
+    "eyebrows": [
+     {
+      "text": "VERIFIED COLLEGE NETWORK",
+      "above": "Pass down textbooks, lab gear, and verif",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": true,
+      "size": 13,
+      "top": 142
+     },
+     {
+      "text": "ESTIMATED SEMESTER SAVINGS",
+      "above": "₹4,420",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.5,
+      "top": 984
+     },
+     {
+      "text": "AVAILABLE EXAM PAPERS & NOTES",
+      "above": "30 Papers",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.5,
+      "top": 984
+     },
+     {
+      "text": "ACTIVE PEER SELLERS",
+      "above": "13 Students",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.5,
+      "top": 984
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f8fafc",
+     "bodyBgHsl": {
+      "h": 210,
+      "s": 0.4,
+      "l": 0.98
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f1f5f9",
+       "top": 97,
+       "hsl": {
+        "h": 210,
+        "s": 0.4,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 699,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#475569",
+       "share": 0.53
+      },
+      {
+       "color": "#0f172a",
+       "share": 0.24
+      },
+      {
+       "color": "#1e293b",
+       "share": 0.14
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.03
+      },
+      {
+       "color": "#0f3b75",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#0f172a"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 19,
+     "inHero": 7,
+     "radius": "pill",
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Sign In",
+      "Verify Campus ID",
+      "Join with College Email",
+      "Browse Marketplace",
+      "Explore PYQ Library"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 3,
+     "hairlineSamples": [
+      "header.ce-navbar 1440px",
+      "footer.ce-footer 1440px",
+      "div.ce-row-between 1192px"
+     ],
+     "outlinedBoxes": 10,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 10,
+     "boxRadius": 12,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 478
+      },
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 967
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 5,
+     "fixed": true,
+     "height": 65,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "geist"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 2333,
+    "margins": {
+     "left": 124,
+     "right": 124
+    },
+    "sections": [
+     {
+      "sel": "main.ce-main",
+      "tag": "main",
+      "top": 65,
+      "height": 1971,
+      "words": 339,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Pass down textbooks, lab gear, and verified PYQs",
+       "size": 31,
+       "tag": "h1"
+      },
+      "left": 124,
+      "right": 124,
+      "textLeft": 124,
+      "textRight": 135,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "footer.ce-footer",
+      "tag": "footer",
+      "top": 2036,
+      "height": 297,
+      "words": 68,
+      "media": 0,
+      "middle": 313,
+      "heading": null,
+      "left": 124,
+      "right": 124,
+      "textLeft": 124,
+      "textRight": 124,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Pass down textbooks, lab gear, and verified PYQs",
+      "size": 31,
+      "top": 190,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 124,
+      "n": 4
+     },
+     {
+      "x": 169,
+      "n": 3
+     },
+     {
+      "x": 149,
+      "n": 2
+     },
+     {
+      "x": 192,
+      "n": 1
+     },
+     {
+      "x": 565,
+      "n": 1
+     },
+     {
+      "x": 939,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 12,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.13,
+    "voidBox": {
+     "x": 0,
+     "y": 600,
+     "w": 1440,
+     "h": 120
+    }
+   },
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": false,
+    "ground": "#f8fafc",
+    "sidebar": null,
+    "topbar": {
+     "h": 65
+    },
+    "canvas": {
+     "left": 124,
+     "right": 124
+    },
+    "hero": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "words": 8,
+     "chars": 48,
+     "lines": 2,
+     "size": 31,
+     "vw": 2.2,
+     "font": "Geist",
+     "weight": 700,
+     "tracking": -0.02,
+     "leading": 1.2,
+     "top": 190,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 8,
+     "firstScreen": 2,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 14,
+     "radii": [
+      [
+       8,
+       7
+      ],
+      [
+       12,
+       6
+      ],
+      [
+       16,
+       1
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 1,
+     "tabularShare": 0,
+     "kpiMax": 14.08
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.05,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      20,
+      22,
+      26,
+      28,
+      31
+     ]
+    },
+    "title": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "size": 31,
+     "top": 190
+    },
+    "colourShare": 0.009
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 3,
+   "filled": [
+    0.92,
+    0.9,
+    0.74
+   ],
+   "motion": {
+    "elements": 47,
+    "css": 45,
+    "transitions": 0,
+    "scripted": 2,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 2989,
+     "screens": 2.9,
+     "words": 398,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 13,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "words": 8,
+     "chars": 48,
+     "lines": 2,
+     "size": 22,
+     "vw": 2.9,
+     "font": "Geist",
+     "weight": 700,
+     "tracking": -0.03,
+     "leading": 1.2,
+     "top": 170,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "words": 8,
+     "lines": 2,
+     "size": 22.4,
+     "font": "Geist"
+    },
+    "headings": [
+     {
+      "text": "₹4,420",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 1164,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "30 Papers",
+      "words": 2,
+      "chars": 9,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 1310,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "13 Students",
+      "words": 2,
+      "chars": 11,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 1455,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Recent Campus Listings",
+      "words": 3,
+      "chars": 22,
+      "lines": 1,
+      "size": 26.4,
+      "vw": 3.4,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": -0.02,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.68,
+      "top": 2074,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Approved PYQ & Study Library",
+      "words": 5,
+      "chars": 28,
+      "lines": 1,
+      "size": 26.4,
+      "vw": 3.4,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": -0.02,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.67,
+      "top": 2269,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Geist",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      13,
+      14,
+      15,
+      16,
+      17,
+      20,
+      22,
+      26,
+      28
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Geist",
+      "size": 14.1,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.6
+     },
+     "measureChars": 80,
+     "max": {
+      "size": 28,
+      "vw": 3.6,
+      "font": "Geist",
+      "text": "₹4,420"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.06,
+     "centerShare": 0.11,
+     "smallText": 10
+    },
+    "eyebrows": [
+     {
+      "text": "ESTIMATED SEMESTER SAVINGS",
+      "above": "₹4,420",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.5,
+      "top": 1139
+     },
+     {
+      "text": "AVAILABLE EXAM PAPERS & NOTES",
+      "above": "30 Papers",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.5,
+      "top": 1285
+     },
+     {
+      "text": "ACTIVE PEER SELLERS",
+      "above": "13 Students",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.5,
+      "top": 1430
+     },
+     {
+      "text": "Verified lecture notes & waveform guide ·",
+      "above": "Recent Campus Listings",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.8,
+      "top": 2001
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f8fafc",
+     "bodyBgHsl": {
+      "h": 210,
+      "s": 0.4,
+      "l": 0.98
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f1f5f9",
+       "top": 97,
+       "hsl": {
+        "h": 210,
+        "s": 0.4,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 831,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#475569",
+       "share": 0.54
+      },
+      {
+       "color": "#0f172a",
+       "share": 0.24
+      },
+      {
+       "color": "#1e293b",
+       "share": 0.13
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.03
+      },
+      {
+       "color": "#0f3b75",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#0f172a"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 17,
+     "inHero": 5,
+     "radius": "pill",
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Join with College Email",
+      "Browse Marketplace",
+      "Explore PYQ Library",
+      "MECH",
+      "CIVIL"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 3,
+     "hairlineSamples": [
+      "header.ce-navbar 768px",
+      "footer.ce-footer 768px",
+      "div.ce-row-between 720px"
+     ],
+     "outlinedBoxes": 10,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 10,
+     "boxRadius": 12,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 437
+      },
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1122
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": true,
+     "height": 65,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "geist"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 2989,
+    "margins": {
+     "left": 24,
+     "right": 35
+    },
+    "sections": [
+     {
+      "sel": "main.ce-main",
+      "tag": "main",
+      "top": 65,
+      "height": 2454,
+      "words": 339,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "4,420",
+       "size": 28,
+       "tag": "div"
+      },
+      "left": 24,
+      "right": 24,
+      "textLeft": 24,
+      "textRight": 35,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "footer.ce-footer",
+      "tag": "footer",
+      "top": 2519,
+      "height": 469,
+      "words": 68,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 24,
+      "right": 278,
+      "textLeft": 24,
+      "textRight": 278,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Pass down textbooks, lab gear, and verified PYQs",
+      "size": 22,
+      "top": 170,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 24,
+      "n": 4
+     },
+     {
+      "x": 49,
+      "n": 4
+     },
+     {
+      "x": 72,
+      "n": 4
+     }
+    ],
+    "leftBlocks": 12,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": false,
+    "ground": "#f8fafc",
+    "sidebar": null,
+    "topbar": {
+     "h": 65
+    },
+    "canvas": {
+     "left": 24,
+     "right": 33
+    },
+    "hero": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "words": 8,
+     "chars": 48,
+     "lines": 2,
+     "size": 22,
+     "vw": 2.9,
+     "font": "Geist",
+     "weight": 700,
+     "tracking": -0.03,
+     "leading": 1.2,
+     "top": 170,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 9,
+     "firstScreen": 2,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 15,
+     "radii": [
+      [
+       8,
+       7
+      ],
+      [
+       12,
+       6
+      ],
+      [
+       16,
+       1
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 1,
+     "tabularShare": 0,
+     "kpiMax": 14.08
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.05,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      20,
+      22,
+      26,
+      28
+     ]
+    },
+    "title": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "size": 22,
+     "top": 170
+    },
+    "colourShare": 0.015
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 6,
+   "filled": [
+    0.86,
+    0.92,
+    0.73,
+    0.63,
+    0.87,
+    0.93
+   ],
+   "motion": {
+    "elements": 8,
+    "css": 6,
+    "transitions": 0,
+    "scripted": 2,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 4389,
+     "screens": 5.2,
+     "words": 398,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 13,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "words": 8,
+     "chars": 48,
+     "lines": 2,
+     "size": 22,
+     "vw": 5.7,
+     "font": "Geist",
+     "weight": 700,
+     "tracking": -0.03,
+     "leading": 1.2,
+     "top": 239,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "words": 8,
+     "lines": 2,
+     "size": 22.4,
+     "font": "Geist"
+    },
+    "headings": [
+     {
+      "text": "Pass down textbooks, lab gear, and verified PYQs",
+      "words": 8,
+      "chars": 48,
+      "lines": 2,
+      "size": 22.4,
+      "vw": 5.7,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.79,
+      "top": 239,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "₹4,420",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.68,
+      "top": 1751,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "30 Papers",
+      "words": 2,
+      "chars": 9,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.68,
+      "top": 1897,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "13 Students",
+      "words": 2,
+      "chars": 11,
+      "lines": 1,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.55,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.68,
+      "top": 2043,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Recent Campus Listings",
+      "words": 3,
+      "chars": 22,
+      "lines": 1,
+      "size": 26.4,
+      "vw": 6.8,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": -0.02,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 2923,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Approved PYQ & Study Library",
+      "words": 5,
+      "chars": 28,
+      "lines": 2,
+      "size": 26.4,
+      "vw": 6.8,
+      "font": "Geist",
+      "weight": 700,
+      "tracking": -0.02,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 3243,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Geist",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      13,
+      14,
+      15,
+      16,
+      17,
+      20,
+      22,
+      26,
+      28
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Geist",
+      "size": 14.1,
+      "leading": 1.55,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.6
+     },
+     "measureChars": 37,
+     "max": {
+      "size": 28,
+      "vw": 7.2,
+      "font": "Geist",
+      "text": "₹4,420"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.06,
+     "centerShare": 0.11,
+     "smallText": 10
+    },
+    "eyebrows": [
+     {
+      "text": "ESTIMATED SEMESTER SAVINGS",
+      "above": "₹4,420",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.5,
+      "top": 1726
+     },
+     {
+      "text": "AVAILABLE EXAM PAPERS & NOTES",
+      "above": "30 Papers",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.5,
+      "top": 1872
+     },
+     {
+      "text": "ACTIVE PEER SELLERS",
+      "above": "13 Students",
+      "upper": true,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.5,
+      "top": 2018
+     },
+     {
+      "text": "Verified lecture notes & waveform guide ·",
+      "above": "Recent Campus Listings",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12.8,
+      "top": 2830
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f8fafc",
+     "bodyBgHsl": {
+      "h": 210,
+      "s": 0.4,
+      "l": 0.98
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f1f5f9",
+       "top": 97,
+       "hsl": {
+        "h": 210,
+        "s": 0.4,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 1252,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#475569",
+       "share": 0.54
+      },
+      {
+       "color": "#0f172a",
+       "share": 0.24
+      },
+      {
+       "color": "#1e293b",
+       "share": 0.13
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.03
+      },
+      {
+       "color": "#0f3b75",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#0f172a"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 17,
+     "inHero": 3,
+     "radius": "pill",
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Join with College Email",
+      "Browse Marketplace",
+      "Explore PYQ Library"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 3,
+     "hairlineSamples": [
+      "header.ce-navbar 390px",
+      "footer.ce-footer 390px",
+      "div.ce-row-between 358px"
+     ],
+     "outlinedBoxes": 14,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 14,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 702
+      },
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 1709
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": true,
+     "height": 65,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "geist"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 4389,
+    "margins": {
+     "left": 16,
+     "right": 24
+    },
+    "sections": [
+     {
+      "sel": "main.ce-main",
+      "tag": "main",
+      "top": 65,
+      "height": 3588,
+      "words": 339,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Pass down textbooks, lab gear, and verified PYQs",
+       "size": 22,
+       "tag": "h1"
+      },
+      "left": 16,
+      "right": 27,
+      "textLeft": 16,
+      "textRight": 27,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "footer.ce-footer",
+      "tag": "footer",
+      "top": 3653,
+      "height": 736,
+      "words": 68,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 16,
+      "right": 17,
+      "textLeft": 16,
+      "textRight": 17,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Pass down textbooks, lab gear, and verified PYQs",
+      "size": 22,
+      "top": 239,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 16,
+      "n": 4
+     },
+     {
+      "x": 41,
+      "n": 4
+     },
+     {
+      "x": 64,
+      "n": 4
+     }
+    ],
+    "leftBlocks": 12,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": false,
+    "ground": "#f8fafc",
+    "sidebar": null,
+    "topbar": {
+     "h": 65
+    },
+    "canvas": {
+     "left": 16,
+     "right": 21
+    },
+    "hero": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "words": 8,
+     "chars": 48,
+     "lines": 2,
+     "size": 22,
+     "vw": 5.7,
+     "font": "Geist",
+     "weight": 700,
+     "tracking": -0.03,
+     "leading": 1.2,
+     "top": 239,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 9,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 15,
+     "radii": [
+      [
+       8,
+       7
+      ],
+      [
+       12,
+       6
+      ],
+      [
+       16,
+       1
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 1,
+     "tabularShare": 0,
+     "kpiMax": 14.08
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.05,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      20,
+      22,
+      26,
+      28
+     ]
+    },
+    "title": {
+     "text": "Pass down textbooks, lab gear, and verified PYQs",
+     "size": 22,
+     "top": 239
+    },
+    "colourShare": 0.03
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "below-fold",
+   "width": 1440,
+   "message": "Only 2 of 8 blocks start on the first 1440px screen.",
+   "fix": "Every block the brief names shows its header and first rows on the first desktop screen: size the headline block to its question, cap long lists with \"View all\", and put time-sensitive blocks before long tables."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "E:\\new project\\mini-project-1\\frontend\\.taste-skill\\after\\desktop-fold.jpg",
+   "pages": [
+    "E:\\new project\\mini-project-1\\frontend\\.taste-skill\\after\\desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "E:\\new project\\mini-project-1\\frontend\\.taste-skill\\after\\tablet-fold.jpg",
+   "pages": [
+    "E:\\new project\\mini-project-1\\frontend\\.taste-skill\\after\\tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "E:\\new project\\mini-project-1\\frontend\\.taste-skill\\after\\mobile-fold.jpg",
+   "pages": [
+    "E:\\new project\\mini-project-1\\frontend\\.taste-skill\\after\\mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

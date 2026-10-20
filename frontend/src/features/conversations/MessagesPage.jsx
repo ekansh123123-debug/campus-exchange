@@ -96,7 +96,7 @@ export function MessagesPage() {
   if (convError) return <ErrorState error={convError} onRetry={refetchConvs} />;
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div>
         <CodeBadge>IN-APP PEER MESSAGING</CodeBadge>
         <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
@@ -238,6 +238,7 @@ export function MessagesPage() {
                       return (
                         <div
                           key={msg.messageCode || msg.id}
+                          className="ce-chat-bubble-enter"
                           style={{
                             alignSelf: isMine ? 'flex-end' : 'flex-start',
                             maxWidth: '80%',
@@ -285,12 +286,28 @@ export function MessagesPage() {
                   )}
                 </div>
 
+                {/* Quick Campus Handover Location Chips */}
+                <div className="ce-row" style={{ gap: '0.4rem', flexWrap: 'wrap', padding: '0.2rem 0' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--ce-muted)' }}>Meet point:</span>
+                  {['Central Library', 'Main Canteen', 'Mechanical Block', 'Campus Gate 1'].map((loc) => (
+                    <button
+                      key={loc}
+                      type="button"
+                      className="ce-branch-chip"
+                      style={{ padding: '2px 9px', fontSize: '0.75rem' }}
+                      onClick={() => setBody((prev) => (prev ? `${prev} (Meet at ${loc})` : `Meet at ${loc}?`))}
+                    >
+                      {loc}
+                    </button>
+                  ))}
+                </div>
+
                 <form
                   onSubmit={handleSendMessage}
                   className="ce-stack"
                   style={{
                     gap: '0.35rem',
-                    paddingTop: '0.75rem',
+                    paddingTop: '0.45rem',
                     borderTop: '1px solid var(--ce-border)',
                   }}
                 >

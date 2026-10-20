@@ -77,7 +77,7 @@ export function ProfilePage() {
   const avgRating = user?.ratingAverage ?? user?.averageRating ?? 0;
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div>
         <CodeBadge>VERIFIED ACADEMIC IDENTITY</CodeBadge>
         <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
@@ -246,7 +246,10 @@ export function ProfilePage() {
                       <strong>
                         {rev.author?.fullName || rev.reviewer?.fullName || 'Verified Buyer'}
                       </strong>
-                      <span className="ce-badge ce-badge-warning">{rev.rating} / 5 ★</span>
+                      <span className="ce-badge ce-badge-warning ce-row" style={{ gap: '0.25rem' }}>
+                        <span>{rev.rating} / 5</span>
+                        <Star size={12} fill="currentColor" />
+                      </span>
                     </div>
                     <p style={{ margin: '0.35rem 0 0', fontSize: '0.88rem' }}>{rev.comment}</p>
                     <div className="ce-muted" style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>

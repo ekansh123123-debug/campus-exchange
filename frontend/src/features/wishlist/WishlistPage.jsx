@@ -39,7 +39,7 @@ export function WishlistPage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div>
         <CodeBadge>SAVED ITEMS</CodeBadge>
         <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
@@ -67,7 +67,7 @@ export function WishlistPage() {
           {items.map((entry) => {
             const listing = entry.listing || entry;
             return (
-              <div key={listing.listingCode} className="ce-card ce-stack" style={{ justifyContent: 'space-between' }}>
+              <div key={listing.listingCode} className="ce-card ce-card-interactive ce-stack" style={{ justifyContent: 'space-between' }}>
                 <div className="ce-stack" style={{ gap: '0.5rem' }}>
                   <div className="ce-row-between">
                     <CodeBadge>{listing.listingCode}</CodeBadge>

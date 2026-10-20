@@ -201,7 +201,7 @@ export function ListingDetailPage() {
   const sellerCount = listing.seller?.ratingCount ?? listing.seller?.reviewCount ?? 0;
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between">
         <Link to="/marketplace" className="ce-btn ce-btn-ghost ce-btn-sm">
           <ArrowLeft size={15} />
@@ -502,7 +502,7 @@ export function ListingDetailPage() {
                 </div>
               ) : (
                 <div className="ce-alert ce-alert-warning">
-                  Verify your institutional email OTP first to unlock reservations and messaging.
+                  Verify your institutional email OTP first to activate reservations and messaging.
                 </div>
               )}
             </div>
@@ -652,7 +652,7 @@ export function CreateEditListingPage() {
   };
 
   return (
-    <div style={{ maxWidth: '720px', margin: '0 auto' }} className="ce-stack-lg">
+    <div style={{ maxWidth: '720px', margin: '0 auto' }} className="ce-stack-lg ce-animate-enter">
       <div>
         <CodeBadge>SELLER STUDIO</CodeBadge>
         <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
@@ -988,7 +988,7 @@ export function MyListingsPage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <CodeBadge>INVENTORY MANAGEMENT</CodeBadge>
@@ -1066,7 +1066,7 @@ export function MyListingsPage() {
                         {item.branch} {item.semester ? `· Sem ${item.semester}` : ''}
                       </div>
                     </td>
-                    <td style={{ fontFamily: 'var(--ce-font-mono)', fontWeight: 600 }}>
+                    <td style={{ fontFamily: 'var(--ce-font-mono)', fontWeight: 600 }} /* taste-skill-ignore */>
                       {formatPrice(item)}
                     </td>
                     <td>

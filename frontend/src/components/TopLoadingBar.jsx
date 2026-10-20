@@ -1,16 +1,30 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useLocation, useInRouterContext } from 'react-router-dom';
 import { useIsFetching, useIsMutating } from '@tanstack/react-query';
 import { subscribeToActiveRequests, getActiveRequestCount } from '../lib/api-client.js';
 
+function RouteWatcher({ onRouteChange }) {
+  const location = useLocation();
+  const prevRef = useRef(location.pathname);
+  useEffect(() => {
+    if (prevRef.current !== location.pathname) {
+      prevRef.current = location.pathname;
+      onRouteChange();
+    }
+  }, [location.pathname, onRouteChange]);
+  return null;
+}
+
 /**
- * TopLoadingBar tracks both TanStack Query fetches/mutations and direct
- * apiRequest calls to display a smooth, responsive top progress bar.
+ * TopLoadingBar tracks both TanStack Query fetches/mutations, direct
+ * apiRequest calls, and route transitions to display a smooth, responsive top progress bar.
  *
  * Given that the frontend is on Vercel and backend is on Render,
  * it includes smooth trickling progress and a helpful cold-start status badge
  * when a request takes longer than 3.5 seconds.
  */
 export function TopLoadingBar() {
+  const inRouter = useInRouterContext();
   const isFetching = useIsFetching();
   const isMutating = useIsMutating();
   const [apiRequests, setApiRequests] = useState(getActiveRequestCount);
@@ -124,44 +138,68 @@ export function TopLoadingBar() {
     };
   }, []);
 
-  if (!visible) return null;
+  const handleRouteChange = useCallback(() => {
+    if (isBusy) return;
+    setVisible(true);
+    setFading(false);
+    setProgress(32);
+    setTimeout(() => {
+      setProgress((p) => (p >= 32 && p < 100 ? 78 : p));
+      setTimeout(() => {
+        setProgress(100);
+        setTimeout(() => {
+          setFading(true);
+          setTimeout(() => {
+            setVisible(false);
+            setFading(false);
+            setProgress(0);
+          }, 240);
+        }, 120);
+      }, 90);
+    }, 60);
+  }, [isBusy]);
 
   return (
-    <div
-      className="ce-top-loading-bar-container"
-      role="progressbar"
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={Math.min(100, Math.round(progress))}
-      aria-label="Loading data from campus backend"
-      aria-busy={isBusy}
-      style={{
-        opacity: fading ? 0 : 1,
-        transition: 'opacity 260ms ease-in-out',
-      }}
-    >
-      <div
-        className="ce-top-loading-bar"
-        style={{
-          width: `${Math.min(100, Math.max(0, progress))}%`,
-          opacity: fading ? 0 : 1,
-          transition: progress <= 16 ? 'none' : 'width 220ms ease-out, opacity 260ms ease-in-out',
-        }}
-      >
-        <div className="ce-top-loading-peg" />
-      </div>
-
-      {isColdStarting && (
-        <aside
-          className="ce-cold-start-banner"
-          role="status"
-          aria-live="polite"
+    <>
+      {inRouter && <RouteWatcher onRouteChange={handleRouteChange} />}
+      {visible && (
+        <div
+          className="ce-top-loading-bar-container"
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.min(100, Math.round(progress))}
+          aria-label="Loading data from campus backend"
+          aria-busy={isBusy}
+          style={{
+            opacity: fading ? 0 : 1,
+            transition: 'opacity 260ms ease-in-out',
+          }}
         >
-          <span className="ce-cold-start-dot" aria-hidden="true" />
-          <span>Connecting to backend (Render cold start)...</span>
-        </aside>
+          <div
+            className="ce-top-loading-bar"
+            style={{
+              width: `${Math.min(100, Math.max(0, progress))}%`,
+              opacity: fading ? 0 : 1,
+              transition: progress <= 16 ? 'none' : 'width 220ms ease-out, opacity 260ms ease-in-out',
+            }}
+          >
+            <div className="ce-top-loading-peg" />
+          </div>
+
+          {isColdStarting && (
+            <aside
+              className="ce-cold-start-banner"
+              role="status"
+              aria-live="polite"
+            >
+              <span className="ce-cold-start-dot" aria-hidden="true" />
+              <span>Connecting to backend (Render cold start)...</span>
+            </aside>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }
 

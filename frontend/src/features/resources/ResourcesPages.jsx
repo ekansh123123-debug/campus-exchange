@@ -120,7 +120,7 @@ export function ResourcesPage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <CodeBadge>ACADEMIC RESOURCE & PYQ ARCHIVE</CodeBadge>
@@ -153,6 +153,29 @@ export function ResourcesPage() {
             </Link>
           )}
         </div>
+      </div>
+
+      {/* Interactive Quick Resource Type Chips */}
+      <div className="ce-row" style={{ gap: '0.45rem', flexWrap: 'wrap' }}>
+        {[
+          { label: 'All Resources', val: '' },
+          { label: 'Exam PYQs', val: 'pyq' },
+          { label: 'Lecture Notes', val: 'notes' },
+          { label: 'Lab Manuals', val: 'lab_manual' },
+          { label: 'Syllabus Guides', val: 'syllabus' },
+        ].map((t) => (
+          <button
+            key={t.val}
+            type="button"
+            className={`ce-branch-chip ${resourceType === t.val ? 'active' : ''}`}
+            onClick={() => {
+              setResourceType(t.val);
+              setPage(1);
+            }}
+          >
+            {t.label}
+          </button>
+        ))}
       </div>
 
       {!showMine && (
@@ -346,7 +369,7 @@ export function ResourcesPage() {
               return (
                 <div
                   key={item.resourceCode}
-                  className="ce-card ce-stack"
+                  className="ce-card ce-card-interactive ce-stack"
                   style={{ justifyContent: 'space-between' }}
                 >
                   <div className="ce-stack" style={{ gap: '0.55rem' }}>

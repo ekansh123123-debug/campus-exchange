@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
  */
 export function LoadingSpinner({
   size = 'md',
-  color = 'var(--ce-primary, #cc785c)',
+  color = 'var(--ce-primary, #0f3b75)',
   label = null,
   orientation = 'horizontal',
   showColdStartHint = false,

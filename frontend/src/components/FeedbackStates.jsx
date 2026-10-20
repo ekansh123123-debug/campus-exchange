@@ -227,7 +227,7 @@ export function LoadingState({
       >
         <LoadingSpinner
           size="sm"
-          color="var(--ce-primary, #cc785c)"
+          color="var(--ce-primary, #0f3b75)"
           showColdStartHint={showColdStartHint}
         />
         <div className="ce-muted" style={{ fontSize: '0.875rem', fontWeight: 500 }}>

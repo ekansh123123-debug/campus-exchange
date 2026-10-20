@@ -50,7 +50,7 @@ export function NotificationsPage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <CodeBadge>IN-APP ACTIVITY STREAM</CodeBadge>
@@ -89,7 +89,7 @@ export function NotificationsPage() {
             return (
               <div
                 key={item.notificationCode}
-                className="ce-card ce-row-between"
+                className="ce-card ce-card-interactive ce-row-between"
                 style={{
                   borderLeft: read
                     ? '1px solid var(--ce-border)'

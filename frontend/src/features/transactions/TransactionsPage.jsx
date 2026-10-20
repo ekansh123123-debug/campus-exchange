@@ -103,7 +103,7 @@ export function TransactionsPage() {
   };
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <CodeBadge>RESERVATIONS & HANDOVERS</CodeBadge>
@@ -172,7 +172,7 @@ export function TransactionsPage() {
             const st = String(tx.status || '').toLowerCase();
 
             return (
-              <div key={tx.transactionCode} className="ce-card ce-stack" style={{ gap: '0.85rem' }}>
+              <div key={tx.transactionCode} className="ce-card ce-card-interactive ce-stack" style={{ gap: '0.85rem' }}>
                 <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
                   <div className="ce-row" style={{ gap: '0.5rem', flexWrap: 'wrap' }}>
                     <CodeBadge>{tx.transactionCode}</CodeBadge>
@@ -183,6 +183,26 @@ export function TransactionsPage() {
                   </div>
                   <StatusBadge status={tx.status} />
                 </div>
+
+                {/* Handover Concurrency & Progress Timeline */}
+                {['reserved', 'pending_exchange', 'accepted', 'completed'].includes(st) && (
+                  <div className="ce-timeline" style={{ padding: '0.5rem 0.75rem', background: 'var(--ce-surface-soft)', borderRadius: 'var(--radius-md)' }}>
+                    <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
+                      <div className={`ce-timeline-step ${st !== '' ? 'active' : ''}`}>
+                        <span className="ce-timeline-dot" />
+                        <span>1. Single-Active Reserved</span>
+                      </div>
+                      <div className={`ce-timeline-step ${['accepted', 'completed'].includes(st) ? 'active' : ''}`}>
+                        <span className="ce-timeline-dot" />
+                        <span>2. Handover Meeting Set</span>
+                      </div>
+                      <div className={`ce-timeline-step ${st === 'completed' ? 'active' : ''}`}>
+                        <span className="ce-timeline-dot" />
+                        <span>3. Code Confirmed</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
                   <div>

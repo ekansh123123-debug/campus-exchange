@@ -44,6 +44,7 @@ export function AppRouter() {
       <Route element={<AppShell />}>
         {/* Public & Guest Routes */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/index.html" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />

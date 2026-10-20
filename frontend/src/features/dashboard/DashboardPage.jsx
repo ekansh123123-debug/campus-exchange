@@ -57,7 +57,7 @@ export function DashboardPage() {
   const ratingCount = user?.ratingCount ?? user?.reviewCount ?? 0;
 
   return (
-    <div className="ce-stack-lg">
+    <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-card" style={{ background: 'var(--ce-bg-elevated)' }}>
         <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
           <div className="ce-stack" style={{ gap: '0.4rem' }}>
@@ -101,7 +101,7 @@ export function DashboardPage() {
       </div>
 
       <div className="ce-grid-4">
-        <div className="ce-kpi-card">
+        <div className="ce-kpi-card ce-card-interactive">
           <div className="ce-row-between">
             <span className="ce-muted" style={{ fontSize: '0.82rem' }}>
               TRUST RATING
@@ -114,9 +114,15 @@ export function DashboardPage() {
           <span className="ce-muted" style={{ fontSize: '0.8rem' }}>
             {ratingCount} verified handover reviews
           </span>
+          <div className="ce-progress-track" style={{ marginTop: '0.45rem', height: '4px' }}>
+            <div
+              className="ce-progress-fill ce-progress-fill-teal"
+              style={{ width: `${Math.min(100, Math.max(15, (avgRating / 5) * 100))}%` }}
+            />
+          </div>
         </div>
 
-        <div className="ce-kpi-card">
+        <div className="ce-kpi-card ce-card-interactive">
           <div className="ce-row-between">
             <span className="ce-muted" style={{ fontSize: '0.82rem' }}>
               MY LISTINGS
@@ -129,9 +135,15 @@ export function DashboardPage() {
           <Link to="/my-listings" style={{ fontSize: '0.8rem', color: 'var(--ce-accent)' }}>
             Manage inventory →
           </Link>
+          <div className="ce-progress-track" style={{ marginTop: '0.45rem', height: '4px' }}>
+            <div
+              className="ce-progress-fill"
+              style={{ width: `${Math.min(100, (myListings.length / 5) * 100)}%` }}
+            />
+          </div>
         </div>
 
-        <div className="ce-kpi-card">
+        <div className="ce-kpi-card ce-card-interactive">
           <div className="ce-row-between">
             <span className="ce-muted" style={{ fontSize: '0.82rem' }}>
               ACTIVE HANDOVERS
@@ -152,9 +164,15 @@ export function DashboardPage() {
           <Link to="/transactions" style={{ fontSize: '0.8rem', color: 'var(--ce-accent)' }}>
             View reservations →
           </Link>
+          <div className="ce-progress-track" style={{ marginTop: '0.45rem', height: '4px' }}>
+            <div
+              className="ce-progress-fill ce-progress-fill-sky"
+              style={{ width: transactions.length > 0 ? '75%' : '0%' }}
+            />
+          </div>
         </div>
 
-        <div className="ce-kpi-card">
+        <div className="ce-kpi-card ce-card-interactive">
           <div className="ce-row-between">
             <span className="ce-muted" style={{ fontSize: '0.82rem' }}>
               CAMPUS VERIFICATION
@@ -167,6 +185,12 @@ export function DashboardPage() {
           <span className="ce-muted" style={{ fontSize: '0.8rem' }}>
             Institutional access active
           </span>
+          <div className="ce-progress-track" style={{ marginTop: '0.45rem', height: '4px' }}>
+            <div
+              className="ce-progress-fill ce-progress-fill-teal"
+              style={{ width: isVerifiedStudent ? '100%' : '35%' }}
+            />
+          </div>
         </div>
       </div>
 

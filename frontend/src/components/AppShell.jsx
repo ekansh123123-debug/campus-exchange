@@ -65,7 +65,10 @@ export function AppShell() {
             {/* Clickable Brand Logo */}
             <Link to={isAuthenticated ? '/app' : '/'} className="ce-brand" aria-label="CampusExchange Home">
               <span>CampusExchange</span>
-              <span className="ce-brand-badge">VERIFIED CAMPUS</span>
+              <span className="ce-brand-badge ce-row" style={{ gap: '0.35rem', alignItems: 'center' }}>
+                <span className="ce-pulse-beacon" aria-hidden="true" style={{ width: 6, height: 6 }} />
+                VERIFIED CAMPUS
+              </span>
             </Link>
 
             {/* Desktop Navigation Links */}
@@ -240,7 +243,7 @@ export function AppShell() {
 
         {/* Responsive Mobile Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="ce-mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+          <div className="ce-mobile-drawer ce-animate-enter" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
             {isAuthenticated ? (
               <div className="ce-mobile-user-card">
                 <div className="ce-row" style={{ gap: '0.65rem' }}>
