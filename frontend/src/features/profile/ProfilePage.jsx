@@ -6,6 +6,7 @@ import { BRANCHES, ACADEMIC_YEARS } from '../../lib/constants.js';
 import { extractList, formatDate } from '../../lib/formatters.js';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
+import { ListRowSkeleton } from '../../components/FeedbackStates.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
 import { usePageTitle } from '../../lib/usePageTitle.js';
@@ -26,13 +27,13 @@ export function ProfilePage() {
   });
   const [saving, setSaving] = useState(false);
 
-  const { data: reviewsRes } = useQuery({
+  const { data: reviewsRes, isLoading: loadingReviews } = useQuery({
     queryKey: ['user', user?.userCode, 'reviews'],
     queryFn: () => apiRequest(`/users/${user?.userCode}/reviews`),
     enabled: Boolean(user?.userCode),
   });
 
-  const { data: reportsRes } = useQuery({
+  const { data: reportsRes, isLoading: loadingReports } = useQuery({
     queryKey: ['reports', 'mine'],
     queryFn: () => apiRequest('/reports/mine'),
   });
@@ -223,7 +224,9 @@ export function ProfilePage() {
               </div>
             </div>
 
-            {reviews.length === 0 ? (
+            {loadingReviews ? (
+              <ListRowSkeleton count={2} />
+            ) : reviews.length === 0 ? (
               <p className="ce-muted" style={{ fontSize: '0.88rem', margin: 0 }}>
                 Reviews appear here once buyers complete campus handovers with you.
               </p>
@@ -257,7 +260,9 @@ export function ProfilePage() {
 
           <div className="ce-card ce-stack">
             <h2 className="ce-card-title">My Submitted Policy Reports ({myReports.length})</h2>
-            {myReports.length === 0 ? (
+            {loadingReports ? (
+              <ListRowSkeleton count={2} />
+            ) : myReports.length === 0 ? (
               <p className="ce-muted" style={{ fontSize: '0.88rem', margin: 0 }}>
                 You have not filed any moderation reports.
               </p>

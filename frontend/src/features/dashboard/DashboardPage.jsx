@@ -15,7 +15,7 @@ import { apiRequest } from '../../lib/api-client.js';
 import { extractList, extractMeta, formatPrice, formatDateTime } from '../../lib/formatters.js';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
-import { LoadingState } from '../../components/FeedbackStates.jsx';
+import { LoadingState, Skeleton } from '../../components/FeedbackStates.jsx';
 import { usePageTitle } from '../../lib/usePageTitle.js';
 
 export function DashboardPage() {
@@ -39,7 +39,7 @@ export function DashboardPage() {
     enabled: isVerifiedStudent,
   });
 
-  const { data: deptListingsData } = useQuery({
+  const { data: deptListingsData, isLoading: loadingDeptListings } = useQuery({
     queryKey: ['listings', 'dept-recommended', userBranch],
     queryFn: () =>
       apiRequest('/listings', {
@@ -123,7 +123,9 @@ export function DashboardPage() {
             </span>
             <ShoppingBag size={16} color="var(--ce-accent)" />
           </div>
-          <div className="ce-kpi-value">{myListingsMeta.total || myListings.length}</div>
+          <div className="ce-kpi-value">
+            {loadingListings ? <Skeleton width="48px" height="26px" /> : (myListingsMeta.total || myListings.length)}
+          </div>
           <Link to="/my-listings" style={{ fontSize: '0.8rem', color: 'var(--ce-accent)' }}>
             Manage inventory →
           </Link>
@@ -137,13 +139,15 @@ export function DashboardPage() {
             <ArrowLeftRight size={16} color="var(--ce-success)" />
           </div>
           <div className="ce-kpi-value">
-            {
+            {loadingTx ? (
+              <Skeleton width="48px" height="26px" />
+            ) : (
               transactions.filter((t) =>
                 ['reserved', 'pending_exchange', 'accepted', 'REQUESTED', 'ACCEPTED'].includes(
                   t.status
                 )
               ).length
-            }
+            )}
           </div>
           <Link to="/transactions" style={{ fontSize: '0.8rem', color: 'var(--ce-accent)' }}>
             View reservations →
@@ -176,7 +180,7 @@ export function DashboardPage() {
           </div>
 
           {loadingTx ? (
-            <LoadingState label="Loading recent reservations & handovers..." rows={2} />
+            <LoadingState label="Loading recent reservations & handovers..." rows={2} variant="rows" />
           ) : transactions.length === 0 ? (
             <p className="ce-muted" style={{ fontSize: '0.9rem' }}>
               No reservations or exchange requests yet. Browse the marketplace to reserve items.
@@ -223,8 +227,8 @@ export function DashboardPage() {
             </Link>
           </div>
 
-          {loadingListings ? (
-            <LoadingState label={`Loading recommended items for ${userBranch}...`} rows={2} />
+          {loadingDeptListings ? (
+            <LoadingState label={`Loading recommended items for ${userBranch}...`} rows={2} variant="rows" />
           ) : deptListings.length === 0 ? (
             <p className="ce-muted" style={{ fontSize: '0.9rem' }}>
               No listings found specifically for {userBranch} yet.

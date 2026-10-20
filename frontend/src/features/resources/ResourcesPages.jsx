@@ -302,7 +302,7 @@ export function ResourcesPage() {
       )}
 
       {isLoading ? (
-        <LoadingState label="Searching academic resource repository..." rows={6} />
+        <LoadingState label="Searching academic resource repository..." rows={6} variant="resources" />
       ) : error && (error.status === 401 || error.status === 403) ? (
         <EmptyState
           title="Verified Campus Access Required"

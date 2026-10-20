@@ -5,7 +5,7 @@ import { Send, MessageSquare, Flag } from 'lucide-react';
 import { apiRequest } from '../../lib/api-client.js';
 import { extractList, formatDateTime } from '../../lib/formatters.js';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
-import { LoadingState, EmptyState, ErrorState, LoadingSpinner } from '../../components/FeedbackStates.jsx';
+import { LoadingState, EmptyState, ErrorState, LoadingSpinner, MessageBubbleSkeleton } from '../../components/FeedbackStates.jsx';
 import { ReportModal } from '../../components/ReportModal.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
@@ -92,7 +92,7 @@ export function MessagesPage() {
     }
   };
 
-  if (loadingConvs) return <LoadingState label="Loading campus conversations..." rows={2} />;
+  if (loadingConvs) return <LoadingState label="Loading campus conversations..." rows={3} variant="rows" />;
   if (convError) return <ErrorState error={convError} onRetry={refetchConvs} />;
 
   return (
@@ -220,13 +220,12 @@ export function MessagesPage() {
                   }}
                 >
                   {loadingMessages ? (
-                    <div className="ce-loading-messages-box">
-                      <LoadingSpinner
-                        size="md"
-                        orientation="vertical"
-                        label="Loading conversation messages..."
-                        showColdStartHint
-                      />
+                    <div className="ce-stack" style={{ gap: '0.75rem', padding: '0.5rem 0' }}>
+                      <div className="ce-row" style={{ gap: '0.5rem', justifyContent: 'center' }}>
+                        <LoadingSpinner size="xs" color="var(--ce-primary)" showColdStartHint />
+                        <span className="ce-muted" style={{ fontSize: '0.8rem' }}>Loading conversation messages...</span>
+                      </div>
+                      <MessageBubbleSkeleton />
                     </div>
                   ) : messages.length === 0 ? (
                     <div className="ce-muted" style={{ textAlign: 'center', padding: '2rem' }}>

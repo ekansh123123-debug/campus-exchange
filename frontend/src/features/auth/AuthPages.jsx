@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -9,6 +9,7 @@ import {
   KeyRound,
   MailCheck,
   CheckCircle2,
+  Zap,
 } from 'lucide-react';
 import { useAuth } from './AuthContext.jsx';
 import { apiRequest } from '../../lib/api-client.js';
@@ -16,6 +17,7 @@ import { BRANCHES, ACADEMIC_YEARS } from '../../lib/constants.js';
 import { extractList, formatPrice, formatCondition } from '../../lib/formatters.js';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
+import { ListingCardSkeleton, ResourceCardSkeleton } from '../../components/FeedbackStates.jsx';
 import { useToast } from '../../components/ToastContext.jsx';
 import { usePageTitle } from '../../lib/usePageTitle.js';
 
@@ -26,13 +28,13 @@ export function LandingPage() {
   );
   const { isAuthenticated } = useAuth();
 
-  const { data: listingsData } = useQuery({
+  const { data: listingsData, isLoading: loadingListings } = useQuery({
     queryKey: ['listings', 'landing-preview'],
     queryFn: () => apiRequest('/listings', { params: { limit: 3, sort: 'newest' } }),
     retry: false,
   });
 
-  const { data: resourcesData } = useQuery({
+  const { data: resourcesData, isLoading: loadingResources } = useQuery({
     queryKey: ['resources', 'landing-preview'],
     queryFn: () => apiRequest('/resources', { params: { limit: 3 } }),
     retry: false,
@@ -124,7 +126,13 @@ export function LandingPage() {
           </Link>
         </div>
 
-        {recentListings.length > 0 ? (
+        {loadingListings ? (
+          <div className="ce-grid-cards">
+            {Array.from({ length: 3 }).map((_, idx) => (
+              <ListingCardSkeleton key={idx} />
+            ))}
+          </div>
+        ) : recentListings.length > 0 ? (
           <div className="ce-grid-cards">
             {recentListings.map((item) => (
               <Link
@@ -179,7 +187,13 @@ export function LandingPage() {
           </Link>
         </div>
 
-        {recentResources.length > 0 ? (
+        {loadingResources ? (
+          <div className="ce-grid-cards">
+            {Array.from({ length: 3 }).map((_, idx) => (
+              <ResourceCardSkeleton key={idx} />
+            ))}
+          </div>
+        ) : recentResources.length > 0 ? (
           <div className="ce-grid-cards">
             {recentResources.map((res) => (
               <div key={res.resourceCode} className="ce-card ce-stack" style={{ justifyContent: 'space-between' }}>
@@ -504,7 +518,54 @@ export function VerifyEmailPage() {
   const [otp, setOtp] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [resending, setResending] = useState(false);
+  const [fetchingOtp, setFetchingOtp] = useState(false);
   const [error, setError] = useState(null);
+
+  const handleFetchDevOtp = async (showSuccessToast = true) => {
+    const targetEmail = collegeEmail.trim();
+    if (!targetEmail) {
+      if (showSuccessToast) {
+        setError('Please enter your institutional email to fetch the OTP.');
+      }
+      return;
+    }
+    setFetchingOtp(true);
+    setError(null);
+    try {
+      const res = await apiRequest('/auth/dev-mail-preview', {
+        params: { email: targetEmail },
+      });
+      const code = res?.data?.preview?.code;
+      if (code) {
+        setOtp(code);
+        if (showSuccessToast) {
+          showToast({
+            tone: 'success',
+            title: 'OTP Auto-filled',
+            description: `Retrieved active verification code: ${code}`,
+          });
+        }
+      } else if (showSuccessToast) {
+        showToast({
+          tone: 'warning',
+          title: 'No active OTP in outbox',
+          description: 'Try clicking "Resend OTP" first to generate a fresh code.',
+        });
+      }
+    } catch (err) {
+      if (showSuccessToast) {
+        setError(err.message || 'Could not retrieve verification code.');
+      }
+    } finally {
+      setFetchingOtp(false);
+    }
+  };
+
+  useEffect(() => {
+    if (collegeEmail.trim()) {
+      handleFetchDevOtp(false);
+    }
+  }, []);
 
   const handleVerify = async (e) => {
     e.preventDefault();
@@ -539,6 +600,7 @@ export function VerifyEmailPage() {
         title: 'Fresh OTP dispatched',
         description: `Sent to ${collegeEmail}`,
       });
+      setTimeout(() => handleFetchDevOtp(false), 500);
     } catch (err) {
       setError(err.message || 'Could not resend OTP');
     } finally {
@@ -559,6 +621,37 @@ export function VerifyEmailPage() {
           Enter the 6-digit verification code sent to your institutional inbox.
         </p>
 
+        <div
+          className="ce-card"
+          style={{
+            background: 'var(--ce-surface-soft)',
+            padding: '0.85rem 1rem',
+            border: '1px dashed var(--ce-border)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '0.75rem',
+            flexWrap: 'wrap',
+          }}
+        >
+          <div>
+            <strong style={{ fontSize: '0.86rem', color: 'var(--ce-ink)' }}>Render Free Tier Demo Mode</strong>
+            <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.78rem' }}>
+              Free hosting blocks SMTP emails. Click to fetch the server-generated OTP directly.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="ce-btn ce-btn-secondary ce-btn-sm"
+            onClick={() => handleFetchDevOtp(true)}
+            disabled={fetchingOtp}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', whiteSpace: 'nowrap' }}
+          >
+            <Zap size={14} />
+            <span>{fetchingOtp ? 'Fetching...' : 'Autofill Dev OTP'}</span>
+          </button>
+        </div>
+
         {error && <div className="ce-alert ce-alert-danger">{error}</div>}
 
         <form onSubmit={handleVerify} className="ce-stack">
@@ -578,9 +671,20 @@ export function VerifyEmailPage() {
           </div>
 
           <div className="ce-field">
-            <label className="ce-label" htmlFor="verify-otp">
-              6-Digit OTP Code
-            </label>
+            <div className="ce-row-between">
+              <label className="ce-label" htmlFor="verify-otp">
+                6-Digit OTP Code
+              </label>
+              <button
+                type="button"
+                className="ce-btn ce-btn-ghost ce-btn-sm"
+                style={{ fontSize: '0.8rem', padding: '0.15rem 0.5rem', color: 'var(--ce-accent)' }}
+                onClick={() => handleFetchDevOtp(true)}
+                disabled={fetchingOtp}
+              >
+                {fetchingOtp ? 'Fetching...' : '⚡ Autofill OTP'}
+              </button>
+            </div>
             <input
               id="verify-otp"
               type="text"
@@ -607,6 +711,15 @@ export function VerifyEmailPage() {
             disabled={resending}
           >
             {resending ? 'Sending...' : 'Resend OTP'}
+          </button>
+          <button
+            type="button"
+            className="ce-btn ce-btn-ghost ce-btn-sm"
+            onClick={() => handleFetchDevOtp(true)}
+            disabled={fetchingOtp}
+            style={{ color: 'var(--ce-accent)' }}
+          >
+            {fetchingOtp ? 'Checking...' : 'Autofill Dev OTP'}
           </button>
         </div>
       </div>

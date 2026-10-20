@@ -257,7 +257,7 @@ export function AdminListingsPage() {
       <AdminSubNav />
 
       {isLoading ? (
-        <LoadingState rows={3} />
+        <LoadingState rows={4} variant="table" label="Loading listings moderation queue..." />
       ) : error ? (
         <ErrorState error={error} onRetry={refetch} />
       ) : items.length === 0 ? (
@@ -412,7 +412,7 @@ export function AdminResourcesPage() {
       <AdminSubNav />
 
       {isLoading ? (
-        <LoadingState rows={3} />
+        <LoadingState rows={4} variant="table" label="Loading academic resources..." />
       ) : error ? (
         <ErrorState error={error} onRetry={refetch} />
       ) : items.length === 0 ? (
@@ -572,7 +572,7 @@ export function AdminUsersPage() {
       <AdminSubNav />
 
       {isLoading ? (
-        <LoadingState rows={3} />
+        <LoadingState rows={4} variant="table" label="Loading verified student accounts..." />
       ) : error ? (
         <ErrorState error={error} onRetry={refetch} />
       ) : users.length === 0 ? (
@@ -734,7 +734,7 @@ export function AdminReportsPage() {
       <AdminSubNav />
 
       {isLoading ? (
-        <LoadingState rows={3} />
+        <LoadingState rows={4} variant="table" label="Loading campus policy reports..." />
       ) : error ? (
         <ErrorState error={error} onRetry={refetch} />
       ) : reports.length === 0 ? (

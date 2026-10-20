@@ -69,7 +69,7 @@ export function ListingDetailPage() {
     (item) => String(item.status || '').toLowerCase() === 'active'
   );
 
-  if (isLoading) return <LoadingState label="Loading listing details..." rows={2} />;
+  if (isLoading) return <LoadingState label="Loading listing details..." rows={2} variant="detail" />;
   if (error || !listing) return <ErrorState error={error} onRetry={refetch} />;
 
   const isOwner = Boolean(

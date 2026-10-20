@@ -72,7 +72,7 @@ export function NotificationsPage() {
       </div>
 
       {isLoading ? (
-        <LoadingState label="Loading campus notifications..." rows={3} />
+        <LoadingState label="Loading campus notifications..." rows={3} variant="rows" />
       ) : error ? (
         <ErrorState error={error} onRetry={refetch} />
       ) : items.length === 0 ? (
