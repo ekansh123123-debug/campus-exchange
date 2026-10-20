@@ -202,13 +202,13 @@ export function ListingDetailPage() {
 
   return (
     <div className="ce-stack-lg ce-animate-enter">
-      <div className="ce-row-between">
+      <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '0.65rem' }}>
         <Link to="/marketplace" className="ce-btn ce-btn-ghost ce-btn-sm">
           <ArrowLeft size={15} />
           <span>Back to Marketplace</span>
         </Link>
 
-        <div className="ce-row" style={{ gap: '0.5rem' }}>
+        <div className="ce-row" style={{ gap: '0.5rem', flexWrap: 'wrap' }}>
           {!isOwner && isAuthenticated && (
             <>
               <button
@@ -509,6 +509,47 @@ export function ListingDetailPage() {
           )}
         </div>
       </div>
+
+      {/* Sticky Mobile Listing Action Bar */}
+      {isListingActive && !isOwner && (
+        <div className="ce-mobile-listing-actions">
+          <div>
+            <div className="ce-price-tag" style={{ fontSize: '1.2rem' }}>
+              {formatPrice(listing)}
+            </div>
+            <div className="ce-muted" style={{ fontSize: '0.74rem' }}>
+              {formatCondition(listing.condition)} · Campus Handover
+            </div>
+          </div>
+          <div className="ce-row" style={{ gap: '0.45rem' }}>
+            <button
+              type="button"
+              className="ce-btn ce-btn-secondary ce-btn-sm"
+              onClick={handleStartChat}
+              disabled={actionLoading}
+              aria-label="Chat with seller"
+            >
+              <MessageSquare size={16} />
+              <span>Chat</span>
+            </button>
+            <button
+              type="button"
+              className="ce-btn ce-btn-primary ce-btn-sm"
+              onClick={() => {
+                const noteInput = document.getElementById('reserve-note') || document.querySelector('form');
+                if (noteInput) {
+                  noteInput.scrollIntoView({ behavior: 'smooth' });
+                  noteInput.focus?.();
+                } else if (!isAuthenticated) {
+                  navigate('/login');
+                }
+              }}
+            >
+              <span>{isExchange ? 'Exchange' : 'Reserve'}</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {showReportModal && (
         <ReportModal
@@ -997,7 +1038,7 @@ export function MyListingsPage() {
           </h1>
         </div>
 
-        <div className="ce-row" style={{ gap: '0.6rem' }}>
+        <div className="ce-row" style={{ gap: '0.6rem', flexWrap: 'wrap' }}>
           <select
             aria-label="Filter My Listings Status"
             className="ce-select"

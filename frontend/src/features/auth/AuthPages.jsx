@@ -233,10 +233,10 @@ export function LandingPage() {
         {/* Live Interactive Calculation Display */}
         <div className="ce-grid-3" style={{ marginTop: '0.5rem' }}>
           <div className="ce-savings-stat-card">
-            <span className="ce-muted" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
-              ESTIMATED SEMESTER SAVINGS
+            <span className="ce-muted" style={{ fontSize: '0.84rem', fontWeight: 500 }}>
+              Estimated semester peer savings
             </span>
-            <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--ce-accent-teal)' }}>
+            <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--ce-accent-teal)', fontVariantNumeric: 'tabular-nums' }}>
               ₹{savings.toLocaleString('en-IN')}
             </div>
             <span className="ce-muted" style={{ fontSize: '0.8rem' }}>
@@ -245,10 +245,10 @@ export function LandingPage() {
           </div>
 
           <div className="ce-savings-stat-card">
-            <span className="ce-muted" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
-              AVAILABLE EXAM PAPERS & NOTES
+            <span className="ce-muted" style={{ fontSize: '0.84rem', fontWeight: 500 }}>
+              Available exam papers and notes
             </span>
-            <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--ce-primary)' }}>
+            <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--ce-primary)', fontVariantNumeric: 'tabular-nums' }}>
               {estimatedPyqs} Papers
             </div>
             <span className="ce-muted" style={{ fontSize: '0.8rem' }}>
@@ -257,10 +257,10 @@ export function LandingPage() {
           </div>
 
           <div className="ce-savings-stat-card">
-            <span className="ce-muted" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
-              ACTIVE PEER SELLERS
+            <span className="ce-muted" style={{ fontSize: '0.84rem', fontWeight: 500 }}>
+              Active peer sellers
             </span>
-            <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--ce-ink)' }}>
+            <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--ce-ink)', fontVariantNumeric: 'tabular-nums' }}>
               {activeSellers} Students
             </div>
             <span className="ce-muted" style={{ fontSize: '0.8rem' }}>
@@ -357,18 +357,18 @@ export function LandingPage() {
         <div className="ce-stack" style={{ gap: '0.5rem' }}>
           {visibleActivities.map((act) => (
             <div key={act.id} className="ce-live-feed-item">
-              <div className="ce-row" style={{ gap: '0.75rem' }}>
-                <span className="ce-pulse-beacon" aria-hidden="true" />
-                <div className="ce-stack" style={{ gap: '0.15rem' }}>
-                  <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--ce-ink)' }}>
+              <div className="ce-row" style={{ gap: '0.75rem', minWidth: 0, flex: 1 }}>
+                <span className="ce-pulse-beacon" aria-hidden="true" style={{ flexShrink: 0 }} />
+                <div className="ce-stack" style={{ gap: '0.15rem', minWidth: 0 }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--ce-ink)', overflowWrap: 'anywhere' }}>
                     {act.title}
                   </div>
-                  <div className="ce-muted" style={{ fontSize: '0.8rem' }}>
+                  <div className="ce-muted" style={{ fontSize: '0.8rem', overflowWrap: 'anywhere' }}>
                     {act.detail} · <CodeBadge>{act.cohort}</CodeBadge>
                   </div>
                 </div>
               </div>
-              <span className="ce-muted" style={{ fontSize: '0.78rem', whiteSpace: 'nowrap' }}>
+              <span className="ce-muted" style={{ fontSize: '0.78rem', whiteSpace: 'nowrap', flexShrink: 0 }}>
                 {act.time}
               </span>
             </div>

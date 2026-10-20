@@ -115,7 +115,7 @@ export function TransactionsPage() {
           </p>
         </div>
 
-        <div className="ce-row" style={{ gap: '0.6rem' }}>
+        <div className="ce-row" style={{ gap: '0.6rem', flexWrap: 'wrap' }}>
           <select
             aria-label="Filter by Role"
             className="ce-select"

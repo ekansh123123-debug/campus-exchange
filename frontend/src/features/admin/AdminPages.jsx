@@ -233,7 +233,7 @@ export function AdminListingsPage() {
           <input
             type="text"
             className="ce-input"
-            style={{ width: '260px' }}
+            style={{ width: 'min(260px, 100%)' }}
             placeholder="Optional rejection reason..."
             value={reasonNote}
             onChange={(e) => setReasonNote(e.target.value)}
@@ -387,7 +387,7 @@ export function AdminResourcesPage() {
           <input
             type="text"
             className="ce-input"
-            style={{ width: '260px' }}
+            style={{ width: 'min(260px, 100%)' }}
             placeholder="Optional rejection/takedown reason..."
             value={reasonNote}
             onChange={(e) => setReasonNote(e.target.value)}
@@ -549,7 +549,7 @@ export function AdminUsersPage() {
           <input
             type="text"
             className="ce-input"
-            style={{ width: '260px' }}
+            style={{ width: 'min(260px, 100%)' }}
             placeholder="Optional block/restore reason..."
             value={reasonNote}
             onChange={(e) => setReasonNote(e.target.value)}
@@ -709,7 +709,7 @@ export function AdminReportsPage() {
           <input
             type="text"
             className="ce-input"
-            style={{ width: '260px' }}
+            style={{ width: 'min(260px, 100%)' }}
             placeholder="Optional resolution note..."
             value={resolutionNote}
             onChange={(e) => setResolutionNote(e.target.value)}

@@ -31,12 +31,14 @@ export function AppShell() {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [quickPostOpen, setQuickPostOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(location.pathname);
 
-  // Close mobile drawer on route transition without cascading effect renders
+  // Close mobile drawer & action sheet on route transition without cascading effect renders
   if (prevPathname !== location.pathname) {
     setPrevPathname(location.pathname);
     setMobileMenuOpen(false);
+    setQuickPostOpen(false);
   }
 
   const { data: unreadData } = useQuery({
@@ -50,6 +52,12 @@ export function AppShell() {
   const userEmail = user?.collegeEmail || user?.email || '';
   const currentYear = new Date().getFullYear();
 
+  const isListingDetailPage =
+    location.pathname.startsWith('/listings/') && location.pathname !== '/listings/new';
+  const isMessagesThreadPage =
+    location.pathname.startsWith('/messages/') && location.pathname !== '/messages';
+  const hideMobileBottomNav = isListingDetailPage || isMessagesThreadPage;
+
   const handleLogout = async () => {
     setMobileMenuOpen(false);
     await logout();
@@ -61,7 +69,7 @@ export function AppShell() {
       <TopLoadingBar />
       <header className="ce-navbar">
         <div className="ce-container ce-navbar-inner">
-          <div className="ce-row" style={{ gap: '1.25rem' }}>
+          <div className="ce-row" style={{ gap: 'clamp(0.4rem, 1vw, 1rem)', minWidth: 0, flex: 1 }}>
             {/* Clickable Brand Logo */}
             <Link to={isAuthenticated ? '/app' : '/'} className="ce-brand" aria-label="CampusExchange Home">
               <span>CampusExchange</span>
@@ -163,18 +171,24 @@ export function AppShell() {
           </div>
 
           {/* Desktop Right Side Controls */}
-          <div className="ce-row ce-desktop-only" style={{ gap: '0.55rem' }}>
+          <div className="ce-row ce-desktop-only" style={{ gap: '0.45rem', flexShrink: 0 }}>
             {isAuthenticated ? (
               <>
                 {isVerifiedStudent && (
                   <>
                     <Link to="/listings/new" className="ce-btn ce-btn-primary ce-btn-sm">
                       <PlusCircle size={15} />
-                      <span>Sell / Share Item</span>
+                      <span>
+                        <span className="ce-btn-label-desktop">Sell Item</span>
+                        <span className="ce-btn-label-compact">Sell</span>
+                      </span>
                     </Link>
                     <Link to="/resources/upload" className="ce-btn ce-btn-secondary ce-btn-sm">
                       <Upload size={15} />
-                      <span>Upload PYQ</span>
+                      <span>
+                        <span className="ce-btn-label-desktop">Upload PYQ</span>
+                        <span className="ce-btn-label-compact">Upload</span>
+                      </span>
                     </Link>
                   </>
                 )}
@@ -202,7 +216,7 @@ export function AppShell() {
 
                 <Link to="/profile" className="ce-btn ce-btn-ghost ce-btn-sm" title={user?.fullName}>
                   <UserIcon size={16} />
-                  <span style={{ maxWidth: '110px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <span style={{ maxWidth: '85px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {user?.fullName?.split(' ')[0] || 'Profile'}
                   </span>
                 </Link>
@@ -229,31 +243,96 @@ export function AppShell() {
             )}
           </div>
 
-          {/* Mobile Hamburger Toggle Button */}
-          <button
-            type="button"
-            className="ce-mobile-toggle"
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          {/* Mobile Header Quick Actions */}
+          <div className="ce-row ce-mobile-only" style={{ gap: '0.4rem', flexShrink: 0 }}>
+            {isAuthenticated && (
+              <Link
+                to="/notifications"
+                className="ce-btn ce-btn-ghost ce-btn-sm"
+                aria-label="Mobile notifications"
+                style={{ position: 'relative', padding: '0.4rem', minWidth: '38px', minHeight: '38px' }}
+              >
+                <Bell size={19} />
+                {unreadCount > 0 && (
+                  <span
+                    className="ce-badge ce-badge-info"
+                    style={{
+                      position: 'absolute',
+                      top: '2px',
+                      right: '2px',
+                      padding: '1px 5px',
+                      fontSize: '0.65rem',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {unreadCount}
+                  </span>
+                )}
+              </Link>
+            )}
+
+            {/* Mobile Hamburger Toggle Button */}
+            <button
+              type="button"
+              className="ce-mobile-toggle"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
 
-        {/* Responsive Mobile Drawer Menu */}
+        {/* Responsive Mobile Drawer Backdrop Overlay */}
         {mobileMenuOpen && (
-          <div className="ce-mobile-drawer ce-animate-enter" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+          <div
+            className="ce-mobile-drawer-backdrop"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+        )}
+
+        {/* Responsive Mobile Drawer Slide-over Menu */}
+        {mobileMenuOpen && (
+          <aside
+            className="ce-mobile-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation"
+          >
+            <div className="ce-row-between" style={{ marginBottom: '1.15rem', paddingBottom: '0.75rem', borderBottom: '1px solid var(--ce-hairline)' }}>
+              <Link to={isAuthenticated ? '/app' : '/'} className="ce-brand" onClick={() => setMobileMenuOpen(false)}>
+                <span>CampusExchange</span>
+              </Link>
+              <button
+                type="button"
+                className="ce-btn ce-btn-ghost ce-btn-sm"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Dismiss menu"
+                style={{ padding: '0.4rem', minWidth: '36px', minHeight: '36px' }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
             {isAuthenticated ? (
               <div className="ce-mobile-user-card">
                 <div className="ce-row" style={{ gap: '0.65rem' }}>
                   <div className="ce-mobile-avatar">
-                    <UserIcon size={18} />
+                    <UserIcon size={20} />
                   </div>
-                  <div>
-                    <div style={{ fontWeight: 600, color: 'var(--ce-ink)' }}>{user?.fullName}</div>
-                    <div className="ce-muted" style={{ fontSize: '0.8rem' }}>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{ fontWeight: 600, color: 'var(--ce-ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {user?.fullName}
+                    </div>
+                    <div className="ce-muted" style={{ fontSize: '0.78rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {userEmail} {user?.branch ? `· ${user.branch}` : ''}
+                    </div>
+                    <div className="ce-row" style={{ gap: '0.35rem', marginTop: '0.3rem' }}>
+                      <span className={`ce-badge ${isVerifiedStudent ? 'ce-badge-success' : 'ce-badge-warning'}`} style={{ fontSize: '0.72rem', padding: '1px 7px' }}>
+                        {isVerifiedStudent ? 'Verified Student' : 'Email Pending'}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -280,7 +359,7 @@ export function AppShell() {
             )}
 
             {isVerifiedStudent && (
-              <div className="ce-row" style={{ gap: '0.5rem', marginBottom: '0.75rem', width: '100%' }}>
+              <div className="ce-row" style={{ gap: '0.5rem', marginBottom: '1rem', width: '100%' }}>
                 <Link
                   to="/listings/new"
                   className="ce-btn ce-btn-primary ce-btn-sm"
@@ -302,6 +381,9 @@ export function AppShell() {
               </div>
             )}
 
+            <div className="ce-muted" style={{ fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', margin: '0.5rem 0 0.35rem' }}>
+              Campus Hub & Academics
+            </div>
             <nav className="ce-mobile-nav" aria-label="Mobile Navigation Links">
               <NavLink
                 to="/marketplace"
@@ -332,6 +414,10 @@ export function AppShell() {
                     <LayoutDashboard size={18} />
                     <span>Student Hub</span>
                   </NavLink>
+
+                  <div className="ce-muted" style={{ fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', margin: '0.75rem 0 0.35rem' }}>
+                    My Student Activity
+                  </div>
 
                   <NavLink
                     to="/my-listings"
@@ -407,10 +493,10 @@ export function AppShell() {
             </nav>
 
             <div className="ce-mobile-contacts-section">
-              <div className="ce-muted" style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.4rem' }}>
-                Campus Assistance
+              <div className="ce-muted" style={{ fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+                Campus Assistance & Security
               </div>
-              <div className="ce-row" style={{ gap: '1rem', flexWrap: 'wrap' }}>
+              <div className="ce-row" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
                 <a href="tel:+918242474000" className="ce-contact-link">
                   <Phone size={14} />
                   <span>+91 824 247 4000</span>
@@ -427,13 +513,13 @@ export function AppShell() {
                 type="button"
                 onClick={handleLogout}
                 className="ce-btn ce-btn-danger ce-btn-sm"
-                style={{ width: '100%', justifyContent: 'center', marginTop: '1rem' }}
+                style={{ width: '100%', justifyContent: 'center', marginTop: '1.25rem' }}
               >
                 <LogOut size={16} />
                 <span>Sign Out</span>
               </button>
             )}
-          </div>
+          </aside>
         )}
       </header>
 
@@ -471,8 +557,8 @@ export function AppShell() {
       <footer className="ce-footer">
         <div className="ce-container ce-stack" style={{ gap: '1.75rem' }}>
           <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1.5rem', alignItems: 'flex-start' }}>
-            <div style={{ maxWidth: '420px' }}>
-              <Link to={isAuthenticated ? '/app' : '/'} className="ce-brand" style={{ marginBottom: '0.5rem' }}>
+            <div style={{ maxWidth: '420px', minWidth: 0 }}>
+              <Link to={isAuthenticated ? '/app' : '/'} className="ce-brand" style={{ marginBottom: '0.5rem', flexWrap: 'wrap' }}>
                 <span>CampusExchange</span>
                 <span className="ce-brand-badge">VERIFIED CAMPUS</span>
               </Link>
@@ -492,7 +578,7 @@ export function AppShell() {
               </div>
             </div>
 
-            <div className="ce-row" style={{ gap: '3rem', flexWrap: 'wrap' }}>
+            <div className="ce-row" style={{ gap: 'clamp(1.25rem, 3.5vw, 3rem)', flexWrap: 'wrap' }}>
               <div className="ce-stack" style={{ gap: '0.45rem', fontSize: '0.88rem' }}>
                 <strong style={{ color: 'var(--ce-ink)' }}>Marketplace</strong>
                 <Link to="/marketplace" className="ce-footer-link">Textbooks & Calculators</Link>
@@ -538,6 +624,169 @@ export function AppShell() {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Bottom Navigation Bar (Visible on mobile screens <= 768px, hidden on detail/thread views) */}
+      {!hideMobileBottomNav && (
+        <nav className="ce-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+          <NavLink
+            to="/marketplace"
+            className={({ isActive }) => `ce-mobile-nav-item ${isActive ? 'active' : ''}`}
+          >
+            <ShoppingBag size={20} />
+            <span>Market</span>
+          </NavLink>
+
+          <NavLink
+            to="/resources"
+            className={({ isActive }) => `ce-mobile-nav-item ${isActive ? 'active' : ''}`}
+          >
+            <BookOpen size={20} />
+            <span>PYQs</span>
+          </NavLink>
+
+          <button
+            type="button"
+            className="ce-mobile-nav-fab"
+            onClick={() => setQuickPostOpen(true)}
+            aria-label="Create Listing or Upload PYQ"
+          >
+            <div className="ce-mobile-fab-circle">
+              <PlusCircle size={20} />
+            </div>
+            <span>Post</span>
+          </button>
+
+          <NavLink
+            to={isAuthenticated ? '/transactions' : '/login'}
+            className={({ isActive }) => `ce-mobile-nav-item ${isActive ? 'active' : ''}`}
+          >
+            <ArrowLeftRight size={20} />
+            <span>Handovers</span>
+          </NavLink>
+
+          <NavLink
+            to={isAuthenticated ? '/app' : '/login'}
+            className={({ isActive }) => `ce-mobile-nav-item ${isActive ? 'active' : ''}`}
+          >
+            <LayoutDashboard size={20} />
+            <span>Hub</span>
+          </NavLink>
+        </nav>
+      )}
+
+      {/* Mobile Quick Post Action Sheet Modal */}
+      {quickPostOpen && (
+        <div className="ce-modal-backdrop" onClick={() => setQuickPostOpen(false)}>
+          <div
+            className="ce-mobile-action-sheet"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Quick Campus Post"
+          >
+            <div className="ce-action-sheet-handle" />
+            <div className="ce-row-between" style={{ marginBottom: '1.25rem' }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '1.2rem', fontFamily: 'var(--ce-font-serif)' }}>
+                  Create Campus Post
+                </h3>
+                <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.82rem' }}>
+                  Share textbooks, lab equipment, or verified exam resources
+                </p>
+              </div>
+              <button
+                type="button"
+                className="ce-btn ce-btn-ghost ce-btn-sm"
+                onClick={() => setQuickPostOpen(false)}
+                aria-label="Close action sheet"
+                style={{ padding: '0.4rem', minWidth: '36px', minHeight: '36px' }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {isVerifiedStudent ? (
+              <div className="ce-stack" style={{ gap: '0.75rem' }}>
+                <Link
+                  to="/listings/new"
+                  className="ce-action-sheet-item"
+                  onClick={() => setQuickPostOpen(false)}
+                >
+                  <div
+                    className="ce-action-sheet-icon"
+                    style={{ background: 'var(--ce-primary-soft)', color: 'var(--ce-primary)' }}
+                  >
+                    <ShoppingBag size={22} />
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 600, color: 'var(--ce-ink)' }}>Sell Textbook or Lab Gear</div>
+                    <div className="ce-muted" style={{ fontSize: '0.82rem' }}>
+                      List calculators, drafters, textbooks, or components for peer pickup
+                    </div>
+                  </div>
+                </Link>
+
+                <Link
+                  to="/resources/upload"
+                  className="ce-action-sheet-item"
+                  onClick={() => setQuickPostOpen(false)}
+                >
+                  <div
+                    className="ce-action-sheet-icon"
+                    style={{ background: 'var(--ce-accent-teal-soft)', color: 'var(--ce-accent-teal)' }}
+                  >
+                    <BookOpen size={22} />
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 600, color: 'var(--ce-ink)' }}>Upload Past Exam Paper (PYQ) / Notes</div>
+                    <div className="ce-muted" style={{ fontSize: '0.82rem' }}>
+                      Upload verified mid-sem/end-sem question paper PDFs or lecture notes
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ) : isAuthenticated ? (
+              <div className="ce-stack" style={{ gap: '0.75rem' }}>
+                <div className="ce-alert ce-alert-warning" style={{ fontSize: '0.86rem' }}>
+                  Your student email is pending verification. Verify with OTP to list items or upload resources.
+                </div>
+                <Link
+                  to={`/verify-email?email=${encodeURIComponent(userEmail)}`}
+                  className="ce-btn ce-btn-primary"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                  onClick={() => setQuickPostOpen(false)}
+                >
+                  Verify Institutional Email
+                </Link>
+              </div>
+            ) : (
+              <div className="ce-stack" style={{ gap: '0.75rem' }}>
+                <div className="ce-alert ce-alert-info" style={{ fontSize: '0.86rem' }}>
+                  Sign in with your verified college credentials to trade items or share academic materials.
+                </div>
+                <div className="ce-row" style={{ gap: '0.5rem', width: '100%' }}>
+                  <Link
+                    to="/login"
+                    className="ce-btn ce-btn-secondary"
+                    style={{ flex: 1, justifyContent: 'center' }}
+                    onClick={() => setQuickPostOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="ce-btn ce-btn-primary"
+                    style={{ flex: 1, justifyContent: 'center' }}
+                    onClick={() => setQuickPostOpen(false)}
+                  >
+                    Verify Campus ID
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

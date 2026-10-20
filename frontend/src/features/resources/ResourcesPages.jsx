@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Download, Upload, BookOpen, Flag, FileText } from 'lucide-react';
+import { Download, Upload, BookOpen, Flag, FileText, SlidersHorizontal } from 'lucide-react';
 import { apiRequest, getAccessToken, API_BASE_URL } from '../../lib/api-client.js';
 import {
   BRANCHES,
@@ -36,6 +36,7 @@ export function ResourcesPage() {
   const [page, setPage] = useState(1);
   const [showMine, setShowMine] = useState(false);
   const [reportTarget, setReportTarget] = useState(null);
+  const [mobileFiltersExpanded, setMobileFiltersExpanded] = useState(false);
 
   const {
     data: res,
@@ -133,7 +134,7 @@ export function ResourcesPage() {
           </p>
         </div>
 
-        <div className="ce-row" style={{ gap: '0.6rem' }}>
+        <div className="ce-row" style={{ gap: '0.6rem', flexWrap: 'wrap' }}>
           {isAuthenticated && (
             <button
               type="button"
@@ -156,7 +157,7 @@ export function ResourcesPage() {
       </div>
 
       {/* Interactive Quick Resource Type Chips */}
-      <div className="ce-row" style={{ gap: '0.45rem', flexWrap: 'wrap' }}>
+      <div className="ce-chips-scroll" style={{ gap: '0.45rem', paddingBottom: '0.25rem' }}>
         {[
           { label: 'All Resources', val: '' },
           { label: 'Exam PYQs', val: 'pyq' },
@@ -180,129 +181,37 @@ export function ResourcesPage() {
 
       {!showMine && (
         <div className="ce-card ce-stack">
-          <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
-            <input
-              type="search"
-              aria-label="Search resources keyword"
-              className="ce-input"
-              style={{ flex: '1 1 240px' }}
-              placeholder="Search title, topic, or question paper..."
-              value={q}
-              onChange={(e) => {
-                setQ(e.target.value);
-                setPage(1);
-              }}
-            />
-
-            <input
-              type="text"
-              aria-label="Filter Resource Subject"
-              className="ce-input"
-              style={{ width: '175px' }}
-              placeholder="Subject (e.g. DBMS)"
-              value={subject}
-              onChange={(e) => {
-                setSubject(e.target.value);
-                setPage(1);
-              }}
-            />
-
-            <select
-              aria-label="Filter Resource Branch"
-              className="ce-select"
-              style={{ width: 'auto' }}
-              value={branch}
-              onChange={(e) => {
-                setBranch(e.target.value);
-                setPage(1);
-              }}
-            >
-              <option value="">All Branches</option>
-              {BRANCHES.map((d) => (
-                <option key={d} value={d}>
-                  {d}
-                </option>
-              ))}
-            </select>
-
-            <select
-              aria-label="Filter Resource Academic Year"
-              className="ce-select"
-              style={{ width: 'auto' }}
-              value={academicYear}
-              onChange={(e) => {
-                setAcademicYear(e.target.value);
-                setPage(1);
-              }}
-            >
-              <option value="">All Years</option>
-              {ACADEMIC_YEARS.map((yr) => (
-                <option key={yr} value={yr}>
-                  Year {yr}
-                </option>
-              ))}
-            </select>
-
-            <select
-              aria-label="Filter Resource Semester"
-              className="ce-select"
-              style={{ width: 'auto' }}
-              value={semester}
-              onChange={(e) => {
-                setSemester(e.target.value);
-                setPage(1);
-              }}
-            >
-              <option value="">All Semesters</option>
-              {SEMESTERS.map((s) => (
-                <option key={s} value={s}>
-                  Semester {s}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '0.6rem' }}>
-            <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.6rem' }}>
-              <select
-                aria-label="Filter Resource Type"
-                className="ce-select"
-                style={{ width: 'auto', fontSize: '0.84rem', padding: '0.35rem 0.65rem' }}
-                value={resourceType}
-                onChange={(e) => {
-                  setResourceType(e.target.value);
-                  setPage(1);
-                }}
-              >
-                <option value="">All Document Types</option>
-                {RESOURCE_TYPES.map((t) => (
-                  <option key={t.value} value={t.value}>
-                    {t.label}
-                  </option>
-                ))}
-              </select>
-
+          <div className="ce-row" style={{ gap: '0.65rem', width: '100%', flexWrap: 'wrap' }}>
+            <div style={{ flex: '1 1 240px', minWidth: 0 }}>
               <input
-                type="text"
-                aria-label="Filter Exam Year"
+                type="search"
+                aria-label="Search resources keyword"
                 className="ce-input"
-                style={{ width: '130px', fontSize: '0.84rem', padding: '0.35rem 0.65rem' }}
-                placeholder="Exam Year (2025)"
-                value={examYear}
+                placeholder="Search title, topic, or question paper..."
+                value={q}
                 onChange={(e) => {
-                  setExamYear(e.target.value);
+                  setQ(e.target.value);
                   setPage(1);
                 }}
               />
             </div>
 
-            <div className="ce-row" style={{ gap: '0.65rem', alignItems: 'center' }}>
-              {isFetching && !isLoading && (
-                <span className="ce-loading-pill" role="status" aria-label="Updating resources feed">
-                  <LoadingSpinner size="xs" />
-                  <span>Updating feed...</span>
+            <button
+              type="button"
+              className={`ce-filter-toggle-btn ${[branch, academicYear, semester, subject, resourceType, examYear].filter(Boolean).length > 0 ? 'has-filters' : ''}`}
+              onClick={() => setMobileFiltersExpanded((prev) => !prev)}
+              aria-label={mobileFiltersExpanded ? 'Hide filter options' : 'Show filter options'}
+            >
+              <SlidersHorizontal size={15} />
+              <span>Filters</span>
+              {[branch, academicYear, semester, subject, resourceType, examYear].filter(Boolean).length > 0 && (
+                <span className="ce-badge ce-badge-info" style={{ padding: '1px 6px', fontSize: '0.72rem' }}>
+                  {[branch, academicYear, semester, subject, resourceType, examYear].filter(Boolean).length}
                 </span>
               )}
+            </button>
+
+            {[branch, academicYear, semester, subject, resourceType, examYear].filter(Boolean).length > 0 && (
               <button
                 type="button"
                 className="ce-btn ce-btn-ghost ce-btn-sm"
@@ -316,9 +225,145 @@ export function ResourcesPage() {
                   setExamYear('');
                   setPage(1);
                 }}
+                style={{ fontSize: '0.82rem' }}
               >
-                Reset Filters
+                Clear
               </button>
+            )}
+          </div>
+
+          {/* Secondary Filter Controls (Collapsible on mobile, inline on desktop) */}
+          <div
+            className={`ce-marketplace-secondary-filters ${mobileFiltersExpanded ? 'expanded' : ''} ce-stack`}
+            style={{ gap: '0.75rem', width: '100%', paddingTop: '0.25rem' }}
+          >
+            <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
+              <input
+                type="text"
+                aria-label="Filter Resource Subject"
+                className="ce-input"
+                style={{ width: 'min(175px, 100%)' }}
+                placeholder="Subject (e.g. DBMS)"
+                value={subject}
+                onChange={(e) => {
+                  setSubject(e.target.value);
+                  setPage(1);
+                }}
+              />
+
+              <select
+                aria-label="Filter Resource Branch"
+                className="ce-select"
+                style={{ width: 'auto' }}
+                value={branch}
+                onChange={(e) => {
+                  setBranch(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <option value="">All Branches</option>
+                {BRANCHES.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                aria-label="Filter Resource Academic Year"
+                className="ce-select"
+                style={{ width: 'auto' }}
+                value={academicYear}
+                onChange={(e) => {
+                  setAcademicYear(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <option value="">All Years</option>
+                {ACADEMIC_YEARS.map((yr) => (
+                  <option key={yr} value={yr}>
+                    Year {yr}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                aria-label="Filter Resource Semester"
+                className="ce-select"
+                style={{ width: 'auto' }}
+                value={semester}
+                onChange={(e) => {
+                  setSemester(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <option value="">All Semesters</option>
+                {SEMESTERS.map((s) => (
+                  <option key={s} value={s}>
+                    Semester {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '0.6rem' }}>
+              <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.6rem' }}>
+                <select
+                  aria-label="Filter Resource Type"
+                  className="ce-select"
+                  style={{ width: 'auto', fontSize: '0.84rem', padding: '0.35rem 0.65rem' }}
+                  value={resourceType}
+                  onChange={(e) => {
+                    setResourceType(e.target.value);
+                    setPage(1);
+                  }}
+                >
+                  <option value="">All Document Types</option>
+                  {RESOURCE_TYPES.map((t) => (
+                    <option key={t.value} value={t.value}>
+                      {t.label}
+                    </option>
+                  ))}
+                </select>
+
+                <input
+                  type="text"
+                  aria-label="Filter Exam Year"
+                  className="ce-input"
+                  style={{ width: '130px', fontSize: '0.84rem', padding: '0.35rem 0.65rem' }}
+                  placeholder="Exam Year (2025)"
+                  value={examYear}
+                  onChange={(e) => {
+                    setExamYear(e.target.value);
+                    setPage(1);
+                  }}
+                />
+              </div>
+
+              <div className="ce-row" style={{ gap: '0.65rem', alignItems: 'center' }}>
+                {isFetching && !isLoading && (
+                  <span className="ce-loading-pill" role="status" aria-label="Updating resources feed">
+                    <LoadingSpinner size="xs" />
+                    <span>Updating feed...</span>
+                  </span>
+                )}
+                <button
+                  type="button"
+                  className="ce-btn ce-btn-ghost ce-btn-sm"
+                  onClick={() => {
+                    setQ('');
+                    setBranch('');
+                    setAcademicYear('');
+                    setSemester('');
+                    setSubject('');
+                    setResourceType('');
+                    setExamYear('');
+                    setPage(1);
+                  }}
+                >
+                  Reset Filters
+                </button>
+              </div>
             </div>
           </div>
         </div>

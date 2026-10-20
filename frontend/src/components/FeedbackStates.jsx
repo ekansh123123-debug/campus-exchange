@@ -106,7 +106,7 @@ export function ListRowSkeleton({ count = 3 }) {
           role="status"
           aria-label="Loading item..."
         >
-          <div className="ce-stack" style={{ gap: '0.4rem', flex: 1, minWidth: '220px' }}>
+          <div className="ce-stack" style={{ gap: '0.4rem', flex: 1, minWidth: 'min(220px, 100%)' }}>
             <div className="ce-row" style={{ gap: '0.5rem' }}>
               <Skeleton width="80px" height="20px" radius="var(--radius-pill)" />
               <Skeleton width="160px" height="18px" />

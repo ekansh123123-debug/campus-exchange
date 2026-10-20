@@ -34,8 +34,10 @@ export function ToastProvider({ children }) {
           display: 'flex',
           flexDirection: 'column',
           gap: '0.5rem',
-          maxWidth: '380px',
-          width: 'calc(100vw - 2.5rem)',
+          maxWidth: 'min(380px, calc(100% - 2.5rem))',
+          width: '100%',
+          boxSizing: 'border-box',
+          pointerEvents: toasts.length > 0 ? 'auto' : 'none',
         }}
       >
         {toasts.map((toast) => {

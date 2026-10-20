@@ -415,6 +415,338 @@ describe('CampusExchange Frontend Suite', () => {
 
     unmount();
   });
+
+  it('renders AppShell with responsive mobile toggle and opens navigation drawer on click', async () => {
+    const { unmount } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    const toggleBtn = screen.getByLabelText(/Open navigation menu/i);
+    expect(toggleBtn).toBeInTheDocument();
+    expect(document.querySelector('.ce-mobile-drawer')).not.toBeInTheDocument();
+
+    // Open drawer
+    await act(async () => {
+      toggleBtn.click();
+    });
+
+    expect(screen.getByLabelText(/Close navigation menu/i)).toBeInTheDocument();
+    const drawer = document.querySelector('.ce-mobile-drawer');
+    expect(drawer).toBeInTheDocument();
+
+    // Close drawer
+    const closeBtn = screen.getByLabelText(/Close navigation menu/i);
+    await act(async () => {
+      closeBtn.click();
+    });
+
+    expect(document.querySelector('.ce-mobile-drawer')).not.toBeInTheDocument();
+    unmount();
+  });
+
+  it('renders MessagesPage with ce-chat-layout to prevent horizontal overflow', async () => {
+    globalThis.fetch = vi.fn((url) => {
+      const urlStr = String(url);
+      if (urlStr.includes('/auth/refresh')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          headers: { get: () => 'application/json' },
+          json: () =>
+            Promise.resolve({
+              success: true,
+              data: {
+                accessToken: 'mock-token',
+                user: {
+                  userCode: 'CEU-STUDENT1',
+                  fullName: 'Test Student',
+                  collegeEmail: 'student@nitk.edu.in',
+                  role: 'student',
+                  accountStatus: 'verified',
+                  isEmailVerified: true,
+                },
+              },
+            }),
+        });
+      }
+      if (urlStr.includes('/conversations')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          headers: { get: () => 'application/json' },
+          json: () =>
+            Promise.resolve({
+              success: true,
+              data: [
+                {
+                  conversationCode: 'CEC-TEST01',
+                  listing: { title: 'Test Book' },
+                  otherParticipant: { fullName: 'Peer Student' },
+                  lastMessagePreview: 'Ready for pickup at library',
+                },
+              ],
+            }),
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        headers: { get: () => 'application/json' },
+        json: () => Promise.resolve({ success: true, data: {} }),
+      });
+    });
+
+    const { unmount } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/messages'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Campus Handover Coordination/i)).toBeInTheDocument();
+    });
+
+    const chatContainer = document.querySelector('.ce-chat-layout');
+    expect(chatContainer).toBeInTheDocument();
+    expect(chatContainer).toHaveClass('ce-chat-layout');
+    expect(chatContainer.style.gridTemplateColumns).toBe('');
+
+    unmount();
+  });
+
+  it('renders LandingPage with responsive activity feed items containing minWidth: 0', async () => {
+    const { unmount } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    expect(screen.getByText(/Live Campus Activity Pulse/i)).toBeInTheDocument();
+    const feedItems = document.querySelectorAll('.ce-live-feed-item');
+    expect(feedItems.length).toBeGreaterThan(0);
+    feedItems.forEach((item) => {
+      expect(item).toHaveClass('ce-live-feed-item');
+      const innerRow = item.querySelector('.ce-row');
+      expect(innerRow).toBeInTheDocument();
+      expect(innerRow.style.minWidth === '0' || innerRow.style.minWidth === '0px').toBe(true);
+    });
+
+    unmount();
+  });
+
+  it('toggles collapsible secondary filter tray on MarketplacePage when clicking filter toggle button', async () => {
+    const { unmount } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/marketplace'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Campus Marketplace/i)).toBeInTheDocument();
+    });
+
+    const toggleBtn = screen.getByRole('button', { name: /Show filter options/i });
+    expect(toggleBtn).toBeInTheDocument();
+
+    const filterTray = document.querySelector('.ce-marketplace-secondary-filters');
+    expect(filterTray).toBeInTheDocument();
+    expect(filterTray).not.toHaveClass('expanded');
+
+    // Click toggle to expand
+    await act(async () => {
+      toggleBtn.click();
+    });
+
+    expect(toggleBtn).toHaveAttribute('aria-label', 'Hide filter options');
+    expect(filterTray).toHaveClass('expanded');
+
+    // Click toggle to collapse
+    await act(async () => {
+      toggleBtn.click();
+    });
+
+    expect(toggleBtn).toHaveAttribute('aria-label', 'Show filter options');
+    expect(filterTray).not.toHaveClass('expanded');
+
+    unmount();
+  });
+
+  it('hides mobile bottom nav on listing detail page to avoid sticky action collision', async () => {
+    // 1. On marketplace page, bottom nav is rendered
+    const { unmount: unmountMarket } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/marketplace'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Campus Marketplace/i)).toBeInTheDocument();
+    });
+    expect(document.querySelector('.ce-mobile-bottom-nav')).toBeInTheDocument();
+    unmountMarket();
+
+    // 2. On listing detail page, bottom nav is hidden to avoid overlapping sticky action bar
+    globalThis.fetch = vi.fn((url) => {
+      const urlStr = String(url);
+      if (urlStr.includes('/listings/CEL-TEST01')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          headers: { get: () => 'application/json' },
+          json: () =>
+            Promise.resolve({
+              success: true,
+              data: {
+                listing: {
+                  listingCode: 'CEL-TEST01',
+                  title: 'Engineering Mechanics by Timoshenko',
+                  description: 'Original copy with lab notes',
+                  branch: 'MECH',
+                  semester: '2',
+                  condition: 'good',
+                  listingType: 'sell',
+                  priceInr: 300,
+                  pricePaise: 30000,
+                  status: 'active',
+                  seller: {
+                    userCode: 'CEU-SELLER1',
+                    fullName: 'Senior Mechanical Student',
+                    ratingAverage: 4.8,
+                    ratingCount: 5,
+                  },
+                },
+              },
+            }),
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        headers: { get: () => 'application/json' },
+        json: () => Promise.resolve({ success: true, data: {} }),
+      });
+    });
+
+    const { unmount: unmountDetail } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/listings/CEL-TEST01'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Engineering Mechanics by Timoshenko/i)).toBeInTheDocument();
+    });
+
+    // Mobile bottom nav should NOT be rendered on detail pages
+    expect(document.querySelector('.ce-mobile-bottom-nav')).not.toBeInTheDocument();
+    // Sticky mobile listing actions should be rendered
+    expect(document.querySelector('.ce-mobile-listing-actions')).toBeInTheDocument();
+
+    unmountDetail();
+  });
+
+  it('synchronizes mobileThreadOpen when navigating between thread and conversation list', async () => {
+    globalThis.fetch = vi.fn((url) => {
+      const urlStr = String(url);
+      if (urlStr.includes('/auth/refresh')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          headers: { get: () => 'application/json' },
+          json: () =>
+            Promise.resolve({
+              success: true,
+              data: {
+                accessToken: 'mock-token',
+                user: {
+                  userCode: 'CEU-STUDENT1',
+                  fullName: 'Test Student',
+                  collegeEmail: 'student@nitk.edu.in',
+                  role: 'student',
+                  accountStatus: 'verified',
+                  isEmailVerified: true,
+                },
+              },
+            }),
+        });
+      }
+      if (urlStr.includes('/conversations/CEC-TEST01')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          headers: { get: () => 'application/json' },
+          json: () =>
+            Promise.resolve({
+              success: true,
+              data: {
+                conversation: {
+                  conversationCode: 'CEC-TEST01',
+                  listing: { title: 'Test Book', listingCode: 'CEL-001' },
+                  messages: [{ id: '1', sender: { userCode: 'CEU-STUDENT1' }, body: 'Hi' }],
+                },
+              },
+            }),
+        });
+      }
+      if (urlStr.includes('/conversations')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          headers: { get: () => 'application/json' },
+          json: () =>
+            Promise.resolve({
+              success: true,
+              data: [
+                {
+                  conversationCode: 'CEC-TEST01',
+                  listing: { title: 'Test Book' },
+                  otherParticipant: { fullName: 'Peer Student' },
+                  lastMessagePreview: 'Ready for pickup',
+                },
+              ],
+            }),
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        headers: { get: () => 'application/json' },
+        json: () => Promise.resolve({ success: true, data: {} }),
+      });
+    });
+
+    // When on thread view, layout has mobile-thread-active
+    const { unmount: unmountThread } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/messages/CEC-TEST01'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      const layout = document.querySelector('.ce-chat-layout');
+      expect(layout).toHaveClass('mobile-thread-active');
+    });
+    // Bottom nav should be hidden on message thread view
+    expect(document.querySelector('.ce-mobile-bottom-nav')).not.toBeInTheDocument();
+    unmountThread();
+
+    // When on conversation list view, layout has mobile-list-active
+    const { unmount: unmountList } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/messages'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      const layout = document.querySelector('.ce-chat-layout');
+      expect(layout).toHaveClass('mobile-list-active');
+    });
+    // Bottom nav is visible on main messages list view
+    expect(document.querySelector('.ce-mobile-bottom-nav')).toBeInTheDocument();
+    unmountList();
+  });
 });
 
 

@@ -42,6 +42,7 @@ export function MarketplacePage() {
   const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '');
   const [sort, setSort] = useState(searchParams.get('sort') || 'newest');
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
+  const [mobileFiltersExpanded, setMobileFiltersExpanded] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -106,6 +107,18 @@ export function MarketplacePage() {
   const listings = extractList(listingsData);
   const pagination = extractMeta(listingsData);
 
+  const activeFilterCount = [
+    branch,
+    academicYear,
+    semester,
+    subject,
+    category,
+    listingType,
+    condition,
+    minPrice,
+    maxPrice,
+  ].filter(Boolean).length;
+
   const handleClearFilters = () => {
     setQ('');
     setDebouncedQ('');
@@ -145,7 +158,7 @@ export function MarketplacePage() {
       </div>
 
       {/* Interactive Quick Branch Filter Chips */}
-      <div className="ce-row" style={{ gap: '0.45rem', flexWrap: 'wrap' }}>
+      <div className="ce-chips-scroll" style={{ gap: '0.45rem', paddingBottom: '0.25rem' }}>
         <button
           type="button"
           className={`ce-branch-chip ${!branch ? 'active' : ''}`}
@@ -172,8 +185,8 @@ export function MarketplacePage() {
       </div>
 
       <div className="ce-card ce-stack">
-        <div className="ce-row" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
-          <div style={{ flex: '1 1 260px', position: 'relative' }}>
+        <div className="ce-row" style={{ gap: '0.65rem', width: '100%', flexWrap: 'wrap' }}>
+          <div style={{ flex: '1 1 260px', position: 'relative', minWidth: 0 }}>
             <input
               type="search"
               aria-label="Search marketplace keyword"
@@ -188,174 +201,237 @@ export function MarketplacePage() {
             />
           </div>
 
-          <input
-            type="text"
-            aria-label="Filter by Subject"
-            className="ce-input"
-            style={{ width: '175px' }}
-            placeholder="Subject (e.g. Algorithms)"
-            value={subject}
-            onChange={(e) => {
-              setSubject(e.target.value);
-              setPage(1);
-            }}
-          />
-
-          <select
-            aria-label="Filter by Category"
-            className="ce-select"
-            style={{ width: 'auto', minWidth: '160px' }}
-            value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
-              setPage(1);
-            }}
+          <button
+            type="button"
+            className={`ce-filter-toggle-btn ${activeFilterCount > 0 ? 'has-filters' : ''}`}
+            onClick={() => setMobileFiltersExpanded((prev) => !prev)}
+            aria-label={mobileFiltersExpanded ? 'Hide filter options' : 'Show filter options'}
           >
-            <option value="">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat.slug} value={cat.slug}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+            <SlidersHorizontal size={15} />
+            <span>Filters</span>
+            {activeFilterCount > 0 && (
+              <span className="ce-badge ce-badge-info" style={{ padding: '1px 6px', fontSize: '0.72rem' }}>
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
 
-          <select
-            aria-label="Filter by Department"
-            className="ce-select"
-            style={{ width: 'auto', minWidth: '125px' }}
-            value={branch}
-            onChange={(e) => {
-              setBranch(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="">All Branches</option>
-            {BRANCHES.map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
-            ))}
-          </select>
-
-          <select
-            aria-label="Filter by Academic Year"
-            className="ce-select"
-            style={{ width: 'auto', minWidth: '115px' }}
-            value={academicYear}
-            onChange={(e) => {
-              setAcademicYear(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="">All Years</option>
-            {ACADEMIC_YEARS.map((yr) => (
-              <option key={yr} value={yr}>
-                Year {yr}
-              </option>
-            ))}
-          </select>
-
-          <select
-            aria-label="Filter by Semester"
-            className="ce-select"
-            style={{ width: 'auto', minWidth: '125px' }}
-            value={semester}
-            onChange={(e) => {
-              setSemester(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="">All Semesters</option>
-            {SEMESTERS.map((s) => (
-              <option key={s} value={s}>
-                Semester {s}
-              </option>
-            ))}
-          </select>
+          {activeFilterCount > 0 && (
+            <button
+              type="button"
+              className="ce-btn ce-btn-ghost ce-btn-sm"
+              onClick={handleClearFilters}
+              style={{ fontSize: '0.82rem' }}
+            >
+              Clear ({activeFilterCount})
+            </button>
+          )}
         </div>
 
+        {/* Secondary Filter Controls (Collapsible on mobile, inline on desktop) */}
         <div
-          className="ce-row-between"
-          style={{ flexWrap: 'wrap', gap: '0.75rem', paddingTop: '0.25rem' }}
+          className={`ce-marketplace-secondary-filters ${mobileFiltersExpanded ? 'expanded' : ''} ce-stack`}
+          style={{ gap: '0.75rem', width: '100%', paddingTop: '0.25rem' }}
         >
-          <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.6rem' }}>
-            <SlidersHorizontal size={15} className="ce-muted" />
-            <select
-              aria-label="Filter by Pricing Mode"
-              className="ce-select"
-              style={{ width: 'auto', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
-              value={listingType}
-              onChange={(e) => {
-                setListingType(e.target.value);
-                setPage(1);
-              }}
-            >
-              <option value="">Any Listing Type</option>
-              {LISTING_TYPES.map((m) => (
-                <option key={m.value} value={m.value}>
-                  {m.label}
-                </option>
-              ))}
-            </select>
-
-            <select
-              aria-label="Filter by Condition"
-              className="ce-select"
-              style={{ width: 'auto', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
-              value={condition}
-              onChange={(e) => {
-                setCondition(e.target.value);
-                setPage(1);
-              }}
-            >
-              <option value="">Any Condition</option>
-              {LISTING_CONDITIONS.map((c) => (
-                <option key={c.value} value={c.value}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
-
+          <div className="ce-row" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
             <input
-              type="number"
-              min="0"
-              aria-label="Minimum Price in INR"
+              type="text"
+              aria-label="Filter by Subject"
               className="ce-input"
-              style={{ width: '115px', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
-              placeholder="Min ₹"
-              value={minPrice}
+              style={{ width: 'min(175px, 100%)' }}
+              placeholder="Subject (e.g. Algorithms)"
+              value={subject}
               onChange={(e) => {
-                setMinPrice(e.target.value);
-                setPage(1);
-              }}
-            />
-
-            <input
-              type="number"
-              min="0"
-              aria-label="Maximum Price in INR"
-              className="ce-input"
-              style={{ width: '115px', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
-              placeholder="Max ₹"
-              value={maxPrice}
-              onChange={(e) => {
-                setMaxPrice(e.target.value);
+                setSubject(e.target.value);
                 setPage(1);
               }}
             />
 
             <select
-              aria-label="Sort Listings"
+              aria-label="Filter by Category"
               className="ce-select"
-              style={{ width: 'auto', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
+              style={{ width: 'auto', minWidth: '160px' }}
+              value={category}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                setPage(1);
+              }}
             >
-              <option value="newest">Newest First</option>
-              <option value="price_asc">Price: Low to High</option>
-              <option value="price_desc">Price: High to Low</option>
+              <option value="">All Categories</option>
+              {categories.map((cat) => (
+                <option key={cat.slug} value={cat.slug}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+
+            <select
+              aria-label="Filter by Department"
+              className="ce-select"
+              style={{ width: 'auto', minWidth: '125px' }}
+              value={branch}
+              onChange={(e) => {
+                setBranch(e.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="">All Branches</option>
+              {BRANCHES.map((d) => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
+            </select>
+
+            <select
+              aria-label="Filter by Academic Year"
+              className="ce-select"
+              style={{ width: 'auto', minWidth: '115px' }}
+              value={academicYear}
+              onChange={(e) => {
+                setAcademicYear(e.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="">All Years</option>
+              {ACADEMIC_YEARS.map((yr) => (
+                <option key={yr} value={yr}>
+                  Year {yr}
+                </option>
+              ))}
+            </select>
+
+            <select
+              aria-label="Filter by Semester"
+              className="ce-select"
+              style={{ width: 'auto', minWidth: '125px' }}
+              value={semester}
+              onChange={(e) => {
+                setSemester(e.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="">All Semesters</option>
+              {SEMESTERS.map((s) => (
+                <option key={s} value={s}>
+                  Semester {s}
+                </option>
+              ))}
             </select>
           </div>
+
+          <div
+            className="ce-row-between"
+            style={{ flexWrap: 'wrap', gap: '0.75rem', paddingTop: '0.25rem' }}
+          >
+            <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.6rem' }}>
+              <select
+                aria-label="Filter by Pricing Mode"
+                className="ce-select"
+                style={{ width: 'auto', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
+                value={listingType}
+                onChange={(e) => {
+                  setListingType(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <option value="">Any Listing Type</option>
+                {LISTING_TYPES.map((m) => (
+                  <option key={m.value} value={m.value}>
+                    {m.label}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                aria-label="Filter by Condition"
+                className="ce-select"
+                style={{ width: 'auto', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
+                value={condition}
+                onChange={(e) => {
+                  setCondition(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <option value="">Any Condition</option>
+                {LISTING_CONDITIONS.map((c) => (
+                  <option key={c.value} value={c.value}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="number"
+                min="0"
+                aria-label="Minimum Price in INR"
+                className="ce-input"
+                style={{ width: '115px', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
+                placeholder="Min ₹"
+                value={minPrice}
+                onChange={(e) => {
+                  setMinPrice(e.target.value);
+                  setPage(1);
+                }}
+              />
+
+              <input
+                type="number"
+                min="0"
+                aria-label="Maximum Price in INR"
+                className="ce-input"
+                style={{ width: '115px', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
+                placeholder="Max ₹"
+                value={maxPrice}
+                onChange={(e) => {
+                  setMaxPrice(e.target.value);
+                  setPage(1);
+                }}
+              />
+
+              <select
+                aria-label="Sort Listings"
+                className="ce-select"
+                style={{ width: 'auto', padding: '0.35rem 0.65rem', fontSize: '0.84rem' }}
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+              >
+                <option value="newest">Newest First</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+              </select>
+            </div>
+
+            {/* Quick Price Presets on Mobile */}
+            <div className="ce-row" style={{ gap: '0.35rem', flexWrap: 'wrap' }}>
+              <span className="ce-muted" style={{ fontSize: '0.78rem' }}>Quick:</span>
+              <button
+                type="button"
+                className="ce-branch-chip"
+                style={{ padding: '3px 9px', fontSize: '0.78rem' }}
+                onClick={() => { setMinPrice(''); setMaxPrice('300'); setPage(1); }}
+              >
+                &lt; ₹300
+              </button>
+              <button
+                type="button"
+                className="ce-branch-chip"
+                style={{ padding: '3px 9px', fontSize: '0.78rem' }}
+                onClick={() => { setMinPrice(''); setMaxPrice('600'); setPage(1); }}
+              >
+                &lt; ₹600
+              </button>
+              <button
+                type="button"
+                className="ce-branch-chip"
+                style={{ padding: '3px 9px', fontSize: '0.78rem' }}
+                onClick={() => { setListingType('exchange'); setPage(1); }}
+              >
+                Exchange
+              </button>
+            </div>
+          </div>
+        </div>
 
           <div className="ce-row" style={{ gap: '0.75rem', alignItems: 'center' }}>
             {isFetching && !isLoading && (
@@ -376,7 +452,6 @@ export function MarketplacePage() {
             </button>
           </div>
         </div>
-      </div>
 
       {isLoading ? (
         <LoadingState label="Searching campus marketplace..." rows={6} />

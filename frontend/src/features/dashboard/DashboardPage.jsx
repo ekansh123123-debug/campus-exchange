@@ -61,7 +61,7 @@ export function DashboardPage() {
       <div className="ce-card" style={{ background: 'var(--ce-bg-elevated)' }}>
         <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
           <div className="ce-stack" style={{ gap: '0.4rem' }}>
-            <div className="ce-row" style={{ gap: '0.5rem' }}>
+            <div className="ce-row" style={{ gap: '0.5rem', flexWrap: 'wrap' }}>
               <CodeBadge>{user?.userCode}</CodeBadge>
               <CodeBadge>
                 {userBranch} · YEAR {user?.academicYear || '1'}

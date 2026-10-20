@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Send, MessageSquare, Flag } from 'lucide-react';
+import { Send, MessageSquare, Flag, ArrowLeft } from 'lucide-react';
 import { apiRequest } from '../../lib/api-client.js';
 import { extractList, formatDateTime } from '../../lib/formatters.js';
 import { CodeBadge } from '../../components/CodeBadge.jsx';
@@ -25,6 +25,11 @@ export function MessagesPage() {
   const [body, setBody] = useState('');
   const [sending, setSending] = useState(false);
   const [reportTargetMsg, setReportTargetMsg] = useState(null);
+  const [mobileThreadOpen, setMobileThreadOpen] = useState(Boolean(conversationCode));
+
+  useEffect(() => {
+    setMobileThreadOpen(Boolean(conversationCode));
+  }, [conversationCode]);
 
   const {
     data: convListRes,
@@ -118,12 +123,9 @@ export function MessagesPage() {
           }
         />
       ) : (
-        <div
-          className="ce-grid-2"
-          style={{ gridTemplateColumns: 'minmax(260px, 340px) 1fr', alignItems: 'start' }}
-        >
+        <div className={`ce-chat-layout ${mobileThreadOpen ? 'mobile-thread-active' : 'mobile-list-active'}`}>
           <div className="ce-card ce-stack" style={{ padding: '0.75rem', gap: '0.45rem' }}>
-            {conversations.map((conv) => {
+            {conversations.map((conv, idx) => {
               const isSelected = conv.conversationCode === activeCode;
               const peer =
                 conv.otherParticipant ||
@@ -131,9 +133,12 @@ export function MessagesPage() {
                 (conv.buyer?.userCode === user?.userCode ? conv.seller : conv.buyer);
               return (
                 <button
-                  key={conv.conversationCode}
+                  key={conv.conversationCode || conv.id || `conv-${idx}`}
                   type="button"
-                  onClick={() => navigate(`/messages/${conv.conversationCode}`)}
+                  onClick={() => {
+                    setMobileThreadOpen(true);
+                    navigate(`/messages/${conv.conversationCode}`);
+                  }}
                   style={{
                     textAlign: 'left',
                     padding: '0.75rem',
@@ -188,16 +193,31 @@ export function MessagesPage() {
               <>
                 <div
                   className="ce-row-between"
-                  style={{ paddingBottom: '0.75rem', borderBottom: '1px solid var(--ce-border)' }}
+                  style={{ paddingBottom: '0.75rem', borderBottom: '1px solid var(--ce-border)', flexWrap: 'wrap', gap: '0.5rem' }}
                 >
-                  <div>
-                    <div className="ce-row" style={{ gap: '0.45rem' }}>
-                      <MessageSquare size={16} color="var(--ce-accent)" />
-                      <strong>{activeConv.listing?.title || 'Campus Item'}</strong>
-                    </div>
-                    <div className="ce-muted" style={{ fontSize: '0.8rem', marginTop: '0.15rem' }}>
-                      Conversation Code: {activeConv.conversationCode}
-                      {activePeer?.fullName ? ` · Peer: ${activePeer.fullName}` : ''}
+                  <div className="ce-row" style={{ gap: '0.5rem' }}>
+                    <button
+                      type="button"
+                      className="ce-btn ce-btn-ghost ce-btn-sm ce-mobile-back-btn"
+                      onClick={() => {
+                        setMobileThreadOpen(false);
+                        navigate('/messages');
+                      }}
+                      aria-label="Back to conversations list"
+                      style={{ padding: '0.35rem 0.5rem' }}
+                    >
+                      <ArrowLeft size={16} />
+                      <span>Chats</span>
+                    </button>
+                    <div>
+                      <div className="ce-row" style={{ gap: '0.45rem' }}>
+                        <MessageSquare size={16} color="var(--ce-accent)" />
+                        <strong>{activeConv.listing?.title || 'Campus Item'}</strong>
+                      </div>
+                      <div className="ce-muted" style={{ fontSize: '0.8rem', marginTop: '0.15rem' }}>
+                        Conversation Code: {activeConv.conversationCode}
+                        {activePeer?.fullName ? ` · Peer: ${activePeer.fullName}` : ''}
+                      </div>
                     </div>
                   </div>
                   {activeConv.listing?.listingCode && (
@@ -232,22 +252,24 @@ export function MessagesPage() {
                       Send a message to coordinate campus gate pickup.
                     </div>
                   ) : (
-                    messages.map((msg) => {
+                    messages.map((msg, idx) => {
                       const isMine = msg.isMine || msg.sender?.userCode === user?.userCode;
                       const senderCode = msg.sender?.userCode || activePeer?.userCode;
                       return (
                         <div
-                          key={msg.messageCode || msg.id}
+                          key={msg.messageCode || msg.id || `msg-${idx}`}
                           className="ce-chat-bubble-enter"
                           style={{
                             alignSelf: isMine ? 'flex-end' : 'flex-start',
-                            maxWidth: '80%',
+                            maxWidth: 'min(85%, 100%)',
                             padding: '0.65rem 0.85rem',
                             borderRadius: 'var(--ce-radius-md)',
                             background: isMine
                               ? 'var(--ce-accent-subtle)'
                               : 'var(--ce-bg-elevated)',
                             border: '1px solid var(--ce-border)',
+                            overflowWrap: 'anywhere',
+                            wordBreak: 'break-word',
                           }}
                         >
                           <div
@@ -277,7 +299,7 @@ export function MessagesPage() {
                               )}
                             </div>
                           </div>
-                          <div style={{ fontSize: '0.9rem', whiteSpace: 'pre-wrap' }}>
+                          <div style={{ fontSize: '0.9rem', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                             {msg.body}
                           </div>
                         </div>
@@ -316,6 +338,7 @@ export function MessagesPage() {
                       type="text"
                       maxLength={2000}
                       className="ce-input"
+                      style={{ flex: 1, minWidth: 0 }}
                       placeholder="Write a message about pickup timing or campus gate..."
                       value={body}
                       onChange={(e) => setBody(e.target.value)}
