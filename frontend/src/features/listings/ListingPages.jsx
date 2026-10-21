@@ -695,13 +695,11 @@ export function CreateEditListingPage() {
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto' }} className="ce-stack-lg ce-animate-enter">
       <div>
-        <CodeBadge>SELLER STUDIO</CodeBadge>
-        <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
+        <h1 className="ce-title-section">
           {editCode ? `Update Listing (${editCode})` : 'List a Campus Item'}
         </h1>
         <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.9rem' }}>
-          Provide accurate condition details so campus peers can inspect and reserve with
-          confidence.
+          Provide accurate details so campus peers can inspect and reserve with confidence.
         </p>
       </div>
 
@@ -1032,8 +1030,7 @@ export function MyListingsPage() {
     <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <CodeBadge>INVENTORY MANAGEMENT</CodeBadge>
-          <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
+          <h1 className="ce-title-section">
             My Campus Listings
           </h1>
         </div>

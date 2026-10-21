@@ -41,10 +41,12 @@ export function WishlistPage() {
   return (
     <div className="ce-stack-lg ce-animate-enter">
       <div>
-        <CodeBadge>SAVED ITEMS</CodeBadge>
-        <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
-          My Saved Campus Listings
+        <h1 className="ce-title-section">
+          Saved Campus Listings
         </h1>
+        <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.9rem' }}>
+          Items you've bookmarked to compare and reserve later.
+        </p>
       </div>
 
       {isLoading ? (

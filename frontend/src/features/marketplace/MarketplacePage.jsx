@@ -138,14 +138,13 @@ export function MarketplacePage() {
 
   return (
     <div className="ce-stack-lg ce-animate-enter">
-      <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
         <div>
-          <CodeBadge>CAMPUS MARKETPLACE</CodeBadge>
-          <h1 className="ce-title-section" style={{ fontSize: '1.85rem', marginTop: '0.35rem' }}>
-            Student Textbooks, Lab Kits & Engineering Gear
+          <h1 className="ce-title-section" style={{ fontSize: '1.75rem' }}>
+            Campus Marketplace
           </h1>
           <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.92rem' }}>
-            Every item is listed by a verified college peer for safe on-campus gate pickup.
+            Student Textbooks, Lab Kits & Engineering Gear from verified peers.
           </p>
         </div>
 

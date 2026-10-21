@@ -11,6 +11,7 @@ import { queryClient } from '../lib/query-client.js';
 import { TopLoadingBar } from '../components/TopLoadingBar.jsx';
 import { LoadingState, LoadingSpinner } from '../components/FeedbackStates.jsx';
 import { subscribeToActiveRequests, getActiveRequestCount, apiRequest } from '../lib/api-client.js';
+import { NotificationsPage } from '../features/notifications/NotificationsPage.jsx';
 
 describe('CampusExchange Frontend Suite', () => {
   beforeEach(() => {
@@ -746,6 +747,106 @@ describe('CampusExchange Frontend Suite', () => {
     // Bottom nav is visible on main messages list view
     expect(document.querySelector('.ce-mobile-bottom-nav')).toBeInTheDocument();
     unmountList();
+  });
+
+  it('removes fake campus savings calculator and unnecessary clutter from LandingPage', async () => {
+    const { unmount } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    // Verify hero and activity pulse remain
+    expect(
+      await screen.findByText(/Pass down textbooks, lab gear, and verified PYQs/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Live Campus Activity Pulse/i)).toBeInTheDocument();
+
+    // Verify fake calculator and its mock calculations are completely removed
+    expect(screen.queryByLabelText(/Campus Savings Estimator/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Campus Savings & Cohort Explorer/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Estimated semester peer savings/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Direct Student Savings/i)).not.toBeInTheDocument();
+
+    unmount();
+  });
+
+  it('renders streamlined navbar without redundant badge clutter or heading collision', async () => {
+    const { unmount } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    const brandLink = screen.getByRole('link', { name: /CampusExchange Home/i });
+    expect(brandLink).toBeInTheDocument();
+    // Brand should be clean text, not containing VERIFIED CAMPUS badge inside logo
+    expect(brandLink.querySelector('.ce-brand-badge')).toBeNull();
+
+    // Navbar should have separated desktop and mobile containers
+    const desktopControls = document.querySelector('.ce-row.ce-desktop-only');
+    expect(desktopControls).toBeInTheDocument();
+    const mobileControls = document.querySelector('.ce-row.ce-mobile-only');
+    expect(mobileControls).toBeInTheDocument();
+
+    unmount();
+  });
+
+  it('renders clean page headers across main views without redundant stacked badges', async () => {
+    // 1. Marketplace page header is clean
+    const { unmount: unmountMarket } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/marketplace'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { level: 1, name: /Campus Marketplace/i })).toBeInTheDocument();
+    });
+    const marketH1 = screen.getByRole('heading', { level: 1, name: /Campus Marketplace/i });
+    expect(marketH1.previousElementSibling).toBeNull();
+    unmountMarket();
+
+    // 2. Resources page header is clean
+    const { unmount: unmountRes } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/resources'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { level: 1, name: /PYQ & Study Library/i })).toBeInTheDocument();
+    });
+    const resH1 = screen.getByRole('heading', { level: 1, name: /PYQ & Study Library/i });
+    expect(resH1.previousElementSibling).toBeNull();
+    expect(screen.queryByText(/ACADEMIC RESOURCE & PYQ ARCHIVE/i)).not.toBeInTheDocument();
+    unmountRes();
+
+    // 3. Login page header is clean
+    const { unmount: unmountLogin } = render(
+      <AppProviders RouterComponent={MemoryRouter} routerProps={{ initialEntries: ['/login'] }}>
+        <AppRouter />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { level: 1, name: /Sign in to CampusExchange/i })).toBeInTheDocument();
+    });
+    expect(screen.queryByText(/CAMPUS AUTHENTICATION/i)).not.toBeInTheDocument();
+    unmountLogin();
+
+    // 4. Notifications page header is clean
+    const { unmount: unmountNotif } = render(
+      <AppProviders RouterComponent={MemoryRouter}>
+        <NotificationsPage />
+      </AppProviders>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { level: 1, name: /Campus Alerts & Moderation Updates/i })).toBeInTheDocument();
+    });
+    expect(screen.queryByText(/IN-APP ACTIVITY STREAM/i)).not.toBeInTheDocument();
+    unmountNotif();
   });
 });
 

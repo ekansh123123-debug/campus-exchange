@@ -69,14 +69,10 @@ export function AppShell() {
       <TopLoadingBar />
       <header className="ce-navbar">
         <div className="ce-container ce-navbar-inner">
-          <div className="ce-row" style={{ gap: 'clamp(0.4rem, 1vw, 1rem)', minWidth: 0, flex: 1 }}>
+          <div className="ce-row" style={{ gap: 'clamp(0.4rem, 1.2vw, 1.1rem)', minWidth: 0, flex: '1 1 auto', overflow: 'hidden' }}>
             {/* Clickable Brand Logo */}
             <Link to={isAuthenticated ? '/app' : '/'} className="ce-brand" aria-label="CampusExchange Home">
               <span>CampusExchange</span>
-              <span className="ce-brand-badge ce-row" style={{ gap: '0.35rem', alignItems: 'center' }}>
-                <span className="ce-pulse-beacon" aria-hidden="true" style={{ width: 6, height: 6 }} />
-                VERIFIED CAMPUS
-              </span>
             </Link>
 
             {/* Desktop Navigation Links */}
@@ -97,7 +93,7 @@ export function AppShell() {
               >
                 <span className="ce-row" style={{ gap: '0.35rem' }}>
                   <BookOpen size={15} />
-                  PYQ & Library
+                  PYQ Library
                 </span>
               </NavLink>
 
@@ -111,16 +107,6 @@ export function AppShell() {
                     <span className="ce-row" style={{ gap: '0.35rem' }}>
                       <LayoutDashboard size={15} />
                       Hub
-                    </span>
-                  </NavLink>
-
-                  <NavLink
-                    to="/my-listings"
-                    className={({ isActive }) => `ce-nav-link ${isActive ? 'active' : ''}`}
-                  >
-                    <span className="ce-row" style={{ gap: '0.35rem' }}>
-                      <Package size={15} />
-                      My Listings
                     </span>
                   </NavLink>
 
@@ -143,16 +129,6 @@ export function AppShell() {
                       Chat
                     </span>
                   </NavLink>
-
-                  <NavLink
-                    to="/wishlist"
-                    className={({ isActive }) => `ce-nav-link ${isActive ? 'active' : ''}`}
-                  >
-                    <span className="ce-row" style={{ gap: '0.35rem' }}>
-                      <Heart size={15} />
-                      Saved
-                    </span>
-                  </NavLink>
                 </>
               )}
 
@@ -171,24 +147,18 @@ export function AppShell() {
           </div>
 
           {/* Desktop Right Side Controls */}
-          <div className="ce-row ce-desktop-only" style={{ gap: '0.45rem', flexShrink: 0 }}>
+          <div className="ce-row ce-desktop-only" style={{ gap: '0.45rem', flexShrink: 0, zIndex: 2 }}>
             {isAuthenticated ? (
               <>
                 {isVerifiedStudent && (
                   <>
                     <Link to="/listings/new" className="ce-btn ce-btn-primary ce-btn-sm">
                       <PlusCircle size={15} />
-                      <span>
-                        <span className="ce-btn-label-desktop">Sell Item</span>
-                        <span className="ce-btn-label-compact">Sell</span>
-                      </span>
+                      <span>Sell</span>
                     </Link>
                     <Link to="/resources/upload" className="ce-btn ce-btn-secondary ce-btn-sm">
                       <Upload size={15} />
-                      <span>
-                        <span className="ce-btn-label-desktop">Upload PYQ</span>
-                        <span className="ce-btn-label-compact">Upload</span>
-                      </span>
+                      <span>Upload</span>
                     </Link>
                   </>
                 )}
@@ -216,7 +186,7 @@ export function AppShell() {
 
                 <Link to="/profile" className="ce-btn ce-btn-ghost ce-btn-sm" title={user?.fullName}>
                   <UserIcon size={16} />
-                  <span style={{ maxWidth: '85px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <span style={{ maxWidth: '75px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {user?.fullName?.split(' ')[0] || 'Profile'}
                   </span>
                 </Link>
@@ -237,7 +207,7 @@ export function AppShell() {
                   Sign In
                 </Link>
                 <Link to="/register" className="ce-btn ce-btn-primary ce-btn-sm">
-                  Verify Campus ID
+                  Register
                 </Link>
               </>
             )}
@@ -492,22 +462,6 @@ export function AppShell() {
               )}
             </nav>
 
-            <div className="ce-mobile-contacts-section">
-              <div className="ce-muted" style={{ fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.4rem' }}>
-                Campus Assistance & Security
-              </div>
-              <div className="ce-row" style={{ gap: '0.75rem', flexWrap: 'wrap' }}>
-                <a href="tel:+918242474000" className="ce-contact-link">
-                  <Phone size={14} />
-                  <span>+91 824 247 4000</span>
-                </a>
-                <a href="mailto:support@campusexchange.edu" className="ce-contact-link">
-                  <Mail size={14} />
-                  <span>support@campusexchange.edu</span>
-                </a>
-              </div>
-            </div>
-
             {isAuthenticated && (
               <button
                 type="button"
@@ -553,51 +507,37 @@ export function AppShell() {
         </div>
       </main>
 
-      {/* Responsive Footer with Clickable Logo, Contacts, Links & Dynamic Year */}
+      {/* Footer */}
       <footer className="ce-footer">
-        <div className="ce-container ce-stack" style={{ gap: '1.75rem' }}>
+        <div className="ce-container ce-stack" style={{ gap: '1.5rem' }}>
           <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1.5rem', alignItems: 'flex-start' }}>
-            <div style={{ maxWidth: '420px', minWidth: 0 }}>
-              <Link to={isAuthenticated ? '/app' : '/'} className="ce-brand" style={{ marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+            <div style={{ maxWidth: '380px', minWidth: 0 }}>
+              <Link to={isAuthenticated ? '/app' : '/'} className="ce-brand" style={{ marginBottom: '0.4rem' }}>
                 <span>CampusExchange</span>
-                <span className="ce-brand-badge">VERIFIED CAMPUS</span>
               </Link>
-              <p className="ce-muted" style={{ margin: '0.5rem 0 1rem', fontSize: '0.88rem', lineHeight: 1.5 }}>
-                Peer-to-peer engineering student marketplace & moderated academic library. Every handover is tracked on campus with concurrency-safe single-active reservations.
+              <p className="ce-muted" style={{ margin: '0.4rem 0 0', fontSize: '0.88rem', lineHeight: 1.5 }}>
+                Peer-to-peer student marketplace and academic library for college campuses.
               </p>
-              {/* Clickable Helpline & Support Contacts */}
-              <div className="ce-row" style={{ gap: '1.25rem', flexWrap: 'wrap', fontSize: '0.88rem' }}>
-                <a href="tel:+918242474000" className="ce-contact-link" title="Call Campus Desk">
-                  <Phone size={14} color="var(--ce-primary)" />
-                  <span>+91 824 247 4000</span>
-                </a>
-                <a href="mailto:support@campusexchange.edu" className="ce-contact-link" title="Email Student Support">
-                  <Mail size={14} color="var(--ce-primary)" />
-                  <span>support@campusexchange.edu</span>
-                </a>
-              </div>
             </div>
 
-            <div className="ce-row" style={{ gap: 'clamp(1.25rem, 3.5vw, 3rem)', flexWrap: 'wrap' }}>
-              <div className="ce-stack" style={{ gap: '0.45rem', fontSize: '0.88rem' }}>
+            <div className="ce-row" style={{ gap: 'clamp(1.5rem, 4vw, 3.5rem)', flexWrap: 'wrap' }}>
+              <div className="ce-stack" style={{ gap: '0.4rem', fontSize: '0.88rem' }}>
                 <strong style={{ color: 'var(--ce-ink)' }}>Marketplace</strong>
-                <Link to="/marketplace" className="ce-footer-link">Textbooks & Calculators</Link>
-                <Link to="/marketplace?category=drawing-instruments" className="ce-footer-link">Drafting & Lab Kits</Link>
-                {isVerifiedStudent && <Link to="/listings/new" className="ce-footer-link">Sell / Share Item</Link>}
+                <Link to="/marketplace" className="ce-footer-link">Browse Items</Link>
+                {isVerifiedStudent && <Link to="/listings/new" className="ce-footer-link">Sell Item</Link>}
               </div>
 
-              <div className="ce-stack" style={{ gap: '0.45rem', fontSize: '0.88rem' }}>
-                <strong style={{ color: 'var(--ce-ink)' }}>Academics</strong>
-                <Link to="/resources" className="ce-footer-link">PYQ Library</Link>
-                <Link to="/resources?type=notes" className="ce-footer-link">Lecture Notes</Link>
-                {isVerifiedStudent && <Link to="/resources/upload" className="ce-footer-link">Upload Exam Paper</Link>}
+              <div className="ce-stack" style={{ gap: '0.4rem', fontSize: '0.88rem' }}>
+                <strong style={{ color: 'var(--ce-ink)' }}>Study Library</strong>
+                <Link to="/resources" className="ce-footer-link">PYQ Papers</Link>
+                {isVerifiedStudent && <Link to="/resources/upload" className="ce-footer-link">Upload Material</Link>}
               </div>
 
-              <div className="ce-stack" style={{ gap: '0.45rem', fontSize: '0.88rem' }}>
+              <div className="ce-stack" style={{ gap: '0.4rem', fontSize: '0.88rem' }}>
                 <strong style={{ color: 'var(--ce-ink)' }}>Student Space</strong>
-                <Link to="/app" className="ce-footer-link">Student Hub</Link>
-                <Link to="/transactions" className="ce-footer-link">Campus Handovers</Link>
-                <Link to="/wishlist" className="ce-footer-link">Saved Wishlist</Link>
+                <Link to={isAuthenticated ? '/app' : '/login'} className="ce-footer-link">Student Hub</Link>
+                {isAuthenticated && <Link to="/transactions" className="ce-footer-link">Campus Handovers</Link>}
+                {isAuthenticated && <Link to="/wishlist" className="ce-footer-link">Saved Wishlist</Link>}
               </div>
             </div>
           </div>
@@ -614,12 +554,7 @@ export function AppShell() {
             }}
           >
             <div>
-              &copy; {currentYear} CampusExchange. Verified engineering institutional network.
-            </div>
-            <div className="ce-row" style={{ gap: '1rem', flexWrap: 'wrap' }}>
-              <span>Central Library & SAC Handovers</span>
-              <span>&bull;</span>
-              <span>Single-Active Concurrency Protection</span>
+              &copy; {currentYear} CampusExchange. All rights reserved.
             </div>
           </div>
         </div>

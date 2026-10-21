@@ -73,13 +73,12 @@ export function AdminDashboardPage() {
   return (
     <div className="ce-stack-lg ce-animate-enter">
       <div>
-        <div className="ce-row" style={{ gap: '0.5rem' }}>
-          <ShieldCheck size={18} color="var(--ce-accent)" />
-          <CodeBadge>CAMPUS GOVERNANCE CONSOLE</CodeBadge>
-        </div>
-        <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
-          Moderation & Operational Telemetry
+        <h1 className="ce-title-section">
+          Admin Governance Console
         </h1>
+        <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.9rem' }}>
+          Listing moderation, academic resource reviews, and platform activity.
+        </p>
       </div>
 
       <AdminSubNav />
@@ -223,8 +222,7 @@ export function AdminListingsPage() {
     <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <CodeBadge>MARKETPLACE MODERATION</CodeBadge>
-          <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
+          <h1 className="ce-title-section">
             Student Listing Queue
           </h1>
         </div>
@@ -377,8 +375,7 @@ export function AdminResourcesPage() {
     <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <CodeBadge>LIBRARY MODERATION</CodeBadge>
-          <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
+          <h1 className="ce-title-section">
             PYQ & Academic Resource Queue
           </h1>
         </div>
@@ -539,8 +536,7 @@ export function AdminUsersPage() {
     <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <CodeBadge>ACCOUNT GOVERNANCE</CodeBadge>
-          <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
+          <h1 className="ce-title-section">
             Campus Student Directory
           </h1>
         </div>
@@ -699,8 +695,7 @@ export function AdminReportsPage() {
     <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <CodeBadge>INCIDENT RESPONSE</CodeBadge>
-          <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
+          <h1 className="ce-title-section">
             Campus Policy Reports
           </h1>
         </div>

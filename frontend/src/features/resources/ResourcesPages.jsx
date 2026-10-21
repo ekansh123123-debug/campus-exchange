@@ -122,15 +122,13 @@ export function ResourcesPage() {
 
   return (
     <div className="ce-stack-lg ce-animate-enter">
-      <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
+      <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
         <div>
-          <CodeBadge>ACADEMIC RESOURCE & PYQ ARCHIVE</CodeBadge>
-          <h1 className="ce-title-section" style={{ fontSize: '1.85rem', marginTop: '0.35rem' }}>
-            Verified Past Question Papers, Notes & Lab Manuals
+          <h1 className="ce-title-section" style={{ fontSize: '1.75rem' }}>
+            PYQ & Study Library
           </h1>
           <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.92rem' }}>
-            Every PDF upload is magic-byte verified and reviewed by campus moderators before
-            publication.
+            Verified question papers, lecture notes, and lab manuals from college peers.
           </p>
         </div>
 
@@ -617,13 +615,11 @@ export function UploadResourcePage() {
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto' }} className="ce-stack-lg">
       <div>
-        <CodeBadge>CONTRIBUTOR UPLOAD</CodeBadge>
-        <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
+        <h1 className="ce-title-section">
           Upload PYQ, Lecture Notes, or Lab Manual
         </h1>
         <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.9rem' }}>
-          Files are verified for authentic PDF binary headers (%PDF-) and enter the moderation
-          queue before appearing publicly.
+          Upload PDF resources to share with students on campus.
         </p>
       </div>
 

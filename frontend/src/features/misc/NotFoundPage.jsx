@@ -23,7 +23,6 @@ export function NotFoundPage() {
     >
       <div className="ce-row" style={{ gap: '0.6rem', justifyContent: 'center' }}>
         <span className="ce-badge ce-badge-danger">HTTP 404</span>
-        <CodeBadge>CAMPUS REFERENCE NOT FOUND</CodeBadge>
       </div>
 
       <div

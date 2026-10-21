@@ -39,6 +39,8 @@ export function TopLoadingBar() {
   const coldStartTimerRef = useRef(null);
   const completeTimerRef = useRef(null);
   const resetTimerRef = useRef(null);
+  const routeTimersRef = useRef([]);
+  const isMountedRef = useRef(true);
 
   // Subscribe to apiRequest lifecycle
   useEffect(() => {
@@ -130,33 +132,49 @@ export function TopLoadingBar() {
 
   // Clean up all timers when component unmounts
   useEffect(() => {
+    isMountedRef.current = true;
     return () => {
+      isMountedRef.current = false;
       if (trickleTimerRef.current) clearInterval(trickleTimerRef.current);
       if (coldStartTimerRef.current) clearTimeout(coldStartTimerRef.current);
       if (completeTimerRef.current) clearTimeout(completeTimerRef.current);
       if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+      routeTimersRef.current.forEach((t) => clearTimeout(t));
+      routeTimersRef.current = [];
     };
   }, []);
 
   const handleRouteChange = useCallback(() => {
-    if (isBusy) return;
+    if (isBusy || !isMountedRef.current) return;
+    routeTimersRef.current.forEach((t) => clearTimeout(t));
+    routeTimersRef.current = [];
+
     setVisible(true);
     setFading(false);
     setProgress(32);
-    setTimeout(() => {
+
+    const t1 = setTimeout(() => {
+      if (!isMountedRef.current) return;
       setProgress((p) => (p >= 32 && p < 100 ? 78 : p));
-      setTimeout(() => {
+      const t2 = setTimeout(() => {
+        if (!isMountedRef.current) return;
         setProgress(100);
-        setTimeout(() => {
+        const t3 = setTimeout(() => {
+          if (!isMountedRef.current) return;
           setFading(true);
-          setTimeout(() => {
+          const t4 = setTimeout(() => {
+            if (!isMountedRef.current) return;
             setVisible(false);
             setFading(false);
             setProgress(0);
           }, 240);
+          routeTimersRef.current.push(t4);
         }, 120);
+        routeTimersRef.current.push(t3);
       }, 90);
+      routeTimersRef.current.push(t2);
     }, 60);
+    routeTimersRef.current.push(t1);
   }, [isBusy]);
 
   return (

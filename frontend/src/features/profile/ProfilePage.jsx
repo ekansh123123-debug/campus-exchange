@@ -79,10 +79,12 @@ export function ProfilePage() {
   return (
     <div className="ce-stack-lg ce-animate-enter">
       <div>
-        <CodeBadge>VERIFIED ACADEMIC IDENTITY</CodeBadge>
-        <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
-          Student Profile & Trust Ledger
+        <h1 className="ce-title-section">
+          Student Profile
         </h1>
+        <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.9rem' }}>
+          Manage your academic details and peer trust ratings.
+        </p>
       </div>
 
       <div className="ce-grid-2" style={{ alignItems: 'start' }}>

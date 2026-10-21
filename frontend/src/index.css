@@ -319,6 +319,7 @@ button.ce-row {
   position: relative;
   min-width: 0;
   width: 100%;
+  gap: 1rem;
 }
 
 .ce-brand {
@@ -357,7 +358,7 @@ button.ce-row {
 .ce-nav-links {
   display: flex;
   align-items: center;
-  gap: 0.2rem;
+  gap: 0.35rem;
   min-width: 0;
   flex-shrink: 1;
 }
@@ -365,9 +366,9 @@ button.ce-row {
 .ce-nav-link {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.5rem;
+  padding: 0.38rem 0.65rem;
   border-radius: var(--radius-md);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--ce-body);
   text-decoration: none;
@@ -387,20 +388,19 @@ button.ce-row {
   font-weight: 600;
 }
 
-.ce-btn-label-compact {
-  display: none;
+@media (max-width: 1320px) {
+  .ce-nav-links {
+    gap: 0.2rem;
+  }
+  .ce-nav-link {
+    padding: 0.32rem 0.5rem;
+    font-size: 0.82rem;
+  }
 }
 
-@media (max-width: 1380px) {
-  .ce-btn-label-desktop {
-    display: none;
-  }
-  .ce-btn-label-compact {
-    display: inline;
-  }
-  .ce-navbar .ce-brand-badge {
-    display: none;
-  }
+/* Mobile Visibility Utilities */
+.ce-mobile-only {
+  display: none !important;
 }
 
 /* Mobile Toggle Hamburger */
@@ -1503,22 +1503,25 @@ button.ce-row {
 
 .ce-cold-start-banner {
   position: fixed;
-  top: 12px;
-  right: 16px;
-  z-index: 99999;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 105;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
+  padding: 8px 16px;
   border-radius: var(--radius-pill);
   background-color: var(--ce-surface-dark);
   color: #f8fafc;
   font-size: 0.78rem;
   font-weight: 500;
   border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
   pointer-events: none;
   animation: ce-cold-start-fade 250ms ease-out;
   max-width: calc(100% - 32px);
+  white-space: nowrap;
 }
 
 .ce-cold-start-dot {
@@ -1664,15 +1667,6 @@ button.ce-row {
   border-color: var(--ce-primary);
 }
 
-.ce-savings-stat-card {
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius-md);
-  background-color: var(--ce-surface-soft);
-  border: 1px solid var(--ce-hairline);
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
 
 .ce-live-feed-item {
   display: flex;
@@ -1727,25 +1721,6 @@ button.ce-row {
   border-color: var(--ce-primary);
 }
 
-/* Savings Dynamic Visual Comparison Bar */
-.ce-savings-compare-bar {
-  display: flex;
-  height: 10px;
-  border-radius: var(--radius-pill);
-  overflow: hidden;
-  background-color: var(--ce-surface-muted);
-  margin: 0.5rem 0;
-}
-
-.ce-savings-bar-campus {
-  background-color: var(--ce-primary);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.ce-savings-bar-saved {
-  background-color: var(--ce-accent-teal);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
 /* Collegiate Progress Bar System */
 .ce-progress-track {
@@ -1833,9 +1808,12 @@ button.ce-row {
 }
 
 /* Responsive Media Queries */
-@media (max-width: 1140px) {
+@media (max-width: 1180px) {
   .ce-desktop-only {
     display: none !important;
+  }
+  .ce-mobile-only {
+    display: flex !important;
   }
   .ce-mobile-toggle {
     display: inline-flex !important;
@@ -1920,10 +1898,11 @@ button.ce-row {
     justify-content: center;
   }
   .ce-cold-start-banner {
-    top: calc(10px + env(safe-area-inset-top, 0px));
-    bottom: auto;
-    left: 12px;
-    right: 12px;
+    bottom: calc(72px + env(safe-area-inset-bottom, 12px));
+    top: auto;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
     max-width: calc(100% - 24px);
     justify-content: center;
     text-align: center;

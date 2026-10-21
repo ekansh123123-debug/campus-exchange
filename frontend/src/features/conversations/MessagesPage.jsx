@@ -103,12 +103,11 @@ export function MessagesPage() {
   return (
     <div className="ce-stack-lg ce-animate-enter">
       <div>
-        <CodeBadge>IN-APP PEER MESSAGING</CodeBadge>
-        <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
+        <h1 className="ce-title-section">
           Campus Handover Coordination
         </h1>
         <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.9rem' }}>
-          Coordinate gate pickup timings without exposing private phone numbers.
+          Coordinate campus pickups and handovers directly with peers.
         </p>
       </div>
 

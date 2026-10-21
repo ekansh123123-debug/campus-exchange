@@ -53,10 +53,12 @@ export function NotificationsPage() {
     <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <CodeBadge>IN-APP ACTIVITY STREAM</CodeBadge>
-          <h1 className="ce-title-section" style={{ marginTop: '0.35rem' }}>
+          <h1 className="ce-title-section">
             Campus Alerts & Moderation Updates
           </h1>
+          <p className="ce-muted" style={{ margin: '0.2rem 0 0', fontSize: '0.9rem' }}>
+            Stay updated on item reservations, handover statuses, and moderation outcomes.
+          </p>
         </div>
 
         {items.some((n) => !n.isRead && !n.readAt) && (

@@ -59,21 +59,23 @@ export function DashboardPage() {
   return (
     <div className="ce-stack-lg ce-animate-enter">
       <div className="ce-card" style={{ background: 'var(--ce-bg-elevated)' }}>
-        <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem' }}>
-          <div className="ce-stack" style={{ gap: '0.4rem' }}>
-            <div className="ce-row" style={{ gap: '0.5rem', flexWrap: 'wrap' }}>
-              <CodeBadge>{user?.userCode}</CodeBadge>
-              <CodeBadge>
-                {userBranch} · YEAR {user?.academicYear || '1'}
-              </CodeBadge>
-              <StatusBadge status={user?.accountStatus} />
-            </div>
+        <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+          <div className="ce-stack" style={{ gap: '0.35rem' }}>
             <h1 className="ce-title-section" style={{ fontSize: '1.75rem' }}>
-              Welcome, {user?.fullName}
+              Welcome back, {user?.fullName}
             </h1>
-            <p className="ce-muted" style={{ margin: 0, fontSize: '0.92rem' }}>
-              {userEmail}
-            </p>
+            <div className="ce-row" style={{ gap: '0.65rem', flexWrap: 'wrap', fontSize: '0.9rem', color: 'var(--ce-muted)' }}>
+              <span>{userBranch} · Year {user?.academicYear || '1'}</span>
+              <span>&bull;</span>
+              <span>{userEmail}</span>
+              {isVerifiedStudent ? (
+                <span className="ce-badge ce-badge-success" style={{ fontSize: '0.72rem', padding: '1px 8px' }}>
+                  Verified Student
+                </span>
+              ) : (
+                <StatusBadge status={user?.accountStatus} />
+              )}
+            </div>
           </div>
 
           <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.6rem' }}>

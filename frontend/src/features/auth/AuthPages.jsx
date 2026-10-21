@@ -30,8 +30,6 @@ export function LandingPage() {
     'Pass down textbooks, lab gear, and verified PYQs within your campus gates.'
   );
   const { isAuthenticated } = useAuth();
-  const [selectedBranch, setSelectedBranch] = useState('CSE');
-  const [selectedSem, setSelectedSem] = useState('4');
   const [activityFilter, setActivityFilter] = useState('all');
 
   const { data: listingsData, isLoading: loadingListings } = useQuery({
@@ -48,14 +46,6 @@ export function LandingPage() {
 
   const recentListings = extractList(listingsData);
   const recentResources = extractList(resourcesData);
-
-  // Live Interactive Campus Calculator
-  const semNum = Number(selectedSem) || 4;
-  const newBookstoreCost = 4500 + semNum * 550;
-  const campusCost = 1400 + semNum * 220;
-  const savings = newBookstoreCost - campusCost;
-  const estimatedPyqs = 18 + semNum * 3;
-  const activeSellers = 12 + ((semNum * 2) % 7);
 
   const activities = [
     {
@@ -101,26 +91,16 @@ export function LandingPage() {
     <div className="ce-stack-lg ce-animate-enter">
       {/* Hero Section */}
       <section className="ce-hero">
-        <div className="ce-row" style={{ marginBottom: '1.25rem', gap: '0.65rem', flexWrap: 'wrap' }}>
-          <span className="ce-badge ce-badge-info">VERIFIED COLLEGE NETWORK</span>
-          <CodeBadge>B.TECH / ENGINEERING</CodeBadge>
-          <div className="ce-row" style={{ gap: '0.4rem', marginLeft: 'auto', fontSize: '0.82rem', color: 'var(--ce-muted)' }}>
-            <span className="ce-pulse-beacon" aria-hidden="true" />
-            <span>Campus Network Active</span>
-          </div>
-        </div>
-
         <h1 className="ce-title-hero">
           Pass down textbooks, lab gear, and verified PYQs
         </h1>
 
-        <p className="ce-subtitle" style={{ marginTop: '1.15rem', marginBottom: '1.85rem' }}>
-          Connect with engineering peers within your campus gates to trade coursework books, lab kits,
-          and exam solutions. CampusExchange replaces chaotic student message groups with single-active
-          concurrency safety.
+        <p className="ce-subtitle" style={{ marginTop: '0.85rem', marginBottom: '1.5rem' }}>
+          Connect with engineering peers within your campus gates to trade coursework books,
+          lab kits, and past exam papers.
         </p>
 
-        <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.85rem' }}>
+        <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
           {isAuthenticated ? (
             <Link to="/app" className="ce-btn ce-btn-primary ce-btn-lg">
               <span>Go to Student Hub</span>
@@ -141,179 +121,36 @@ export function LandingPage() {
         </div>
 
         {/* Value Pillars */}
-        <div className="ce-grid-3" style={{ marginTop: '2.5rem' }}>
+        <div className="ce-grid-3" style={{ marginTop: '2rem' }}>
           <div className="ce-card">
-            <div className="ce-row" style={{ marginBottom: '0.5rem', color: 'var(--ce-accent)' }}>
+            <div className="ce-row" style={{ marginBottom: '0.4rem', color: 'var(--ce-accent)' }}>
               <ShieldCheck size={20} />
-              <strong style={{ fontFamily: 'var(--ce-font-serif)' }}>Institutional Verification</strong>
+              <strong style={{ fontFamily: 'var(--ce-font-serif)' }}>Verified Students Only</strong>
             </div>
             <p className="ce-muted" style={{ fontSize: '0.88rem', margin: 0 }}>
-              Only students with verified college domains can list items, reserve gear, or chat with peers.
+              Only students with verified institutional email domains can list items, reserve gear, or chat.
             </p>
           </div>
 
           <div className="ce-card">
-            <div className="ce-row" style={{ marginBottom: '0.5rem', color: 'var(--ce-accent-teal)' }}>
+            <div className="ce-row" style={{ marginBottom: '0.4rem', color: 'var(--ce-accent-teal)' }}>
               <ShoppingBag size={20} />
-              <strong style={{ fontFamily: 'var(--ce-font-serif)' }}>Concurrency-Safe Reservations</strong>
+              <strong style={{ fontFamily: 'var(--ce-font-serif)' }}>Direct Campus Handovers</strong>
             </div>
             <p className="ce-muted" style={{ fontSize: '0.88rem', margin: 0 }}>
-              Single-active-reservation concurrency locks prevent double-selling during campus handovers.
+              Reserve items safely for on-campus pickup with single-active reservation protection.
             </p>
           </div>
 
           <div className="ce-card">
-            <div className="ce-row" style={{ marginBottom: '0.5rem', color: 'var(--ce-accent-blue)' }}>
+            <div className="ce-row" style={{ marginBottom: '0.4rem', color: 'var(--ce-accent-blue)' }}>
               <BookOpen size={20} />
-              <strong style={{ fontFamily: 'var(--ce-font-serif)' }}>Moderated PYQ Archive</strong>
+              <strong style={{ fontFamily: 'var(--ce-font-serif)' }}>Academic PYQ Archive</strong>
             </div>
             <p className="ce-muted" style={{ fontSize: '0.88rem', margin: 0 }}>
-              Searchable by branch, academic year, semester, and subject with magic-byte validated PDFs.
+              Searchable past mid-sem and end-sem exam papers, lecture notes, and lab manuals.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* Interactive Feature: Campus Savings & Resource Calculator */}
-      <section className="ce-calculator-box ce-stack" aria-label="Campus Savings Estimator">
-        <div className="ce-row-between" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
-          <div className="ce-row" style={{ gap: '0.5rem' }}>
-            <Calculator size={20} color="var(--ce-primary)" />
-            <h2 className="ce-title-section" style={{ fontSize: '1.35rem' }}>
-              Campus Savings & Cohort Explorer
-            </h2>
-          </div>
-          <span className="ce-badge ce-badge-neutral">
-            Interactive Semester Calculation
-          </span>
-        </div>
-
-        <p className="ce-muted" style={{ fontSize: '0.9rem', margin: 0 }}>
-          Select your engineering department and upcoming semester to view estimated peer savings and available academic resources.
-        </p>
-
-        {/* Branch Selector */}
-        <div className="ce-stack" style={{ gap: '0.5rem' }}>
-          <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--ce-ink)' }}>
-            Select Branch
-          </span>
-          <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.45rem' }}>
-            {['CSE', 'ECE', 'MECH', 'CIVIL', 'EE', 'IT'].map((b) => (
-              <button
-                key={b}
-                type="button"
-                className={`ce-branch-chip ${selectedBranch === b ? 'active' : ''}`}
-                onClick={() => setSelectedBranch(b)}
-              >
-                {b}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Semester Selector */}
-        <div className="ce-stack" style={{ gap: '0.5rem' }}>
-          <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--ce-ink)' }}>
-            Select Semester
-          </span>
-          <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.45rem' }}>
-            {['1', '2', '3', '4', '5', '6', '7', '8'].map((s) => (
-              <button
-                key={s}
-                type="button"
-                className={`ce-branch-chip ${selectedSem === s ? 'active' : ''}`}
-                onClick={() => setSelectedSem(s)}
-              >
-                Sem {s}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Live Interactive Calculation Display */}
-        <div className="ce-grid-3" style={{ marginTop: '0.5rem' }}>
-          <div className="ce-savings-stat-card">
-            <span className="ce-muted" style={{ fontSize: '0.84rem', fontWeight: 500 }}>
-              Estimated semester peer savings
-            </span>
-            <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--ce-accent-teal)', fontVariantNumeric: 'tabular-nums' }}>
-              ₹{savings.toLocaleString('en-IN')}
-            </div>
-            <span className="ce-muted" style={{ fontSize: '0.8rem' }}>
-              vs new retail bookstore MRP (₹{newBookstoreCost.toLocaleString('en-IN')})
-            </span>
-          </div>
-
-          <div className="ce-savings-stat-card">
-            <span className="ce-muted" style={{ fontSize: '0.84rem', fontWeight: 500 }}>
-              Available exam papers and notes
-            </span>
-            <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--ce-primary)', fontVariantNumeric: 'tabular-nums' }}>
-              {estimatedPyqs} Papers
-            </div>
-            <span className="ce-muted" style={{ fontSize: '0.8rem' }}>
-              Verified mid-sem, end-sem, and lab solutions
-            </span>
-          </div>
-
-          <div className="ce-savings-stat-card">
-            <span className="ce-muted" style={{ fontSize: '0.84rem', fontWeight: 500 }}>
-              Active peer sellers
-            </span>
-            <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--ce-ink)', fontVariantNumeric: 'tabular-nums' }}>
-              {activeSellers} Students
-            </div>
-            <span className="ce-muted" style={{ fontSize: '0.8rem' }}>
-              Ready for library or department handover
-            </span>
-          </div>
-        </div>
-
-        {/* Dynamic Visual Comparison Bar */}
-        <div style={{ marginTop: '0.25rem' }}>
-          <div className="ce-row-between" style={{ fontSize: '0.8rem', color: 'var(--ce-muted)' }}>
-            <span>Campus Peer Rate (₹{campusCost.toLocaleString('en-IN')})</span>
-            <span style={{ color: 'var(--ce-accent-teal)', fontWeight: 600 }}>
-              {Math.round((savings / newBookstoreCost) * 100)}% Direct Student Savings
-            </span>
-          </div>
-          <div
-            className="ce-savings-compare-bar"
-            role="progressbar"
-            aria-valuenow={Math.round((savings / newBookstoreCost) * 100)}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-label="Campus peer savings ratio"
-          >
-            <div
-              className="ce-savings-bar-campus"
-              style={{ width: `${Math.round((campusCost / newBookstoreCost) * 100)}%` }}
-              title="Campus Peer Price"
-            />
-            <div
-              className="ce-savings-bar-saved"
-              style={{ width: `${Math.round((savings / newBookstoreCost) * 100)}%` }}
-              title="Saved vs Retail MRP"
-            />
-          </div>
-        </div>
-
-        {/* Quick Filter CTAs */}
-        <div className="ce-row" style={{ flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.25rem' }}>
-          <Link
-            to={`/marketplace?branch=${selectedBranch}&semester=${selectedSem}`}
-            className="ce-btn ce-btn-primary ce-btn-sm"
-          >
-            <span>Browse {selectedBranch} Sem {selectedSem} Textbooks</span>
-            <ArrowUpRight size={14} />
-          </Link>
-          <Link
-            to={`/resources?branch=${selectedBranch}&semester=${selectedSem}`}
-            className="ce-btn ce-btn-secondary ce-btn-sm"
-          >
-            <span>Explore {selectedBranch} PYQs</span>
-            <ArrowUpRight size={14} />
-          </Link>
         </div>
       </section>
 
@@ -535,8 +372,7 @@ export function LoginPage() {
     <div style={{ maxWidth: '460px', margin: '2rem auto' }}>
       <div className="ce-card ce-stack">
         <div>
-          <CodeBadge>CAMPUS AUTHENTICATION</CodeBadge>
-          <h1 className="ce-title-section" style={{ marginTop: '0.5rem' }}>
+          <h1 className="ce-title-section">
             Sign in to CampusExchange
           </h1>
           <p className="ce-muted" style={{ fontSize: '0.9rem', margin: '0.25rem 0 0' }}>
@@ -649,8 +485,7 @@ export function RegisterPage() {
     <div style={{ maxWidth: '540px', margin: '1.5rem auto' }}>
       <div className="ce-card ce-stack">
         <div>
-          <CodeBadge>INSTITUTIONAL VERIFICATION</CodeBadge>
-          <h1 className="ce-title-section" style={{ marginTop: '0.5rem' }}>
+          <h1 className="ce-title-section">
             Create Verified Student Account
           </h1>
           <p className="ce-muted" style={{ fontSize: '0.9rem', margin: '0.25rem 0 0' }}>
@@ -876,15 +711,14 @@ export function VerifyEmailPage() {
   return (
     <div style={{ maxWidth: '460px', margin: '2rem auto' }}>
       <div className="ce-card ce-stack">
-        <div className="ce-row" style={{ gap: '0.5rem', color: 'var(--ce-accent)' }}>
-          <MailCheck size={20} />
-          <CodeBadge>6-DIGIT OTP VERIFICATION</CodeBadge>
+        <div>
+          <h1 className="ce-title-section">
+            Verify Your Campus Email
+          </h1>
+          <p className="ce-muted" style={{ fontSize: '0.9rem', margin: '0.25rem 0 0' }}>
+            Enter the 6-digit verification code sent to your institutional inbox.
+          </p>
         </div>
-
-        <h1 className="ce-title-section">Verify Your Campus Email</h1>
-        <p className="ce-muted" style={{ fontSize: '0.9rem', margin: 0 }}>
-          Enter the 6-digit verification code sent to your institutional inbox.
-        </p>
 
         <div
           className="ce-card"
@@ -1028,14 +862,14 @@ export function ForgotPasswordPage() {
   return (
     <div style={{ maxWidth: '460px', margin: '2rem auto' }}>
       <div className="ce-card ce-stack">
-        <div className="ce-row" style={{ gap: '0.5rem' }}>
-          <KeyRound size={18} color="var(--ce-accent)" />
-          <CodeBadge>ACCOUNT RECOVERY</CodeBadge>
+        <div>
+          <h1 className="ce-title-section">
+            Reset Your Password
+          </h1>
+          <p className="ce-muted" style={{ fontSize: '0.9rem', margin: '0.25rem 0 0' }}>
+            Enter your institutional email address to receive a password recovery code.
+          </p>
         </div>
-        <h1 className="ce-title-section">Reset Your Password</h1>
-        <p className="ce-muted" style={{ fontSize: '0.9rem', margin: 0 }}>
-          Enter your institutional email address to receive a password recovery code.
-        </p>
 
         {error && <div className="ce-alert ce-alert-danger">{error}</div>}
 
@@ -1123,11 +957,14 @@ export function ResetPasswordPage() {
   return (
     <div style={{ maxWidth: '460px', margin: '2rem auto' }}>
       <div className="ce-card ce-stack">
-        <div className="ce-row" style={{ gap: '0.5rem' }}>
-          <CheckCircle2 size={18} color="var(--ce-success)" />
-          <CodeBadge>NEW CREDENTIALS</CodeBadge>
+        <div>
+          <h1 className="ce-title-section">
+            Choose New Password
+          </h1>
+          <p className="ce-muted" style={{ fontSize: '0.9rem', margin: '0.25rem 0 0' }}>
+            Enter your recovery code and choose a new password.
+          </p>
         </div>
-        <h1 className="ce-title-section">Choose New Password</h1>
 
         {error && <div className="ce-alert ce-alert-danger">{error}</div>}
 
