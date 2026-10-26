@@ -9,12 +9,11 @@ The repository is structured as two **independent, decoupled applications** (`fr
 ## Project Structure
 
 ```text
-mini-project-1/
+CampusExchange/
 ├── backend/            # Independent Express.js REST API & MongoDB persistence layer
 ├── frontend/           # Independent React 19 + Vite single-page application
 ├── readme.md           # Getting started and architecture overview
 ├── .gitignore          # Repository ignore rules (keeps repo clean)
-└── .agents/            # [Git-ignored] Project references, design specs & instructions
 ```
 
 ---
